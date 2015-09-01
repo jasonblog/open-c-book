@@ -1,0 +1,747 @@
+<!DOCTYPE HTML>
+<html lang="en" >
+    <!-- Start book C 语言编程透视 -->
+    <head>
+        <!-- head:start -->
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>進程的內存映像 | C 语言编程透视</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 2.1.0">
+        <meta name="author" content="Wu Zhangjin &lt;wuzhangjin@gmail.com&gt;">
+        
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+        <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+        
+    <link rel="stylesheet" href="../../gitbook/style.css">
+    
+        
+        <link rel="stylesheet" href="../../gitbook/plugins/gitbook-plugin-google_code_prettify/google-code-prettify.css">
+        
+    
+        
+        <link rel="stylesheet" href="../../gitbook/plugins/gitbook-plugin-maxiang/maxiang.css">
+        
+    
+    
+
+        
+    
+    
+    <link rel="next" href="../../zh/chapters/02-chapter7.html" />
+    
+    
+    <link rel="prev" href="../../zh/chapters/02-chapter5.html" />
+    
+
+        <!-- head:end -->
+    </head>
+    <body>
+        <!-- body:start -->
+        
+    <div class="book" data-level="8" data-basepath="../.." data-revision="Tue Sep 01 2015 15:04:37 GMT+0800 (CST)">
+    
+
+<div class="book-summary">
+    <div class="book-search">
+        <input type="text" placeholder="Type to search" class="form-control" />
+    </div>
+    <ul class="summary">
+        
+        
+        
+            
+            <li>
+                <a href="http://www.tinylab.org" target="blank" class="custom-link">泰晓科技</a>
+            </li>
+        
+            
+            <li>
+                <a href="http://weidian.com/?userid=335178200" target="blank" class="custom-link">开源小店</a>
+            </li>
+        
+            
+            <li>
+                <a href="http://www.tinylab.org/project/hello-c-world" target="blank" class="custom-link">项目首页</a>
+            </li>
+        
+            
+            <li>
+                <a href="http://tinylab.gitbooks.io/elinux" target="blank" class="custom-link">嵌入式 Linux 知识库</a>
+            </li>
+        
+            
+            <li>
+                <a href="http://tinylab.gitbooks.io/linux-doc" target="blank" class="custom-link">Linux 内核文档</a>
+            </li>
+        
+            
+            <li>
+                <a href="http://tinylab.gitbooks.io/shellbook" target="blank" class="custom-link">Shell 编程范例</a>
+            </li>
+        
+        
+
+        
+        <li class="divider"></li>
+        
+
+        
+    
+        <li class="chapter " data-level="0" data-path="index.html">
+            
+                
+                    <a href="../../index.html">
+                        <i class="fa fa-check"></i>
+                        
+                        Introduction
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1" data-path="zh/preface/01-chapter0.html">
+            
+                
+                    <a href="../../zh/preface/01-chapter0.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.</b>
+                        
+                        版本修訂歷史
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2" data-path="zh/preface/01-chapter1.html">
+            
+                
+                    <a href="../../zh/preface/01-chapter1.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.</b>
+                        
+                        前言
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3" data-path="zh/chapters/02-chapter1.html">
+            
+                
+                    <a href="../../zh/chapters/02-chapter1.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.</b>
+                        
+                        把 Vim 打造成源代碼編輯器
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="4" data-path="zh/chapters/02-chapter2.html">
+            
+                
+                    <a href="../../zh/chapters/02-chapter2.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.</b>
+                        
+                        Gcc 編譯的背後
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5" data-path="zh/chapters/02-chapter3.html">
+            
+                
+                    <a href="../../zh/chapters/02-chapter3.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.</b>
+                        
+                        程序執行的一剎那
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6" data-path="zh/chapters/02-chapter4.html">
+            
+                
+                    <a href="../../zh/chapters/02-chapter4.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.</b>
+                        
+                        動態符號鏈接的細節
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7" data-path="zh/chapters/02-chapter5.html">
+            
+                
+                    <a href="../../zh/chapters/02-chapter5.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.</b>
+                        
+                        緩衝區溢出與注入分析
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter active" data-level="8" data-path="zh/chapters/02-chapter6.html">
+            
+                
+                    <a href="../../zh/chapters/02-chapter6.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.</b>
+                        
+                        進程的內存映像
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9" data-path="zh/chapters/02-chapter7.html">
+            
+                
+                    <a href="../../zh/chapters/02-chapter7.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.</b>
+                        
+                        進程和進程的基本操作
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="10" data-path="zh/chapters/02-chapter8.html">
+            
+                
+                    <a href="../../zh/chapters/02-chapter8.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>10.</b>
+                        
+                        打造史上最小可執行ELF文件(45字節)
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11" data-path="zh/chapters/02-chapter9.html">
+            
+                
+                    <a href="../../zh/chapters/02-chapter9.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.</b>
+                        
+                        代碼測試、調試與優化
+                    </a>
+                
+            
+            
+        </li>
+    
+
+
+        
+        <li class="divider"></li>
+        <li>
+            <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+                Published with GitBook
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header">
+    <!-- Actions Left -->
+    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
+    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
+    
+    <div id="font-settings-wrapper" class="dropdown pull-left">
+        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
+        </a>
+        <div class="dropdown-menu font-settings">
+    <div class="dropdown-caret">
+        <span class="caret-outer"></span>
+        <span class="caret-inner"></span>
+    </div>
+
+    <div class="buttons">
+        <button type="button" id="reduce-font-size" class="button size-2">A</button>
+        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
+    </div>
+
+    <div class="buttons font-family-list">
+        <button type="button" data-font="0" class="button">Serif</button>
+        <button type="button" data-font="1" class="button">Sans</button>
+    </div>
+
+    <div class="buttons color-theme-list">
+        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
+        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
+        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
+    </div>
+</div>
+
+    </div>
+
+    <!-- Actions Right -->
+    
+    <div class="dropdown pull-right">
+        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
+        </a>
+        <div class="dropdown-menu font-settings dropdown-left">
+            <div class="dropdown-caret">
+                <span class="caret-outer"></span>
+                <span class="caret-inner"></span>
+            </div>
+            <div class="buttons">
+                <button type="button" data-sharing="twitter" class="button">
+                    Share on Twitter
+                </button>
+                <button type="button" data-sharing="google-plus" class="button">
+                    Share on Google
+                </button>
+                <button type="button" data-sharing="facebook" class="button">
+                    Share on Facebook
+                </button>
+                <button type="button" data-sharing="weibo" class="button">
+                    Share on Weibo
+                </button>
+                <button type="button" data-sharing="instapaper" class="button">
+                    Share on Instapaper
+                </button>
+            </div>
+        </div>
+    </div>
+    
+
+    
+    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
+    
+    
+    
+
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../../" >C 语言编程透视</a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-">
+                    
+                        <h1 id="%E9%80%B2%E7%A8%8B%E7%9A%84%E5%85%A7%E5%AD%98%E6%98%A0%E5%83%8F">&#x9032;&#x7A0B;&#x7684;&#x5167;&#x5B58;&#x6620;&#x50CF;</h1>
+<ul>
+<li><a href="#toc_14856_6356_1">&#x524D;&#x8A00;</a></li>
+<li><a href="#toc_14856_6356_2">&#x9032;&#x7A0B;&#x5167;&#x5B58;&#x6620;&#x50CF;&#x8868;</a></li>
+<li><a href="#toc_14856_6356_3">&#x5728;&#x7A0B;&#x5E8F;&#x5167;&#x90E8;&#x6253;&#x5370;&#x5167;&#x5B58;&#x5206;&#x4F48;&#x4FE1;&#x606F;</a></li>
+<li><a href="#toc_14856_6356_4">&#x5728;&#x7A0B;&#x5E8F;&#x5167;&#x90E8;&#x7372;&#x53D6;&#x5B8C;&#x6574;&#x5167;&#x5B58;&#x5206;&#x4F48;&#x4FE1;&#x606F;</a></li>
+<li><a href="#toc_14856_6356_5">&#x5F8C;&#x8A18;</a></li>
+<li><a href="#toc_14856_6356_6">&#x53C3;&#x8003;&#x8CC7;&#x6599;</a></li>
+</ul>
+<p><span id="toc_14856_6356_1"></span></p>
+<h2 id="%E5%89%8D%E8%A8%80">&#x524D;&#x8A00;</h2>
+<p>&#x5728;&#x95B1;&#x8B80;&#x300A;UNIX &#x74B0;&#x5883;&#x9AD8;&#x7D1A;&#x7DE8;&#x7A0B; &#x300B;&#x7684;&#x7B2C; 14 &#x7AE0;&#x6642;&#xFF0C;&#x770B;&#x5230;&#x4E00;&#x500B;&#x201C;&#x6253;&#x5370;&#x4E0D;&#x540C;&#x985E;&#x578B;&#x7684;&#x6578;&#x64DA;&#x6240;&#x5B58;&#x653E;&#x7684;&#x4F4D;&#x7F6E;&#x201D;&#x7684;&#x4F8B;&#x5B50;&#xFF0C;&#x5B83;&#x975E;&#x5E38;&#x6E05;&#x6670;&#x5730;&#x5F9E;&#x7A0B;&#x5E8F;&#x5167;&#x90E8;&#x53CD;&#x61C9;&#x4E86;&#x201C;&#x9032;&#x7A0B;&#x7684;&#x5167;&#x5B58;&#x6620;&#x50CF;&#x201D;&#xFF0C;&#x901A;&#x904E;&#x7D50;&#x5408;&#x5B83;&#x8207;<a href="02-chapter2.html">&#x300A;Gcc &#x7DE8;&#x8B6F;&#x7684;&#x80CC;&#x5F8C;&#x300B;</a>&#x548C;<a href="02-chapter5.html">&#x300A;&#x7DE9;&#x885D;&#x5340;&#x6EA2;&#x51FA;&#x8207;&#x6CE8;&#x5165;&#x5206;&#x6790;&#x300B;</a>&#x7684;&#x76F8;&#x95DC;&#x5167;&#x5BB9;&#xFF0C;&#x53EF;&#x4EE5;&#x66F4;&#x597D;&#x5730;&#x8F14;&#x52A9;&#x7406;&#x89E3;&#x76F8;&#x95DC;&#x7684;&#x5167;&#x5BB9;&#x3002;</p>
+<p><span id="toc_14856_6356_2"></span></p>
+<h2 id="%E9%80%B2%E7%A8%8B%E5%85%A7%E5%AD%98%E6%98%A0%E5%83%8F%E8%A1%A8">&#x9032;&#x7A0B;&#x5167;&#x5B58;&#x6620;&#x50CF;&#x8868;</h2>
+<p>&#x9996;&#x5148;&#x56DE;&#x9867;&#x4E00;&#x4E0B;<a href="02-chapter5.html">&#x300A;&#x7DE9;&#x885D;&#x5340;&#x6EA2;&#x51FA;&#x8207;&#x6CE8;&#x5165;&#x300B;</a>&#x4E2D;&#x63D0;&#x5230;&#x7684;&quot;&#x9032;&#x7A0B;&#x5167;&#x5B58;&#x6620;&#x50CF;&#x8868;&quot;&#xFF0C;&#x4E26;&#x628A;&#x5171;&#x4EAB;&#x5167;&#x5B58;&#x7684;&#x5927;&#x6982;&#x4F4D;&#x7F6E;&#x52A0;&#x5165;&#x8A72;&#x8868;&#xFF1A;</p>
+<table>
+<thead>
+<tr>
+<th>&#x5730;&#x5740;</th>
+<th>&#x5167;&#x6838;&#x7A7A;&#x9593;</th>
+<th>&#x63CF;&#x8FF0;</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0xC0000000</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>(program flie) &#x7A0B;&#x5E8F;&#x540D;</td>
+<td>execve &#x7684;&#x7B2C;&#x4E00;&#x500B;&#x53C3;&#x6578;</td>
+</tr>
+<tr>
+<td></td>
+<td>(environment) &#x74B0;&#x5883;&#x8B8A;&#x91CF;</td>
+<td>execve &#x7684;&#x7B2C;&#x4E09;&#x500B;&#x53C3;&#x6578;&#xFF0C;main &#x7684;&#x7B2C;&#x4E09;&#x500B;&#x53C3;&#x6578;</td>
+</tr>
+<tr>
+<td></td>
+<td>(arguments) &#x53C3;&#x6578;</td>
+<td>execve &#x7684;&#x7B2C;&#x4E8C;&#x500B;&#x53C3;&#x6578;&#xFF0C;main &#x7684;&#x5F62;&#x53C3;</td>
+</tr>
+<tr>
+<td></td>
+<td>(stack) &#x68E7;</td>
+<td>&#x81EA;&#x52D5;&#x8B8A;&#x91CF;&#x4EE5;&#x53CA;&#x6BCF;&#x6B21;&#x51FD;&#x6578;&#x8ABF;&#x7528;&#x6642;&#x6240;&#x9700;&#x4FDD;&#x5B58;&#x7684;&#x4FE1;&#x606F;&#x90FD;</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>&#x5B58;&#x653E;&#x5728;&#x6B64;&#xFF0C;&#x5305;&#x62EC;&#x51FD;&#x6578;&#x8FD4;&#x56DE;&#x5730;&#x5740;&#x3001;&#x8ABF;&#x7528;&#x8005;&#x7684;</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>&#x74B0;&#x5883;&#x4FE1;&#x606F;&#x7B49;&#xFF0C;&#x51FD;&#x6578;&#x7684;&#x53C3;&#x6578;&#xFF0C;&#x5C40;&#x90E8;&#x8B8A;&#x91CF;&#x90FD;&#x5B58;&#x653E;&#x5728;&#x6B64;</td>
+</tr>
+<tr>
+<td></td>
+<td>(shared memory) &#x5171;&#x4EAB;&#x5167;&#x5B58;</td>
+<td>&#x5171;&#x4EAB;&#x5167;&#x5B58;&#x7684;&#x5927;&#x6982;&#x4F4D;&#x7F6E;</td>
+</tr>
+<tr>
+<td></td>
+<td>...</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>...</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>(heap) &#x5806;</td>
+<td>&#x4E3B;&#x8981;&#x5728;&#x9019;&#x88E1;&#x9032;&#x884C;&#x52D5;&#x614B;&#x5B58;&#x5132;&#x5206;&#x914D;&#xFF0C;&#x6BD4;&#x5982; malloc&#xFF0C;new &#x7B49;&#x3002;</td>
+</tr>
+<tr>
+<td></td>
+<td>...</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>.bss (uninitilized data)</td>
+<td>&#x6C92;&#x6709;&#x521D;&#x59CB;&#x5316;&#x7684;&#x6578;&#x64DA;&#xFF08;&#x5168;&#x5C40;&#x8B8A;&#x91CF;&#x54E6;&#xFF09;</td>
+</tr>
+<tr>
+<td></td>
+<td>.data (initilized global data)</td>
+<td>&#x5DF2;&#x7D93;&#x521D;&#x59CB;&#x5316;&#x7684;&#x5168;&#x5C40;&#x6578;&#x64DA;&#xFF08;&#x5168;&#x5C40;&#x8B8A;&#x91CF;&#xFF09;</td>
+</tr>
+<tr>
+<td></td>
+<td>.text (Executable Instructions)</td>
+<td>&#x901A;&#x5E38;&#x662F;&#x53EF;&#x57F7;&#x884C;&#x6307;&#x4EE4;</td>
+</tr>
+<tr>
+<td>0x08048000</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>0x00000000</td>
+<td></td>
+<td>...</td>
+</tr>
+</tbody>
+</table>
+<p><span id="toc_14856_6356_3"></span></p>
+<h2 id="%E5%9C%A8%E7%A8%8B%E5%BA%8F%E5%85%A7%E9%83%A8%E6%89%93%E5%8D%B0%E5%85%A7%E5%AD%98%E5%88%86%E4%BD%88%E4%BF%A1%E6%81%AF">&#x5728;&#x7A0B;&#x5E8F;&#x5167;&#x90E8;&#x6253;&#x5370;&#x5167;&#x5B58;&#x5206;&#x4F48;&#x4FE1;&#x606F;</h2>
+<p>&#x70BA;&#x4E86;&#x80FD;&#x5920;&#x53CD;&#x61C9;&#x4E0A;&#x8FF0;&#x5167;&#x5B58;&#x5206;&#x4F48;&#x60C5;&#x6CC1;&#xFF0C;&#x9019;&#x88E1;&#x5728;&#x300A;UNIX &#x74B0;&#x5883;&#x9AD8;&#x7D1A;&#x7DE8;&#x7A0B; &#x300B;&#x7684;&#x7A0B;&#x5E8F; 14-11 &#x7684;&#x57FA;&#x790E;&#x4E0A;&#xFF0C;&#x6DFB;&#x52A0;&#x4E86;&#x4E00;&#x500B;&#x5DF2;&#x7D93;&#x521D;&#x59CB;&#x5316;&#x7684;&#x5168;&#x5C40;&#x8B8A;&#x91CF;&#xFF08;&#x5B58;&#x653E;&#x5728;&#x5DF2;&#x7D93;&#x521D;&#x59CB;&#x5316;&#x7684;&#x6578;&#x64DA;&#x6BB5;&#x5167;&#xFF09;&#xFF0C;&#x4E26;&#x6253;&#x5370;&#x4E86;&#x5B83;&#x4EE5;&#x53CA; <code>main</code> &#x51FD;&#x6578;(&#x8655;&#x5728;&#x4EE3;&#x78BC;&#x6B63;&#x6587;&#x90E8;&#x5206;)&#x7684;&#x4F4D;&#x7F6E;&#x3002;</p>
+<pre><code>/**
+ * showmemory.c -- print the position of different types of data in a program in the memory
+ */
+
+#include &lt;sys/types.h&gt;
+#include &lt;sys/ipc.h&gt;
+#include &lt;sys/shm.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+#define ARRAY_SIZE 4000
+#define MALLOC_SIZE 100000
+#define SHM_SIZE 100000
+#define SHM_MODE (SHM_R | SHM_W)    /* user read/write */
+
+int init_global_variable = 5;    /* initialized global variable */
+char array[ARRAY_SIZE];        /* uninitialized data = bss */
+
+int main(void)
+{
+    int shmid;
+    char *ptr, *shmptr;
+
+    printf(&quot;main: the address of the main function is %x\n&quot;, main);
+    printf(&quot;data: data segment is from %x\n&quot;, &amp;init_global_variable);
+    printf(&quot;bss: array[] from %x to %x\n&quot;, &amp;array[0], &amp;array[ARRAY_SIZE]);
+    printf(&quot;stack: around %x\n&quot;, &amp;shmid);   
+
+    /* shmid is a local variable, which is stored in the stack, hence, you
+     * can get the address of the stack via it*/
+
+    if ( (ptr = malloc(MALLOC_SIZE)) == NULL) {
+        printf(&quot;malloc error!\n&quot;);
+        exit(-1);
+    }
+    printf(&quot;heap: malloced from %x to %x\n&quot;, ptr, ptr+MALLOC_SIZE);
+
+    if ( (shmid = shmget(IPC_PRIVATE, SHM_SIZE, SHM_MODE)) &lt; 0) {
+        printf(&quot;shmget error!\n&quot;);
+        exit(-1);
+    }
+
+    if ( (shmptr = shmat(shmid, 0, 0)) == (void *) -1) {
+        printf(&quot;shmat error!\n&quot;);
+        exit(-1);
+    }
+    printf(&quot;shared memory: attached from %x to %x\n&quot;, shmptr, shmptr+SHM_SIZE);
+
+    if (shmctl(shmid, IPC_RMID, 0) &lt; 0) {
+        printf(&quot;shmctl error!\n&quot;);
+        exit(-1);
+    }
+
+    exit(0);
+}
+</code></pre><p>&#x8A72;&#x7A0B;&#x5E8F;&#x7684;&#x904B;&#x884C;&#x7D50;&#x679C;&#x5982;&#x4E0B;&#xFF1A;</p>
+<pre><code>$  make showmemory
+cc     showmemory.c   -o showmemory
+$ ./showmemory
+main: the address of the main function is 804846c
+data: data segment is from 80498e8
+bss: array[] from 8049920 to 804a8c0
+stack: around bfe3e224
+heap: malloced from 804b008 to 80636a8
+shared memory: attached from b7da7000 to b7dbf6a0
+</code></pre><p>&#x4E0A;&#x8FF0;&#x904B;&#x884C;&#x7D50;&#x679C;&#x53CD;&#x61C9;&#x4E86;&#x5E7E;&#x500B;&#x91CD;&#x8981;&#x90E8;&#x5206;&#x6578;&#x64DA;&#x7684;&#x5927;&#x6982;&#x5206;&#x4F48;&#x60C5;&#x6CC1;&#xFF0C;&#x6BD4;&#x5982; <code>data</code> &#x6BB5;&#xFF08;&#x90A3;&#x500B;&#x521D;&#x59CB;&#x5316;&#x904E;&#x7684;&#x5168;&#x5C40;&#x8B8A;&#x91CF;&#x5C31;&#x4F4D;&#x65BC;&#x9019;&#x88E1;&#xFF09;&#x3001;bss &#x6BB5;&#x3001;stack&#x3001;heap&#xFF0C;&#x4EE5;&#x53CA; shared memory &#x548C;main&#xFF08;&#x4EE3;&#x78BC;&#x6BB5;&#xFF09;&#x7684;&#x5167;&#x5B58;&#x5206;&#x4F48;&#x60C5;&#x6CC1;&#x3002;</p>
+<p><span id="toc_14856_6356_4"></span></p>
+<h2 id="%E5%9C%A8%E7%A8%8B%E5%BA%8F%E5%85%A7%E9%83%A8%E7%8D%B2%E5%8F%96%E5%AE%8C%E6%95%B4%E5%85%A7%E5%AD%98%E5%88%86%E4%BD%88%E4%BF%A1%E6%81%AF">&#x5728;&#x7A0B;&#x5E8F;&#x5167;&#x90E8;&#x7372;&#x53D6;&#x5B8C;&#x6574;&#x5167;&#x5B58;&#x5206;&#x4F48;&#x4FE1;&#x606F;</h2>
+<p>&#x4E0D;&#x904E;&#xFF0C;&#x9019;&#x4E9B;&#x7D50;&#x679C;&#x9084;&#x662F;&#x6C92;&#x6709;&#x7CBE;&#x78BA;&#x548C;&#x5B8C;&#x6574;&#x5730;&#x53CD;&#x61C9;&#x6240;&#x6709;&#x76F8;&#x95DC;&#x4FE1;&#x606F;&#xFF0C;&#x5982;&#x679C;&#x8981;&#x60F3;&#x5728;&#x7A0B;&#x5E8F;&#x5167;&#x5B8C;&#x6574;&#x53CD;&#x61C9;&#x9019;&#x4E9B;&#x4FE1;&#x606F;&#xFF0C;&#x7D50;&#x5408;<a href="02-chapter2.html">&#x300A;Gcc&#x7DE8;&#x8B6F;&#x7684;&#x80CC;&#x5F8C;&#x300B;</a>&#xFF0C;&#x5C31;&#x4E0D;&#x96E3;&#x60F3;&#x5230;&#xFF0C;&#x6211;&#x5011;&#x9084;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x64F4;&#x5C55;&#x4E00;&#x4E9B;&#x5DF2;&#x7D93;&#x93C8;&#x63A5;&#x5230;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x5916;&#x90E8;&#x7B26;&#x865F;&#x4F86;&#x7372;&#x53D6;&#x5B83;&#x5011;&#x3002;&#x9019;&#x4E9B;&#x5916;&#x90E8;&#x7B26;&#x865F;&#x5168;&#x90E8;&#x5B9A;&#x7FA9;&#x5728;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x7684;&#x7B26;&#x865F;&#x8868;&#x4E2D;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x904E; <code>nm/readelf -s/objdump -t</code> &#x7B49;&#x67E5;&#x770B;&#x5230;&#xFF0C;&#x4F8B;&#x5982;&#xFF1A;</p>
+<pre><code>$ nm showmemory
+080497e4 d _DYNAMIC
+080498b0 d _GLOBAL_OFFSET_TABLE_
+080486c8 R _IO_stdin_used
+         w _Jv_RegisterClasses
+080497d4 d __CTOR_END__
+080497d0 d __CTOR_LIST__
+080497dc d __DTOR_END__
+080497d8 d __DTOR_LIST__
+080487cc r __FRAME_END__
+080497e0 d __JCR_END__
+080497e0 d __JCR_LIST__
+080498ec A __bss_start
+080498dc D __data_start
+08048680 t __do_global_ctors_aux
+08048414 t __do_global_dtors_aux
+080498e0 D __dso_handle
+         w __gmon_start__
+0804867a T __i686.get_pc_thunk.bx
+080497d0 d __init_array_end
+080497d0 d __init_array_start
+08048610 T __libc_csu_fini
+08048620 T __libc_csu_init
+         U __libc_start_main@@GLIBC_2.0
+080498ec A _edata
+0804a8c0 A _end
+080486a8 T _fini
+080486c4 R _fp_hw
+08048328 T _init
+080483f0 T _start
+08049920 B array
+08049900 b completed.1
+080498dc W data_start
+         U exit@@GLIBC_2.0
+08048444 t frame_dummy
+080498e8 D init_global_variable
+0804846c T main
+         U malloc@@GLIBC_2.0
+080498e4 d p.0
+         U printf@@GLIBC_2.0
+         U shmat@@GLIBC_2.0
+         U shmctl@@GLIBC_2.2
+         U shmget@@GLIBC_2.0
+</code></pre><p>&#x7B2C;&#x4E09;&#x5217;&#x7684;&#x7B26;&#x865F;&#x5728;&#x6211;&#x5011;&#x7684;&#x7A0B;&#x5E8F;&#x4E2D;&#x88AB;&#x64F4;&#x5C55;&#x4EE5;&#x5F8C;&#x5C31;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x5F15;&#x7528;&#xFF0C;&#x9019;&#x4E9B;&#x7B26;&#x865F;&#x57FA;&#x672C;&#x4E0A;&#x5C31;&#x5DF2;&#x7D93;&#x5B8C;&#x6574;&#x5730;&#x8986;&#x84CB;&#x4E86;&#x76F8;&#x95DC;&#x7684;&#x4FE1;&#x606F;&#x4E86;&#xFF0C;&#x9019;&#x6A23;&#x5C31;&#x53EF;&#x4EE5;&#x5F97;&#x5230;&#x4E00;&#x500B;&#x66F4;&#x5B8C;&#x6574;&#x7684;&#x7A0B;&#x5E8F;&#xFF0C;&#x5F9E;&#x800C;&#x5B8C;&#x5168;&#x53CD;&#x61C9;&#x4E0A;&#x9762;&#x63D0;&#x5230;&#x7684;&#x5167;&#x5B58;&#x5206;&#x4F48;&#x8868;&#x7684;&#x4FE1;&#x606F;&#x3002;</p>
+<pre><code>/**
+ * showmemory.c -- print the position of different types of data in a program in the memory
+ */
+
+#include &lt;sys/types.h&gt;
+#include &lt;sys/ipc.h&gt;
+#include &lt;sys/shm.h&gt;
+#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+
+#define ARRAY_SIZE 4000
+#define MALLOC_SIZE 100000
+#define SHM_SIZE 100000
+#define SHM_MODE (SHM_R | SHM_W)        /* user read/write */
+
+                                        /* declare the address relative variables */
+extern char _start, __data_start, __bss_start, etext, edata, end;
+extern char **environ;
+
+char array[ARRAY_SIZE];         /* uninitialized data = bss */
+
+int main(int argc, char *argv[])
+{
+    int shmid;
+    char *ptr, *shmptr;
+
+    printf(&quot;===== memory map =====\n&quot;);
+    printf(&quot;.text:\t0x%x-&gt;0x%x (_start, code text)\n&quot;, &amp;_start, &amp;etext);
+    printf(&quot;.data:\t0x%x-&gt;0x%x (__data_start, initilized data)\n&quot;, &amp;__data_start, &amp;edata);
+    printf(&quot;.bss: \t0x%x-&gt;0x%x (__bss_start, uninitilized data)\n&quot;, &amp;__bss_start, &amp;end);
+
+    /* shmid is a local variable, which is stored in the stack, hence, you
+     * can get the address of the stack via it*/
+
+    if ( (ptr = malloc(MALLOC_SIZE)) == NULL) {
+        printf(&quot;malloc error!\n&quot;);
+        exit(-1);
+    }
+
+    printf(&quot;heap: \t0x%x-&gt;0x%x (address of the malloc space)\n&quot;, ptr, ptr+MALLOC_SIZE);
+
+    if ( (shmid = shmget(IPC_PRIVATE, SHM_SIZE, SHM_MODE)) &lt; 0) {
+        printf(&quot;shmget error!\n&quot;);
+        exit(-1);
+    }
+
+    if ( (shmptr = shmat(shmid, 0, 0)) == (void *) -1) {
+        printf(&quot;shmat error!\n&quot;);
+        exit(-1);
+    }
+    printf(&quot;shm  :\t0x%x-&gt;0x%x (address of shared memory)\n&quot;, shmptr, shmptr+SHM_SIZE);
+
+    if (shmctl(shmid, IPC_RMID, 0) &lt; 0) {
+        printf(&quot;shmctl error!\n&quot;);
+        exit(-1);
+    }
+
+    printf(&quot;stack:\t &lt;--0x%x--&gt; (address of local variables)\n&quot;, &amp;shmid);   
+    printf(&quot;arg:  \t0x%x (address of arguments)\n&quot;, argv);
+    printf(&quot;env:  \t0x%x (address of environment variables)\n&quot;, environ);
+
+    exit(0);
+}
+</code></pre><p>&#x904B;&#x884C;&#x7D50;&#x679C;&#xFF1A;</p>
+<pre><code>$ make showmemory
+$ ./showmemory
+===== memory map =====
+.text:    0x8048440-&gt;0x8048754 (_start, code text)
+.data:    0x8049a3c-&gt;0x8049a48 (__data_start, initilized data)
+.bss:     0x8049a48-&gt;0x804aa20 (__bss_start, uninitilized data)
+heap:     0x804b008-&gt;0x80636a8 (address of the malloc space)
+shm  :    0xb7db6000-&gt;0xb7dce6a0 (address of shared memory)
+stack:     &lt;--0xbff85b64--&gt; (address of local variables)
+arg:      0xbff85bf4 (address of arguments)
+env:      0xbff85bfc (address of environment variables)
+</code></pre><p><span id="toc_14856_6356_5"></span></p>
+<h2 id="%E5%BE%8C%E8%A8%98">&#x5F8C;&#x8A18;</h2>
+<p>&#x4E0A;&#x8FF0;&#x7A0B;&#x5E8F;&#x5B8C;&#x6574;&#x5730;&#x52FE;&#x52D2;&#x51FA;&#x4E86;&#x9032;&#x7A0B;&#x7684;&#x5167;&#x5B58;&#x5206;&#x4F48;&#x7684;&#x5404;&#x500B;&#x91CD;&#x8981;&#x90E8;&#x5206;&#xFF0C;&#x9019;&#x6A23;&#x5C31;&#x53EF;&#x4EE5;&#x5F9E;&#x7A0B;&#x5E8F;&#x5167;&#x90E8;&#x7372;&#x53D6;&#x8DDF;&#x7A0B;&#x5E8F;&#x76F8;&#x95DC;&#x7684;&#x6240;&#x6709;&#x6578;&#x64DA;&#x4E86;&#xFF0C;&#x4E00;&#x500B;&#x975E;&#x5E38;&#x5178;&#x578B;&#x7684;&#x4F8B;&#x5B50;&#x662F;&#xFF0C;&#x5728;&#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x7684;&#x904E;&#x7A0B;&#x4E2D;&#x6AA2;&#x67E5;&#x4EE3;&#x78BC;&#x6B63;&#x6587;&#x90E8;&#x5206;&#x662F;&#x5426;&#x88AB;&#x60E1;&#x610F;&#x7BE1;&#x6539;&#x3002;</p>
+<p>&#x5982;&#x679C;&#x60F3;&#x66F4;&#x6DF1;&#x5730;&#x7406;&#x89E3;&#x76F8;&#x95DC;&#x5167;&#x5BB9;&#xFF0C;&#x90A3;&#x9EBC;&#x53EF;&#x4EE5;&#x8A66;&#x8457;&#x5229;&#x7528; <code>readelf</code>&#xFF0C;<code>objdump</code> &#x7B49;&#x4F86;&#x5206;&#x6790; ELF &#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x683C;&#x5F0F;&#x7684;&#x7D50;&#x69CB;&#xFF0C;&#x4E26;&#x5229;&#x7528; <code>gdb</code> &#x4F86;&#x4E86;&#x89E3;&#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x904E;&#x7A0B;&#x4E2D;&#x7684;&#x5167;&#x5B58;&#x8B8A;&#x5316;&#x60C5;&#x6CC1;&#x3002;</p>
+<p><span id="toc_14856_6356_6"></span></p>
+<h2 id="%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99">&#x53C3;&#x8003;&#x8CC7;&#x6599;</h2>
+<ul>
+<li><a href="02-chapter2.html">Gcc &#x7DE8;&#x8B6F;&#x7684;&#x80CC;&#x5F8C;&#xFF08;&#x7B2C;&#x4E8C;&#x90E8;&#x5206;&#xFF1A;&#x5F59;&#x7DE8;&#x548C;&#x93C8;&#x63A5;&#xFF09;</a></li>
+<li><a href="02-chapter5.html">&#x7DE9;&#x885D;&#x5340;&#x6EA2;&#x51FA;&#x8207;&#x6CE8;&#x5165;&#x5206;&#x6790;</a></li>
+<li>&#x300A;Unix &#x74B0;&#x5883;&#x9AD8;&#x7D1A;&#x7DE8;&#x7A0B;&#x300B;&#x7B2C; 14 &#x7AE0;&#xFF0C;&#x7A0B;&#x5E8F; 14-11</li>
+</ul>
+
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../../zh/chapters/02-chapter5.html" class="navigation navigation-prev " aria-label="Previous page: 緩衝區溢出與注入分析"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="../../zh/chapters/02-chapter7.html" class="navigation navigation-next " aria-label="Next page: 進程和進程的基本操作"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+<script src="../../gitbook/app.js"></script>
+
+    
+    <script src="../../gitbook/plugins/gitbook-plugin-disqus/plugin.js"></script>
+    
+
+    
+    <script src="../../gitbook/plugins/gitbook-plugin-google_code_prettify/google-code-prettify.js"></script>
+    
+
+    
+    <script src="../../gitbook/plugins/gitbook-plugin-google_code_prettify/plugin.js"></script>
+    
+
+    
+    <script src="../../gitbook/plugins/gitbook-plugin-collapsible-menu/plugin.js"></script>
+    
+
+    
+    <script src="../../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
+    
+
+    
+    <script src="../../gitbook/plugins/gitbook-plugin-livereload/plugin.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {"fontSettings":{"theme":null,"family":"sans","size":2},"disqus":{"shortName":"tinylab"}};
+    gitbook.start(config);
+});
+</script>
+
+        <!-- body:end -->
+    </body>
+    <!-- End of book C 语言编程透视 -->
+</html>

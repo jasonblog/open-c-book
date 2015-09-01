@@ -1,0 +1,1216 @@
+<!DOCTYPE HTML>
+<html lang="en" >
+    <!-- Start book C 语言编程透视 -->
+    <head>
+        <!-- head:start -->
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>Gcc 編譯的背後 | C 语言编程透视</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 2.1.0">
+        <meta name="author" content="Wu Zhangjin &lt;wuzhangjin@gmail.com&gt;">
+        
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../../gitbook/images/apple-touch-icon-precomposed-152.png">
+        <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
+        
+    <link rel="stylesheet" href="../../gitbook/style.css">
+    
+        
+        <link rel="stylesheet" href="../../gitbook/plugins/gitbook-plugin-google_code_prettify/google-code-prettify.css">
+        
+    
+        
+        <link rel="stylesheet" href="../../gitbook/plugins/gitbook-plugin-maxiang/maxiang.css">
+        
+    
+    
+
+        
+    
+    
+    <link rel="next" href="../../zh/chapters/02-chapter3.html" />
+    
+    
+    <link rel="prev" href="../../zh/chapters/02-chapter1.html" />
+    
+
+        <!-- head:end -->
+    </head>
+    <body>
+        <!-- body:start -->
+        
+    <div class="book" data-level="4" data-basepath="../.." data-revision="Tue Sep 01 2015 15:04:37 GMT+0800 (CST)">
+    
+
+<div class="book-summary">
+    <div class="book-search">
+        <input type="text" placeholder="Type to search" class="form-control" />
+    </div>
+    <ul class="summary">
+        
+        
+        
+            
+            <li>
+                <a href="http://www.tinylab.org" target="blank" class="custom-link">泰晓科技</a>
+            </li>
+        
+            
+            <li>
+                <a href="http://weidian.com/?userid=335178200" target="blank" class="custom-link">开源小店</a>
+            </li>
+        
+            
+            <li>
+                <a href="http://www.tinylab.org/project/hello-c-world" target="blank" class="custom-link">项目首页</a>
+            </li>
+        
+            
+            <li>
+                <a href="http://tinylab.gitbooks.io/elinux" target="blank" class="custom-link">嵌入式 Linux 知识库</a>
+            </li>
+        
+            
+            <li>
+                <a href="http://tinylab.gitbooks.io/linux-doc" target="blank" class="custom-link">Linux 内核文档</a>
+            </li>
+        
+            
+            <li>
+                <a href="http://tinylab.gitbooks.io/shellbook" target="blank" class="custom-link">Shell 编程范例</a>
+            </li>
+        
+        
+
+        
+        <li class="divider"></li>
+        
+
+        
+    
+        <li class="chapter " data-level="0" data-path="index.html">
+            
+                
+                    <a href="../../index.html">
+                        <i class="fa fa-check"></i>
+                        
+                        Introduction
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="1" data-path="zh/preface/01-chapter0.html">
+            
+                
+                    <a href="../../zh/preface/01-chapter0.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.</b>
+                        
+                        版本修訂歷史
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="2" data-path="zh/preface/01-chapter1.html">
+            
+                
+                    <a href="../../zh/preface/01-chapter1.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.</b>
+                        
+                        前言
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="3" data-path="zh/chapters/02-chapter1.html">
+            
+                
+                    <a href="../../zh/chapters/02-chapter1.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.</b>
+                        
+                        把 Vim 打造成源代碼編輯器
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter active" data-level="4" data-path="zh/chapters/02-chapter2.html">
+            
+                
+                    <a href="../../zh/chapters/02-chapter2.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.</b>
+                        
+                        Gcc 編譯的背後
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="5" data-path="zh/chapters/02-chapter3.html">
+            
+                
+                    <a href="../../zh/chapters/02-chapter3.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.</b>
+                        
+                        程序執行的一剎那
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="6" data-path="zh/chapters/02-chapter4.html">
+            
+                
+                    <a href="../../zh/chapters/02-chapter4.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.</b>
+                        
+                        動態符號鏈接的細節
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="7" data-path="zh/chapters/02-chapter5.html">
+            
+                
+                    <a href="../../zh/chapters/02-chapter5.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>7.</b>
+                        
+                        緩衝區溢出與注入分析
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="8" data-path="zh/chapters/02-chapter6.html">
+            
+                
+                    <a href="../../zh/chapters/02-chapter6.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>8.</b>
+                        
+                        進程的內存映像
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="9" data-path="zh/chapters/02-chapter7.html">
+            
+                
+                    <a href="../../zh/chapters/02-chapter7.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>9.</b>
+                        
+                        進程和進程的基本操作
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="10" data-path="zh/chapters/02-chapter8.html">
+            
+                
+                    <a href="../../zh/chapters/02-chapter8.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>10.</b>
+                        
+                        打造史上最小可執行ELF文件(45字節)
+                    </a>
+                
+            
+            
+        </li>
+    
+        <li class="chapter " data-level="11" data-path="zh/chapters/02-chapter9.html">
+            
+                
+                    <a href="../../zh/chapters/02-chapter9.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>11.</b>
+                        
+                        代碼測試、調試與優化
+                    </a>
+                
+            
+            
+        </li>
+    
+
+
+        
+        <li class="divider"></li>
+        <li>
+            <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+                Published with GitBook
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header">
+    <!-- Actions Left -->
+    <a href="#" class="btn pull-left toggle-summary" aria-label="Table of Contents"><i class="fa fa-align-justify"></i></a>
+    <a href="#" class="btn pull-left toggle-search" aria-label="Search"><i class="fa fa-search"></i></a>
+    
+    <div id="font-settings-wrapper" class="dropdown pull-left">
+        <a href="#" class="btn toggle-dropdown" aria-label="Font Settings"><i class="fa fa-font"></i>
+        </a>
+        <div class="dropdown-menu font-settings">
+    <div class="dropdown-caret">
+        <span class="caret-outer"></span>
+        <span class="caret-inner"></span>
+    </div>
+
+    <div class="buttons">
+        <button type="button" id="reduce-font-size" class="button size-2">A</button>
+        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
+    </div>
+
+    <div class="buttons font-family-list">
+        <button type="button" data-font="0" class="button">Serif</button>
+        <button type="button" data-font="1" class="button">Sans</button>
+    </div>
+
+    <div class="buttons color-theme-list">
+        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
+        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
+        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
+    </div>
+</div>
+
+    </div>
+
+    <!-- Actions Right -->
+    
+    <div class="dropdown pull-right">
+        <a href="#" class="btn toggle-dropdown" aria-label="Share"><i class="fa fa-share-alt"></i>
+        </a>
+        <div class="dropdown-menu font-settings dropdown-left">
+            <div class="dropdown-caret">
+                <span class="caret-outer"></span>
+                <span class="caret-inner"></span>
+            </div>
+            <div class="buttons">
+                <button type="button" data-sharing="twitter" class="button">
+                    Share on Twitter
+                </button>
+                <button type="button" data-sharing="google-plus" class="button">
+                    Share on Google
+                </button>
+                <button type="button" data-sharing="facebook" class="button">
+                    Share on Facebook
+                </button>
+                <button type="button" data-sharing="weibo" class="button">
+                    Share on Weibo
+                </button>
+                <button type="button" data-sharing="instapaper" class="button">
+                    Share on Instapaper
+                </button>
+            </div>
+        </div>
+    </div>
+    
+
+    
+    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Google"><i class="fa fa-google-plus"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Facebook"><i class="fa fa-facebook"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Twitter"><i class="fa fa-twitter"></i></a>
+    
+    
+    
+
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../../" >C 语言编程透视</a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-">
+                    
+                        <h1 id="gcc-%E7%B7%A8%E8%AD%AF%E7%9A%84%E8%83%8C%E5%BE%8C">Gcc &#x7DE8;&#x8B6F;&#x7684;&#x80CC;&#x5F8C;</h1>
+<ul>
+<li><a href="#toc_27212_14734_1">&#x524D;&#x8A00;</a></li>
+<li><a href="#toc_27212_14734_2">&#x9810;&#x8655;&#x7406;</a><ul>
+<li><a href="#toc_27212_14734_3">&#x7C21;&#x8FF0;</a></li>
+<li><a href="#toc_27212_14734_4">&#x6253;&#x5370;&#x51FA;&#x9810;&#x8655;&#x7406;&#x4E4B;&#x5F8C;&#x7684;&#x7D50;&#x679C;</a></li>
+<li><a href="#toc_27212_14734_5">&#x5728;&#x547D;&#x4EE4;&#x884C;&#x5B9A;&#x7FA9;&#x5B8F;</a></li>
+</ul>
+</li>
+<li><a href="#toc_27212_14734_6">&#x7DE8;&#x8B6F;&#xFF08;&#x7FFB;&#x8B6F;&#xFF09;</a><ul>
+<li><a href="#toc_27212_14734_7">&#x7C21;&#x8FF0;</a></li>
+<li><a href="#toc_27212_14734_8">&#x8A9E;&#x6CD5;&#x6AA2;&#x67E5;</a></li>
+<li><a href="#toc_27212_14734_9">&#x7DE8;&#x8B6F;&#x5668;&#x512A;&#x5316;</a></li>
+<li><a href="#toc_27212_14734_10">&#x751F;&#x6210;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x6587;&#x4EF6;</a></li>
+</ul>
+</li>
+<li><a href="#toc_27212_14734_11">&#x5F59;&#x7DE8;</a><ul>
+<li><a href="#toc_27212_14734_12">&#x7C21;&#x8FF0;</a></li>
+<li><a href="#toc_27212_14734_13">&#x751F;&#x6210;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;</a></li>
+<li><a href="#toc_27212_14734_14">ELF &#x6587;&#x4EF6;&#x521D;&#x6B21;&#x63A5;&#x89F8;</a></li>
+<li><a href="#toc_27212_14734_15">ELF &#x6587;&#x4EF6;&#x7684;&#x7D50;&#x69CB;</a></li>
+<li><a href="#toc_27212_14734_16">&#x4E09;&#x7A2E;&#x4E0D;&#x540C;&#x985E;&#x578B; ELF &#x6587;&#x4EF6;&#x6BD4;&#x8F03;</a></li>
+<li><a href="#toc_27212_14734_17">ELF &#x4E3B;&#x9AD4;&#xFF1A;&#x7BC0;&#x5340;</a></li>
+<li><a href="#toc_27212_14734_18">&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x7BC0;&#x5340;&#x8868;&#x8FF0;</a></li>
+</ul>
+</li>
+<li><a href="#toc_27212_14734_19">&#x93C8;&#x63A5;</a><ul>
+<li><a href="#toc_27212_14734_20">&#x7C21;&#x8FF0;</a></li>
+<li><a href="#toc_27212_14734_21">&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x7684;&#x6BB5;&#xFF1A;&#x7BC0;&#x5340;&#x91CD;&#x6392;</a></li>
+<li><a href="#toc_27212_14734_22">&#x93C8;&#x63A5;&#x80CC;&#x5F8C;&#x7684;&#x6545;&#x4E8B;</a></li>
+<li><a href="#toc_27212_14734_23">&#x7528; ld &#x5B8C;&#x6210;&#x93C8;&#x63A5;&#x904E;&#x7A0B;</a></li>
+<li><a href="#toc_27212_14734_24">C++ &#x69CB;&#x9020;&#x8207;&#x6790;&#x69CB;&#xFF1A;crtbegin.o &#x548C; crtend.o</a></li>
+<li><a href="#toc_27212_14734_25">&#x521D;&#x59CB;&#x5316;&#x8207;&#x9000;&#x51FA;&#x6E05;&#x7406;&#xFF1A;crti.o &#x548C; crtn.o</a></li>
+<li><a href="#toc_27212_14734_26">C &#x8A9E;&#x8A00;&#x7A0B;&#x5E8F;&#x771F;&#x6B63;&#x7684;&#x5165;&#x53E3;</a></li>
+<li><a href="#toc_27212_14734_27">&#x93C8;&#x63A5;&#x8173;&#x672C;&#x521D;&#x6B21;&#x63A5;&#x89F8;</a></li>
+</ul>
+</li>
+<li><a href="#toc_27212_14734_28">&#x53C3;&#x8003;&#x8CC7;&#x6599;</a></li>
+</ul>
+<p><span id="toc_27212_14734_1"></span></p>
+<h2 id="%E5%89%8D%E8%A8%80">&#x524D;&#x8A00;</h2>
+<p>&#x5E73;&#x6642;&#x5728; Linux &#x4E0B;&#x5BEB;&#x4EE3;&#x78BC;&#xFF0C;&#x76F4;&#x63A5;&#x7528; <code>gcc -o out in.c</code> &#x5C31;&#x628A;&#x4EE3;&#x78BC;&#x7DE8;&#x8B6F;&#x597D;&#x4E86;&#xFF0C;&#x4F46;&#x662F;&#x9019;&#x80CC;&#x5F8C;&#x5230;&#x5E95;&#x505A;&#x4E86;&#x4EC0;&#x9EBC;&#x5462;&#xFF1F;</p>
+<p>&#x5982;&#x679C;&#x5B78;&#x7FD2;&#x904E;&#x300A;&#x7DE8;&#x8B6F;&#x539F;&#x7406;&#x300B;&#x5247;&#x4E0D;&#x96E3;&#x7406;&#x89E3;&#xFF0C;&#x4E00;&#x822C;&#x9AD8;&#x7D1A;&#x8A9E;&#x8A00;&#x7A0B;&#x5E8F;&#x7DE8;&#x8B6F;&#x7684;&#x904E;&#x7A0B;&#x83AB;&#x904E;&#x65BC;&#xFF1A;&#x9810;&#x8655;&#x7406;&#x3001;&#x7DE8;&#x8B6F;&#x3001;&#x5F59;&#x7DE8;&#x3001;&#x93C8;&#x63A5;&#x3002;</p>
+<p><code>gcc</code> &#x5728;&#x5F8C;&#x81FA;&#x5BE6;&#x969B;&#x4E0A;&#x4E5F;&#x7D93;&#x6B77;&#x4E86;&#x9019;&#x5E7E;&#x500B;&#x904E;&#x7A0B;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x904E; <code>-v</code> &#x53C3;&#x6578;&#x67E5;&#x770B;&#x5B83;&#x7684;&#x7DE8;&#x8B6F;&#x7D30;&#x7BC0;&#xFF0C;&#x5982;&#x679C;&#x60F3;&#x770B;&#x67D0;&#x500B;&#x5177;&#x9AD4;&#x7684;&#x7DE8;&#x8B6F;&#x904E;&#x7A0B;&#xFF0C;&#x5247;&#x53EF;&#x4EE5;&#x5206;&#x5225;&#x4F7F;&#x7528; <code>-E</code>&#xFF0C;<code>-S</code>&#xFF0C;<code>-c</code> &#x548C; <code>-O</code>&#xFF0C;&#x5C0D;&#x61C9;&#x7684;&#x5F8C;&#x81FA;&#x5DE5;&#x5177;&#x5247;&#x5206;&#x5225;&#x70BA; <code>cpp</code>&#xFF0C;<code>cc1</code>&#xFF0C;<code>as</code>&#xFF0C;<code>ld</code>&#x3002;</p>
+<p>&#x4E0B;&#x9762;&#x5C07;&#x9010;&#x6B65;&#x5206;&#x6790;&#x9019;&#x5E7E;&#x500B;&#x904E;&#x7A0B;&#x4EE5;&#x53CA;&#x76F8;&#x95DC;&#x7684;&#x5167;&#x5BB9;&#xFF0C;&#x8AF8;&#x5982;&#x8A9E;&#x6CD5;&#x6AA2;&#x67E5;&#x3001;&#x4EE3;&#x78BC;&#x8ABF;&#x8A66;&#x3001;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x7B49;&#x3002;</p>
+<p><span id="toc_27212_14734_2"></span></p>
+<h2 id="%E9%A0%90%E8%99%95%E7%90%86">&#x9810;&#x8655;&#x7406;</h2>
+<p><span id="toc_27212_14734_3"></span></p>
+<h3 id="%E7%B0%A1%E8%BF%B0">&#x7C21;&#x8FF0;</h3>
+<p>&#x9810;&#x8655;&#x7406;&#x662F; C &#x8A9E;&#x8A00;&#x7A0B;&#x5E8F;&#x5F9E;&#x6E90;&#x4EE3;&#x78BC;&#x8B8A;&#x6210;&#x53EF;&#x57F7;&#x884C;&#x7A0B;&#x5E8F;&#x7684;&#x7B2C;&#x4E00;&#x6B65;&#xFF0C;&#x4E3B;&#x8981;&#x662F; C &#x8A9E;&#x8A00;&#x7DE8;&#x8B6F;&#x5668;&#x5C0D;&#x5404;&#x7A2E;&#x9810;&#x8655;&#x7406;&#x547D;&#x4EE4;&#x9032;&#x884C;&#x8655;&#x7406;&#xFF0C;&#x5305;&#x62EC;&#x982D;&#x6587;&#x4EF6;&#x7684;&#x5305;&#x542B;&#x3001;&#x5B8F;&#x5B9A;&#x7FA9;&#x7684;&#x64F4;&#x5C55;&#x3001;&#x689D;&#x4EF6;&#x7DE8;&#x8B6F;&#x7684;&#x9078;&#x64C7;&#x7B49;&#x3002;</p>
+<p>&#x4EE5;&#x524D;&#x6C92;&#x600E;&#x9EBC;&#x201C;&#x6DF1;&#x5165;&#x201D;&#x9810;&#x8655;&#x7406;&#xFF0C;&#x8166;&#x5B50;&#x5C0D;&#x9019;&#x4E9B;&#x6771;&#x897F;&#x7E3D;&#x662F;&#x5F88;&#x6A21;&#x7CCA;&#xFF0C;&#x53EA;&#x8A18;&#x5F97;&#x5728;&#x7DE8;&#x8B6F;&#x7684;&#x57FA;&#x672C;&#x904E;&#x7A0B;&#xFF08;&#x8A5E;&#x6CD5;&#x5206;&#x6790;&#x3001;&#x8A9E;&#x6CD5;&#x5206;&#x6790;&#xFF09;&#x4E4B;&#x524D;&#x9084;&#x9700;&#x8981;&#x5C0D;&#x6E90;&#x4EE3;&#x78BC;&#x4E2D;&#x7684;&#x5B8F;&#x5B9A;&#x7FA9;&#x3001;&#x6587;&#x4EF6;&#x5305;&#x542B;&#x3001;&#x689D;&#x4EF6;&#x7DE8;&#x8B6F;&#x7B49;&#x547D;&#x4EE4;&#x9032;&#x884C;&#x8655;&#x7406;&#x3002;&#x9019;&#x4E09;&#x985E;&#x7684;&#x6307;&#x4EE4;&#x5F88;&#x5E38;&#x898B;&#xFF0C;&#x4E3B;&#x8981;&#x6709; <code>#define</code>&#xFF0C;<code>#include</code>&#x548C; <code>#ifdef ... #endif</code>&#xFF0C;&#x8981;&#x7279;&#x5225;&#x5730;&#x6CE8;&#x610F;&#x5B83;&#x5011;&#x7684;&#x7528;&#x6CD5;&#x3002;</p>
+<p><code>#define</code> &#x9664;&#x4E86;&#x53EF;&#x4EE5;&#x7368;&#x7ACB;&#x4F7F;&#x7528;&#x4EE5;&#x4FBF;&#x9748;&#x6D3B;&#x8A2D;&#x7F6E;&#x4E00;&#x4E9B;&#x53C3;&#x6578;&#x5916;&#xFF0C;&#x9084;&#x5E38;&#x5E38;&#x548C; <code>#ifdef ... #endif</code> &#x7D50;&#x5408;&#x4F7F;&#x7528;&#xFF0C;&#x4EE5;&#x4FBF;&#x9748;&#x6D3B;&#x5730;&#x63A7;&#x5236;&#x4EE3;&#x78BC;&#x584A;&#x7684;&#x7DE8;&#x8B6F;&#x8207;&#x5426;&#xFF0C;&#x4E5F;&#x53EF;&#x4EE5;&#x7528;&#x4F86;&#x907F;&#x514D;&#x540C;&#x4E00;&#x500B;&#x982D;&#x6587;&#x4EF6;&#x7684;&#x591A;&#x6B21;&#x5305;&#x542B;&#x3002;&#x95DC;&#x65BC; <code>#include</code> &#x8C8C;&#x4F3C;&#x6BD4;&#x8F03;&#x7C21;&#x55AE;&#xFF0C;&#x901A;&#x904E; <code>man</code> &#x627E;&#x5230;&#x67D0;&#x500B;&#x51FD;&#x6578;&#x7684;&#x982D;&#x6587;&#x4EF6;&#xFF0C;&#x8907;&#x88FD;&#x9032;&#x53BB;&#xFF0C;&#x52A0;&#x4E0A; <code>&lt;&gt;</code> &#x5C31;&#x597D;&#x3002;&#x9019;&#x88E1;&#x96D6;&#x7136;&#x53EA;&#x95DC;&#x5FC3;&#x4E00;&#x4E9B;&#x6280;&#x5DE7;&#xFF0C;&#x4E0D;&#x904E;&#x9810;&#x8655;&#x7406;&#x9084;&#x662F;&#x96B1;&#x85CF;&#x8457;&#x5F88;&#x591A;&#x6F5B;&#x5728;&#x7684;&#x9677;&#x9631;&#xFF08;&#x53EF;&#x53C3;&#x8003;&#x300A;C Traps &amp; Pitfalls&#x300B;&#xFF09;&#x4E5F;&#x662F;&#x9700;&#x8981;&#x6CE8;&#x610F;&#x7684;&#x3002;&#x4E0B;&#x9762;&#x50C5;&#x4ECB;&#x7D39;&#x548C;&#x9810;&#x8655;&#x7406;&#x76F8;&#x95DC;&#x7684;&#x5E7E;&#x500B;&#x7C21;&#x55AE;&#x5167;&#x5BB9;&#x3002;</p>
+<p><span id="toc_27212_14734_4"></span></p>
+<h3 id="%E6%89%93%E5%8D%B0%E5%87%BA%E9%A0%90%E8%99%95%E7%90%86%E4%B9%8B%E5%BE%8C%E7%9A%84%E7%B5%90%E6%9E%9C">&#x6253;&#x5370;&#x51FA;&#x9810;&#x8655;&#x7406;&#x4E4B;&#x5F8C;&#x7684;&#x7D50;&#x679C;</h3>
+<pre><code>$ gcc -E hello.c
+</code></pre><p>&#x9019;&#x6A23;&#x5C31;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x6E90;&#x4EE3;&#x78BC;&#x4E2D;&#x7684;&#x5404;&#x7A2E;&#x9810;&#x8655;&#x7406;&#x547D;&#x4EE4;&#x662F;&#x5982;&#x4F55;&#x88AB;&#x89E3;&#x91CB;&#x7684;&#xFF0C;&#x5F9E;&#x800C;&#x65B9;&#x4FBF;&#x7406;&#x89E3;&#x548C;&#x67E5;&#x932F;&#x3002;</p>
+<p>&#x5BE6;&#x969B;&#x4E0A; <code>gcc</code> &#x5728;&#x9019;&#x88E1;&#x8ABF;&#x7528;&#x4E86; <code>cpp</code>&#xFF08;&#x96D6;&#x7136;&#x901A;&#x904E; <code>gcc -v</code> &#x50C5;&#x770B;&#x5230; <code>cc1</code>)&#xFF0C;<code>cpp</code> &#x5373; The C Preprocessor&#xFF0C;&#x4E3B;&#x8981;&#x7528;&#x4F86;&#x9810;&#x8655;&#x7406;&#x5B8F;&#x5B9A;&#x7FA9;&#x3001;&#x6587;&#x4EF6;&#x5305;&#x542B;&#x3001;&#x689D;&#x4EF6;&#x7DE8;&#x8B6F;&#x7B49;&#x3002;&#x4E0B;&#x9762;&#x4ECB;&#x7D39;&#x5B83;&#x7684;&#x4E00;&#x500B;&#x6BD4;&#x8F03;&#x91CD;&#x8981;&#x7684;&#x9078;&#x9805; <code>-D</code>&#x3002;</p>
+<p><span id="toc_27212_14734_5"></span></p>
+<h3 id="%E5%9C%A8%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%AE%9A%E7%BE%A9%E5%AE%8F">&#x5728;&#x547D;&#x4EE4;&#x884C;&#x5B9A;&#x7FA9;&#x5B8F;</h3>
+<pre><code>$ gcc -Dmacro hello.c
+</code></pre><p>&#x9019;&#x500B;&#x7B49;&#x540C;&#x65BC;&#x5728;&#x6587;&#x4EF6;&#x7684;&#x958B;&#x982D;&#x5B9A;&#x7FA9;&#x5B8F;&#xFF0C;&#x5373; <code>#define macro</code>&#xFF0C;&#x4F46;&#x662F;&#x5728;&#x547D;&#x4EE4;&#x884C;&#x5B9A;&#x7FA9;&#x66F4;&#x9748;&#x6D3B;&#x3002;&#x4F8B;&#x5982;&#xFF0C;&#x5728;&#x6E90;&#x4EE3;&#x78BC;&#x4E2D;&#x6709;&#x9019;&#x4E9B;&#x8A9E;&#x53E5;&#x3002;</p>
+<pre><code>#ifdef DEBUG
+printf(&quot;this code is for debugging\n&quot;);
+#endif
+</code></pre><p>&#x5982;&#x679C;&#x7DE8;&#x8B6F;&#x6642;&#x52A0;&#x4E0A; <code>-DDEBUG</code> &#x9078;&#x9805;&#xFF0C;&#x90A3;&#x9EBC;&#x7DE8;&#x8B6F;&#x5668;&#x5C31;&#x6703;&#x628A; <code>printf</code> &#x6240;&#x5728;&#x7684;&#x884C;&#x7DE8;&#x8B6F;&#x9032;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;&#xFF0C;&#x5F9E;&#x800C;&#x65B9;&#x4FBF;&#x5730;&#x8DDF;&#x8E64;&#x8A72;&#x4F4D;&#x7F6E;&#x7684;&#x67D0;&#x4E9B;&#x7A0B;&#x5E8F;&#x72C0;&#x614B;&#x3002;&#x9019;&#x6A23; <code>-DDEBUG</code> &#x5C31;&#x53EF;&#x4EE5;&#x7576;&#x4F5C;&#x4E00;&#x500B;&#x8ABF;&#x8A66;&#x958B;&#x95DC;&#xFF0C;&#x7DE8;&#x8B6F;&#x6642;&#x52A0;&#x4E0A;&#x5B83;&#x5C31;&#x53EF;&#x4EE5;&#x7528;&#x4F86;&#x6253;&#x5370;&#x8ABF;&#x8A66;&#x4FE1;&#x606F;&#xFF0C;&#x767C;&#x4F48;&#x6642;&#x5247;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x53BB;&#x6389;&#x8A72;&#x7DE8;&#x8B6F;&#x9078;&#x9805;&#x628A;&#x8ABF;&#x8A66;&#x4FE1;&#x606F;&#x53BB;&#x6389;&#x3002;</p>
+<p><span id="toc_27212_14734_6"></span></p>
+<h2 id="%E7%B7%A8%E8%AD%AF%EF%BC%88%E7%BF%BB%E8%AD%AF%EF%BC%89">&#x7DE8;&#x8B6F;&#xFF08;&#x7FFB;&#x8B6F;&#xFF09;</h2>
+<p><span id="toc_27212_14734_7"></span></p>
+<h3 id="%E7%B0%A1%E8%BF%B0">&#x7C21;&#x8FF0;</h3>
+<p>&#x7DE8;&#x8B6F;&#x4E4B;&#x524D;&#xFF0C;C &#x8A9E;&#x8A00;&#x7DE8;&#x8B6F;&#x5668;&#x6703;&#x9032;&#x884C;&#x8A5E;&#x6CD5;&#x5206;&#x6790;&#x3001;&#x8A9E;&#x6CD5;&#x5206;&#x6790;&#xFF0C;&#x63A5;&#x8457;&#x6703;&#x628A;&#x6E90;&#x4EE3;&#x78BC;&#x7FFB;&#x8B6F;&#x6210;&#x4E2D;&#x9593;&#x8A9E;&#x8A00;&#xFF0C;&#x5373;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x3002;&#x5982;&#x679C;&#x60F3;&#x770B;&#x5230;&#x9019;&#x500B;&#x4E2D;&#x9593;&#x7D50;&#x679C;&#xFF0C;&#x53EF;&#x4EE5;&#x7528; <code>gcc -S</code>&#x3002;&#x9700;&#x8981;&#x63D0;&#x5230;&#x7684;&#x662F;&#xFF0C;&#x8AF8;&#x5982; Shell &#x7B49;&#x89E3;&#x91CB;&#x8A9E;&#x8A00;&#x4E5F;&#x6703;&#x7D93;&#x6B77;&#x4E00;&#x500B;&#x8A5E;&#x6CD5;&#x5206;&#x6790;&#x548C;&#x8A9E;&#x6CD5;&#x5206;&#x6790;&#x7684;&#x968E;&#x6BB5;&#xFF0C;&#x4E0D;&#x904E;&#x4E4B;&#x5F8C;&#x4E26;&#x4E0D;&#x6703;&#x9032;&#x884C;&#x201C;&#x7FFB;&#x8B6F;&#x201D;&#xFF0C;&#x800C;&#x662F;&#x201C;&#x89E3;&#x91CB;&#x201D;&#xFF0C;&#x908A;&#x89E3;&#x91CB;&#x908A;&#x57F7;&#x884C;&#x3002;</p>
+<p>&#x628A;&#x6E90;&#x4EE3;&#x78BC;&#x7FFB;&#x8B6F;&#x6210;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#xFF0C;&#x5BE6;&#x969B;&#x4E0A;&#x662F;&#x7DE8;&#x8B6F;&#x7684;&#x6574;&#x500B;&#x904E;&#x7A0B;&#x4E2D;&#x7684;&#x7B2C;&#x4E00;&#x500B;&#x968E;&#x6BB5;&#xFF0C;&#x4E4B;&#x5F8C;&#x7684;&#x968E;&#x6BB5;&#x548C;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x7684;&#x958B;&#x767C;&#x904E;&#x7A0B;&#x6C92;&#x6709;&#x4EC0;&#x9EBC;&#x5340;&#x5225;&#x3002;&#x9019;&#x500B;&#x968E;&#x6BB5;&#x6D89;&#x53CA;&#x5230;&#x5C0D;&#x6E90;&#x4EE3;&#x78BC;&#x7684;&#x8A5E;&#x6CD5;&#x5206;&#x6790;&#x3001;&#x8A9E;&#x6CD5;&#x6AA2;&#x67E5;&#xFF08;&#x901A;&#x904E; <code>-std</code> &#x6307;&#x5B9A;&#x9075;&#x5FAA;&#x54EA;&#x500B;&#x6A19;&#x6E96;&#xFF09;&#xFF0C;&#x4E26;&#x6839;&#x64DA;&#x512A;&#x5316;&#xFF08;<code>-O</code>&#xFF09;&#x8981;&#x6C42;&#x9032;&#x884C;&#x7FFB;&#x8B6F;&#x6210;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x7684;&#x52D5;&#x4F5C;&#x3002;</p>
+<p><span id="toc_27212_14734_8"></span></p>
+<h3 id="%E8%AA%9E%E6%B3%95%E6%AA%A2%E6%9F%A5">&#x8A9E;&#x6CD5;&#x6AA2;&#x67E5;</h3>
+<p>&#x5982;&#x679C;&#x50C5;&#x50C5;&#x5E0C;&#x671B;&#x9032;&#x884C;&#x8A9E;&#x6CD5;&#x6AA2;&#x67E5;&#xFF0C;&#x53EF;&#x4EE5;&#x7528; <code>gcc</code> &#x7684; <code>-fsyntax-only</code> &#x9078;&#x9805;&#xFF1B;&#x5982;&#x679C;&#x70BA;&#x4E86;&#x4F7F;&#x4EE3;&#x78BC;&#x6709;&#x6BD4;&#x8F03;&#x597D;&#x7684;&#x53EF;&#x79FB;&#x690D;&#x6027;&#xFF0C;&#x907F;&#x514D;&#x4F7F;&#x7528; <code>gcc</code> &#x7684;&#x4E00;&#x4E9B;&#x64F4;&#x5C55;&#x7279;&#x6027;&#xFF0C;&#x53EF;&#x4EE5;&#x7D50;&#x5408; <code>-std</code> &#x548C; <code>-pedantic</code>&#xFF08;&#x6216;&#x8005; <code>-pedantic-erros</code> &#xFF09;&#x9078;&#x9805;&#x8B93;&#x6E90;&#x4EE3;&#x78BC;&#x9075;&#x5FAA;&#x67D0;&#x500B; C &#x8A9E;&#x8A00;&#x6A19;&#x6E96;&#x7684;&#x8A9E;&#x6CD5;&#x3002;&#x9019;&#x88E1;&#x6F14;&#x793A;&#x4E00;&#x500B;&#x7C21;&#x55AE;&#x7684;&#x4F8B;&#x5B50;&#xFF1A;</p>
+<pre><code>$ cat hello.c
+#include &lt;stdio.h&gt;
+int main()
+{
+    printf(&quot;hello, world\n&quot;)
+    return 0;
+}
+$ gcc -fsyntax-only hello.c
+hello.c: In function &#x2018;main&#x2019;:
+hello.c:5: error: expected &#x2018;;&#x2019; before &#x2018;return&#x2019;
+$ vim hello.c
+$ cat hello.c
+#include &lt;stdio.h&gt;
+int main()
+{
+        printf(&quot;hello, world\n&quot;);
+        int i;
+        return 0;
+}
+$ gcc -std=c89 -pedantic-errors hello.c    #&#x9ED8;&#x8A8D;&#x60C5;&#x6CC1;&#x4E0B;&#xFF0C;gcc&#x662F;&#x5141;&#x8A31;&#x5728;&#x7A0B;&#x5E8F;&#x4E2D;&#x9593;&#x8072;&#x660E;&#x8B8A;&#x91CF;&#x7684;&#xFF0C;&#x4F46;&#x662F;turboc&#x5C31;&#x4E0D;&#x652F;&#x6301;
+hello.c: In function &#x2018;main&#x2019;:
+hello.c:5: error: ISO C90 forbids mixed declarations and code
+</code></pre><p>&#x8A9E;&#x6CD5;&#x932F;&#x8AA4;&#x662F;&#x7A0B;&#x5E8F;&#x958B;&#x767C;&#x904E;&#x7A0B;&#x4E2D;&#x96E3;&#x4EE5;&#x907F;&#x514D;&#x7684;&#x932F;&#x8AA4;&#xFF08;&#x4EBA;&#x7684;&#x5927;&#x8166;&#x5728;&#x5F88;&#x591A;&#x60C5;&#x6CC1;&#x4E0B;&#x90FD;&#x5BB9;&#x6613;&#x958B;&#x5C0F;&#x5DEE;&#xFF09;&#xFF0C;&#x4E0D;&#x904E;&#x7DE8;&#x8B6F;&#x5668;&#x5F80;&#x5F80;&#x80FD;&#x5920;&#x901A;&#x904E;&#x8A9E;&#x6CD5;&#x6AA2;&#x67E5;&#x5FEB;&#x901F;&#x767C;&#x73FE;&#x9019;&#x4E9B;&#x932F;&#x8AA4;&#xFF0C;&#x4E26;&#x6E96;&#x78BA;&#x5730;&#x544A;&#x77E5;&#x8A9E;&#x6CD5;&#x932F;&#x8AA4;&#x7684;&#x5927;&#x6982;&#x4F4D;&#x7F6E;&#x3002;&#x56E0;&#x6B64;&#xFF0C;&#x4F5C;&#x70BA;&#x958B;&#x767C;&#x4EBA;&#x54E1;&#xFF0C;&#x8981;&#x505A;&#x7684;&#x4E8B;&#x60C5;&#x4E0D;&#x662F;&#x201C;&#x6050;&#x614C;&#x201D;&#xFF08;&#x4E0D;&#x77E5;&#x6240;&#x63AA;&#xFF09;&#xFF0C;&#x800C;&#x662F;&#x8A8D;&#x771F;&#x95B1;&#x8B80;&#x7DE8;&#x8B6F;&#x5668;&#x7684;&#x63D0;&#x793A;&#xFF0C;&#x6839;&#x64DA;&#x5E73;&#x6642;&#x7A4D;&#x7D2F;&#x7684;&#x7D93;&#x9A57;&#xFF08;&#x6700;&#x597D;&#x7E3D;&#x7D50;&#x4E00;&#x4EFD;&#x5E38;&#x898B;&#x8A9E;&#x6CD5;&#x932F;&#x8AA4;&#x7D22;&#x5F15;&#xFF0C;&#x5F88;&#x591A;&#x8CC7;&#x6599;&#x90FD;&#x63D0;&#x4F9B;&#x4E86;&#x5E38;&#x898B;&#x8A9E;&#x6CD5;&#x932F;&#x8AA4;&#x5217;&#x8868;&#xFF0C;&#x5982;&#x300A;C Traps&amp;Pitfalls&#x300B;&#x548C;&#x7DE8;&#x8F2F;&#x5668;&#x63D0;&#x4F9B;&#x7684;&#x8A9E;&#x6CD5;&#x6AA2;&#x67E5;&#x529F;&#x80FD;&#xFF08;&#x8A9E;&#x6CD5;&#x52A0;&#x4EAE;&#x3001;&#x62EC;&#x865F;&#x5339;&#x914D;&#x63D0;&#x793A;&#x7B49;&#xFF09;&#x5FEB;&#x901F;&#x5B9A;&#x4F4D;&#x8A9E;&#x6CD5;&#x51FA;&#x932F;&#x7684;&#x4F4D;&#x7F6E;&#x4E26;&#x9032;&#x884C;&#x4FEE;&#x6539;&#x3002;</p>
+<p><span id="toc_27212_14734_9"></span></p>
+<h3 id="%E7%B7%A8%E8%AD%AF%E5%99%A8%E5%84%AA%E5%8C%96">&#x7DE8;&#x8B6F;&#x5668;&#x512A;&#x5316;</h3>
+<p>&#x8A9E;&#x6CD5;&#x6AA2;&#x67E5;&#x4E4B;&#x5F8C;&#x5C31;&#x662F;&#x7FFB;&#x8B6F;&#x52D5;&#x4F5C;&#xFF0C;<code>gcc</code> &#x63D0;&#x4F9B;&#x4E86;&#x4E00;&#x500B;&#x512A;&#x5316;&#x9078;&#x9805; <code>-O</code>&#xFF0C;&#x4EE5;&#x4FBF;&#x6839;&#x64DA;&#x4E0D;&#x540C;&#x7684;&#x904B;&#x884C;&#x5E73;&#x81FA;&#x548C;&#x7528;&#x6236;&#x8981;&#x6C42;&#x7522;&#x751F;&#x7D93;&#x904E;&#x512A;&#x5316;&#x7684;&#x5F59;&#x7DE8;&#x4EE3;&#x78BC;&#x3002;&#x4F8B;&#x5982;&#xFF0C;</p>
+<pre><code>$ gcc -o hello hello.c         # &#x63A1;&#x7528;&#x9ED8;&#x8A8D;&#x9078;&#x9805;&#xFF0C;&#x4E0D;&#x512A;&#x5316;
+$ gcc -O2 -o hello2 hello.c    # &#x512A;&#x5316;&#x7B49;&#x6B21;&#x662F;2
+$ gcc -Os -o hellos hello.c    # &#x512A;&#x5316;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;&#x7684;&#x5927;&#x5C0F;
+$ ls -S hello hello2 hellos    # &#x53EF;&#x4EE5;&#x770B;&#x5230;&#xFF0C;hellos &#x6BD4;&#x8F03;&#x5C0F;, hello2 &#x6BD4;&#x8F03;&#x5927;
+hello2  hello  hellos
+$ time ./hello
+hello, world
+
+real    0m0.001s
+user    0m0.000s
+sys     0m0.000s
+$ time ./hello2     # &#x53EF;&#x80FD;&#x662F;&#x4EE3;&#x78BC;&#x6BD4;&#x8F03;&#x5C11;&#x7684;&#x7DE3;&#x6545;&#xFF0C;&#x57F7;&#x884C;&#x6548;&#x7387;&#x770B;&#x4E0A;&#x53BB;&#x4E0D;&#x662F;&#x5F88;&#x660E;&#x986F;
+hello, world
+
+real    0m0.001s
+user    0m0.000s
+sys     0m0.000s
+
+$ time ./hellos     # &#x96D6;&#x7136;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;&#x5C0F;&#x4E86;&#xFF0C;&#x4F46;&#x662F;&#x57F7;&#x884C;&#x6548;&#x7387;&#x6162;&#x4E86;&#x4E9B;
+hello, world
+
+real    0m0.002s
+user    0m0.000s
+sys     0m0.000s
+</code></pre><p>&#x6839;&#x64DA;&#x4E0A;&#x9762;&#x7684;&#x7C21;&#x55AE;&#x6F14;&#x793A;&#xFF0C;&#x53EF;&#x4EE5;&#x770B;&#x51FA; <code>gcc</code> &#x6709;&#x5F88;&#x591A;&#x4E0D;&#x540C;&#x7684;&#x512A;&#x5316;&#x9078;&#x9805;&#xFF0C;&#x4E3B;&#x8981;&#x770B;&#x7528;&#x6236;&#x7684;&#x9700;&#x6C42;&#x4E86;&#xFF0C;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;&#x7684;&#x5927;&#x5C0F;&#x548C;&#x6548;&#x7387;&#x4E4B;&#x9593;&#x8C8C;&#x4F3C;&#x5B58;&#x5728;&#x4E00;&#x500B;&#x201C;&#x7CFE;&#x7E8F;&#x201D;&#xFF0C;&#x9700;&#x8981;&#x958B;&#x767C;&#x4EBA;&#x54E1;&#x81EA;&#x5DF1;&#x6B0A;&#x8861;&#x3002;</p>
+<p><span id="toc_27212_14734_10"></span></p>
+<h3 id="%E7%94%9F%E6%88%90%E5%BD%99%E7%B7%A8%E8%AA%9E%E8%A8%80%E6%96%87%E4%BB%B6">&#x751F;&#x6210;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x6587;&#x4EF6;</h3>
+<p>&#x4E0B;&#x9762;&#x901A;&#x904E; <code>-S</code> &#x9078;&#x9805;&#x4F86;&#x770B;&#x770B;&#x7DE8;&#x8B6F;&#x51FA;&#x4F86;&#x7684;&#x4E2D;&#x9593;&#x7D50;&#x679C;&#xFF1A;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#xFF0C;&#x9084;&#x662F;&#x4EE5;&#x4E4B;&#x524D;&#x90A3;&#x500B; <code>hello.c</code> &#x70BA;&#x4F8B;&#x3002;</p>
+<pre><code>$ gcc -S hello.c  # &#x9ED8;&#x8A8D;&#x8F38;&#x51FA;&#x662F;hello.s&#xFF0C;&#x53EF;&#x81EA;&#x5DF1;&#x6307;&#x5B9A;&#xFF0C;&#x8F38;&#x51FA;&#x5230;&#x5C4F;&#x5E55;`-o -`&#xFF0C;&#x8F38;&#x51FA;&#x5230;&#x5176;&#x4ED6;&#x6587;&#x4EF6;`-o file`
+$ cat hello.s
+cat hello.s
+        .file   &quot;hello.c&quot;
+        .section        .rodata
+.LC0:
+        .string &quot;hello, world&quot;
+        .text
+.globl main
+        .type   main, @function
+main:
+        leal    4(%esp), %ecx
+        andl    $-16, %esp
+        pushl   -4(%ecx)
+        pushl   %ebp
+        movl    %esp, %ebp
+        pushl   %ecx
+        subl    $4, %esp
+        movl    $.LC0, (%esp)
+        call    puts
+        movl    $0, %eax
+        addl    $4, %esp
+        popl    %ecx
+        popl    %ebp
+        leal    -4(%ecx), %esp
+        ret
+        .size   main, .-main
+        .ident  &quot;GCC: (GNU) 4.1.3 20070929 (prerelease) (Ubuntu 4.1.2-16ubuntu2)&quot;
+        .section        .note.GNU-stack,&quot;&quot;,@progbits
+</code></pre><p>&#x4E0D;&#x77E5;&#x9053;&#x770B;&#x51FA;&#x4F86;&#x6C92;&#xFF1F;&#x548C;&#x8AB2;&#x5802;&#x88E1;&#x5B78;&#x7684; intel &#x7684;&#x5F59;&#x7DE8;&#x8A9E;&#x6CD5;&#x4E0D;&#x592A;&#x4E00;&#x6A23;&#xFF0C;&#x9019;&#x88E1;&#x7528;&#x7684;&#x662F; <code>AT&amp;T</code> &#x8A9E;&#x6CD5;&#x683C;&#x5F0F;&#x3002;&#x5982;&#x679C;&#x60F3;&#x5B78;&#x7FD2; Linux &#x4E0B;&#x7684;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x958B;&#x767C;&#xFF0C;&#x4E0B;&#x4E00;&#x7BC0;&#x958B;&#x59CB;&#x7684;&#x6240;&#x6709;&#x7AE0;&#x7BC0;&#x57FA;&#x672C;&#x4E0A;&#x8986;&#x84CB;&#x4E86; Linux &#x4E0B;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x958B;&#x767C;&#x7684;&#x4E00;&#x822C;&#x904E;&#x7A0B;&#xFF0C;&#x4E0D;&#x904E;&#x9019;&#x88E1;&#x4E0D;&#x4ECB;&#x7D39;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x8A9E;&#x6CD5;&#x3002;</p>
+<p>&#x5728;&#x5B78;&#x7FD2;&#x5F8C;&#x9762;&#x7684;&#x7AE0;&#x7BC0;&#x4E4B;&#x524D;&#xFF0C;&#x5EFA;&#x8B70;&#x81EA;&#x5B78;&#x820A;&#x91D1;&#x5C71;&#x5927;&#x5B78;&#x7684;&#x5FAE;&#x6A5F;&#x7DE8;&#x7A0B;&#x8AB2;&#x7A0B; CS630&#xFF0C;&#x8A72;&#x8AB2;&#x6DF1;&#x5165;&#x4ECB;&#x7D39;&#x4E86; Linux/X86 &#x5E73;&#x81FA;&#x4E0B;&#x7684; <code>AT&amp;T</code> &#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x958B;&#x767C;&#x3002;&#x5982;&#x679C;&#x60F3;&#x5728; <code>Qemu</code> &#x4E0A;&#x505A;&#x9019;&#x500B;&#x8AB2;&#x7A0B;&#x88E1;&#x7684;&#x5BE6;&#x9A57;&#xFF0C;&#x53EF;&#x4EE5;&#x95B1;&#x8B80;&#x672C;&#x6587;&#x4F5C;&#x8005;&#x5BEB;&#x7684; <a href="http://www.tinylab.org/cs630-qemu/" target="_blank">CS630: Linux &#x4E0B;&#x901A;&#x904E; Qemu &#x5B78;&#x7FD2; X86 AT&amp;T &#x5F59;&#x7DE8;&#x8A9E;&#x8A00;</a>&#x3002;</p>
+<p>&#x9700;&#x8981;&#x88DC;&#x5145;&#x7684;&#x662F;&#xFF0C;&#x5728;&#x5BEB; C &#x8A9E;&#x8A00;&#x4EE3;&#x78BC;&#x6642;&#xFF0C;&#x5982;&#x679C;&#x80FD;&#x5920;&#x5C0D;&#x7DE8;&#x8B6F;&#x5668;&#x6BD4;&#x8F03;&#x719F;&#x6089;&#xFF08;&#x5DE5;&#x4F5C;&#x539F;&#x7406;&#x548C;&#x4E00;&#x4E9B;&#x7D30;&#x7BC0;&#xFF09;&#x7684;&#x8A71;&#xFF0C;&#x53EF;&#x80FD;&#x6703;&#x5F88;&#x6709;&#x5E6B;&#x52A9;&#x3002;&#x5305;&#x62EC;&#x9019;&#x88E1;&#x7684;&#x512A;&#x5316;&#x9078;&#x9805;&#xFF08;&#x6709;&#x4E9B;&#x512A;&#x5316;&#x9078;&#x9805;&#x53EF;&#x80FD;&#x5728;&#x5F59;&#x7DE8;&#x6642;&#x63A1;&#x7528;&#xFF09;&#x548C;&#x53EF;&#x80FD;&#x7684;&#x512A;&#x5316;&#x63AA;&#x65BD;&#xFF0C;&#x4F8B;&#x5982;&#x5B57;&#x7BC0;&#x5C0D;&#x9F4A;&#x3001;&#x689D;&#x4EF6;&#x5206;&#x652F;&#x8A9E;&#x53E5;&#x88C1;&#x6E1B;&#xFF08;&#x522A;&#x9664;&#x4E00;&#x4E9B;&#x660E;&#x986F;&#x5206;&#x652F;&#xFF09;&#x7B49;&#x3002;</p>
+<p><span id="toc_27212_14734_11"></span></p>
+<h2 id="%E5%BD%99%E7%B7%A8">&#x5F59;&#x7DE8;</h2>
+<p><span id="toc_27212_14734_12"></span></p>
+<h3 id="%E7%B0%A1%E8%BF%B0">&#x7C21;&#x8FF0;</h3>
+<p>&#x5F59;&#x7DE8;&#x5BE6;&#x969B;&#x4E0A;&#x9084;&#x662F;&#x7FFB;&#x8B6F;&#x904E;&#x7A0B;&#xFF0C;&#x53EA;&#x4E0D;&#x904E;&#x628A;&#x4F5C;&#x70BA;&#x4E2D;&#x9593;&#x7D50;&#x679C;&#x7684;&#x5F59;&#x7DE8;&#x4EE3;&#x78BC;&#x7FFB;&#x8B6F;&#x6210;&#x4E86;&#x6A5F;&#x5668;&#x4EE3;&#x78BC;&#xFF0C;&#x5373;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;&#xFF0C;&#x4E0D;&#x904E;&#x5B83;&#x9084;&#x4E0D;&#x53EF;&#x4EE5;&#x904B;&#x884C;&#x3002;&#x5982;&#x679C;&#x8981;&#x7522;&#x751F;&#x9019;&#x4E00;&#x4E2D;&#x9593;&#x7D50;&#x679C;&#xFF0C;&#x53EF;&#x7528; <code>gcc -c</code>&#xFF0C;&#x7576;&#x7136;&#xFF0C;&#x4E5F;&#x53EF;&#x901A;&#x904E; <code>as</code> &#x547D;&#x4EE4;&#x8655;&#x7406;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x6E90;&#x6587;&#x4EF6;&#x4F86;&#x7522;&#x751F;&#x3002;</p>
+<p>&#x5F59;&#x7DE8;&#x662F;&#x628A;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x7FFB;&#x8B6F;&#x6210;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;&#x7684;&#x904E;&#x7A0B;&#xFF0C;&#x5982;&#x679C;&#x6709;&#x5728; Windows &#x4E0B;&#x5B78;&#x7FD2;&#x904E;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x958B;&#x767C;&#xFF0C;&#x5927;&#x5BB6;&#x61C9;&#x8A72;&#x6BD4;&#x8F03;&#x719F;&#x6089; <code>nasm</code> &#x5F59;&#x7DE8;&#x5DE5;&#x5177;(&#x652F;&#x6301; Intel &#x683C;&#x5F0F;&#x7684;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;)&#xFF0C;&#x4E0D;&#x904E;&#x9019;&#x88E1;&#x4E3B;&#x8981;&#x7528; <code>as</code> &#x5F59;&#x7DE8;&#x5DE5;&#x5177;&#x4F86;&#x5F59;&#x7DE8; <code>AT&amp;T</code> &#x683C;&#x5F0F;&#x7684;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#xFF0C;&#x56E0;&#x70BA; <code>gcc</code> &#x7522;&#x751F;&#x7684;&#x4E2D;&#x9593;&#x4EE3;&#x78BC;&#x5C31;&#x662F; <code>AT&amp;T</code> &#x683C;&#x5F0F;&#x7684;&#x3002;</p>
+<p><span id="toc_27212_14734_13"></span></p>
+<h3 id="%E7%94%9F%E6%88%90%E7%9B%AE%E6%A8%99%E4%BB%A3%E7%A2%BC">&#x751F;&#x6210;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;</h3>
+<p>&#x4E0B;&#x9762;&#x4F86;&#x6F14;&#x793A;&#x5206;&#x5225;&#x901A;&#x904E; <code>gcc -c</code> &#x9078;&#x9805;&#x548C; <code>as</code> &#x4F86;&#x7522;&#x751F;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;&#x3002;</p>
+<pre><code>$ file hello.s
+hello.s: ASCII assembler program text
+$ gcc -c hello.s   #&#x7528;gcc&#x628A;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x7DE8;&#x8B6F;&#x6210;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;
+$ file hello.o     #file&#x547D;&#x4EE4;&#x7528;&#x4F86;&#x67E5;&#x770B;&#x6587;&#x4EF6;&#x985E;&#x578B;&#xFF0C;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;&#x53EF;&#x91CD;&#x5B9A;&#x4F4D;&#x7684;(relocatable)&#xFF0C;
+                   #&#x9700;&#x8981;&#x901A;&#x904E;ld&#x9032;&#x884C;&#x9032;&#x4E00;&#x6B65;&#x93C8;&#x63A5;&#x6210;&#x53EF;&#x57F7;&#x884C;&#x7A0B;&#x5E8F;(executable)&#x548C;&#x5171;&#x4EAB;&#x5EAB;(shared)
+hello.o: ELF 32-bit LSB relocatable, Intel 80386, version 1 (SYSV), not stripped
+$ as -o hello.o hello.s        #&#x7528;as&#x628A;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x7DE8;&#x8B6F;&#x6210;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;
+$ file hello.o
+hello.o: ELF 32-bit LSB relocatable, Intel 80386, version 1 (SYSV), not stripped
+</code></pre><p><code>gcc</code> &#x548C; <code>as</code> &#x9ED8;&#x8A8D;&#x7522;&#x751F;&#x7684;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;&#x90FD;&#x662F; ELF &#x683C;&#x5F0F;&#x7684;&#xFF0C;&#x56E0;&#x6B64;&#x9019;&#x88E1;&#x4E3B;&#x8981;&#x8A0E;&#x8AD6;ELF&#x683C;&#x5F0F;&#x7684;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;&#xFF08;&#x5982;&#x679C;&#x6709;&#x6642;&#x9593;&#x518D;&#x56DE;&#x9867;&#x4E00;&#x4E0B; <code>a.out</code> &#x548C; <code>coff</code> &#x683C;&#x5F0F;&#xFF0C;&#x7576;&#x7136;&#x4E5F;&#x53EF;&#x4EE5;&#x5148;&#x4E86;&#x89E3;&#x4E00;&#x4E0B;&#xFF0C;&#x4E26;&#x7D50;&#x5408; <code>objcopy</code> &#x4F86;&#x8F49;&#x63DB;&#x5B83;&#x5011;&#xFF0C;&#x6BD4;&#x8F03;&#x7570;&#x540C;)&#x3002;</p>
+<p><span id="toc_27212_14734_14"></span></p>
+<h3 id="elf-%E6%96%87%E4%BB%B6%E5%88%9D%E6%AC%A1%E6%8E%A5%E8%A7%B8">ELF &#x6587;&#x4EF6;&#x521D;&#x6B21;&#x63A5;&#x89F8;</h3>
+<p>&#x76EE;&#x6A19;&#x4EE3;&#x78BC;&#x4E0D;&#x518D;&#x662F;&#x666E;&#x901A;&#x7684;&#x6587;&#x672C;&#x683C;&#x5F0F;&#xFF0C;&#x7121;&#x6CD5;&#x76F4;&#x63A5;&#x901A;&#x904E;&#x6587;&#x672C;&#x7DE8;&#x8F2F;&#x5668;&#x700F;&#x89BD;&#xFF0C;&#x9700;&#x8981;&#x4E00;&#x4E9B;&#x5C08;&#x9580;&#x7684;&#x5DE5;&#x5177;&#x3002;&#x5982;&#x679C;&#x60F3;&#x4E86;&#x89E3;&#x66F4;&#x591A;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;&#x7684;&#x7D30;&#x7BC0;&#xFF0C;&#x5340;&#x5206; <code>relocatable</code>&#xFF08;&#x53EF;&#x91CD;&#x5B9A;&#x4F4D;&#xFF09;&#x3001;<code>executable</code>&#xFF08;&#x53EF;&#x57F7;&#x884C;&#xFF09;&#x3001;<code>shared libarary</code>&#xFF08;&#x5171;&#x4EAB;&#x5EAB;&#xFF09;&#x7684;&#x4E0D;&#x540C;&#xFF0C;&#x6211;&#x5011;&#x5F97;&#x8A2D;&#x6CD5;&#x77AD;&#x89E3;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;&#x7684;&#x7D44;&#x7E54;&#x65B9;&#x5F0F;&#x548C;&#x76F8;&#x95DC;&#x7684;&#x95B1;&#x8B80;&#x548C;&#x5206;&#x6790;&#x5DE5;&#x5177;&#x3002;&#x4E0B;&#x9762;&#x4E3B;&#x8981;&#x4ECB;&#x7D39;&#x9019;&#x90E8;&#x5206;&#x5167;&#x5BB9;&#x3002;</p>
+<blockquote>
+<p>BFD is a package which allows applications to use the same routines to
+operate on object files whatever the object file format. A new object file
+format can be supported simply by creating a new BFD back end and adding it to
+the library.</p>
+</blockquote>
+<p>binutils&#xFF08;GNU Binary Utilities&#xFF09;&#x7684;&#x5F88;&#x591A;&#x5DE5;&#x5177;&#x90FD;&#x63A1;&#x7528;&#x9019;&#x500B;&#x5EAB;&#x4F86;&#x64CD;&#x4F5C;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#xFF0C;&#x9019;&#x985E;&#x5DE5;&#x5177;&#x6709; <code>objdump</code>&#xFF0C;<code>objcopy</code>&#xFF0C;<code>nm</code>&#xFF0C;<code>strip</code> &#x7B49;&#xFF08;&#x7576;&#x7136;&#xFF0C;&#x6211;&#x5011;&#x4E5F;&#x53EF;&#x4EE5;&#x5229;&#x7528;&#x5B83;&#x3002;&#x5982;&#x679C;&#x6DF1;&#x5165;&#x77AD;&#x89E3;ELF&#x683C;&#x5F0F;&#xFF0C;&#x90A3;&#x9EBC;&#x901A;&#x904E;&#x5B83;&#x4F86;&#x5206;&#x6790;&#x548C;&#x7DE8;&#x5BEB; Virus &#x7A0B;&#x5E8F;&#x5C07;&#x6703;&#x66F4;&#x52A0;&#x65B9;&#x4FBF;&#xFF09;&#xFF0C;&#x4E0D;&#x904E;&#x53E6;&#x5916;&#x4E00;&#x6B3E;&#x975E;&#x5E38;&#x512A;&#x79C0;&#x7684;&#x5206;&#x6790;&#x5DE5;&#x5177; <code>readelf</code> &#x4E26;&#x4E0D;&#x662F;&#x57FA;&#x65BC;&#x9019;&#x500B;&#x5EAB;&#xFF0C;&#x6240;&#x4EE5;&#x4E5F;&#x61C9;&#x8A72;&#x53EF;&#x4EE5;&#x76F4;&#x63A5;&#x7528; <code>elf.h</code> &#x982D;&#x6587;&#x4EF6;&#x4E2D;&#x5B9A;&#x7FA9;&#x7684;&#x76F8;&#x95DC;&#x7D50;&#x69CB;&#x4F86;&#x64CD;&#x4F5C; ELF &#x6587;&#x4EF6;&#x3002;</p>
+<p>&#x4E0B;&#x9762;&#x5C07;&#x901A;&#x904E;&#x9019;&#x4E9B;&#x8F14;&#x52A9;&#x5DE5;&#x5177;&#xFF08;&#x4E3B;&#x8981;&#x662F; <code>readelf</code> &#x548C; <code>objdump</code>&#xFF09;&#xFF0C;&#x7D50;&#x5408; ELF &#x624B;&#x518A;&#x4F86;&#x5206;&#x6790;&#x5B83;&#x5011;&#x3002;&#x5C07;&#x4F9D;&#x6B21;&#x4ECB;&#x7D39; ELF &#x6587;&#x4EF6;&#x7684;&#x7D50;&#x69CB;&#x548C;&#x4E09;&#x7A2E;&#x4E0D;&#x540C;&#x985E;&#x578B; ELF &#x6587;&#x4EF6;&#x7684;&#x5340;&#x5225;&#x3002;</p>
+<p><span id="toc_27212_14734_15"></span></p>
+<h3 id="elf-%E6%96%87%E4%BB%B6%E7%9A%84%E7%B5%90%E6%A7%8B">ELF &#x6587;&#x4EF6;&#x7684;&#x7D50;&#x69CB;</h3>
+<pre><code>ELF Header(ELF&#x6587;&#x4EF6;&#x982D;)
+Program Headers Table(&#x7A0B;&#x5E8F;&#x982D;&#x8868;&#xFF0C;&#x5BE6;&#x969B;&#x4E0A;&#x53EB;&#x6BB5;&#x8868;&#x597D;&#x4E00;&#x4E9B;&#xFF0C;&#x7528;&#x65BC;&#x63CF;&#x8FF0;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x548C;&#x53EF;&#x5171;&#x4EAB;&#x5EAB;)
+Section 1
+Section 2
+Section 3
+...
+Section Headers Table(&#x7BC0;&#x5340;&#x982D;&#x90E8;&#x8868;&#xFF0C;&#x7528;&#x65BC;&#x93C8;&#x63A5;&#x53EF;&#x91CD;&#x5B9A;&#x4F4D;&#x6587;&#x4EF6;&#x6210;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x6216;&#x5171;&#x4EAB;&#x5EAB;)
+</code></pre><p>&#x5C0D;&#x65BC;&#x53EF;&#x91CD;&#x5B9A;&#x4F4D;&#x6587;&#x4EF6;&#xFF0C;&#x7A0B;&#x5E8F;&#x982D;&#x662F;&#x53EF;&#x9078;&#x7684;&#xFF0C;&#x800C;&#x5C0D;&#x65BC;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x548C;&#x5171;&#x4EAB;&#x5EAB;&#x6587;&#x4EF6;&#xFF08;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#xFF09;&#xFF0C;&#x7BC0;&#x5340;&#x8868;&#x5247;&#x662F;&#x53EF;&#x9078;&#x7684;&#x3002;&#x53EF;&#x4EE5;&#x5206;&#x5225;&#x901A;&#x904E; <code>readelf</code> &#x6587;&#x4EF6;&#x7684; <code>-h</code>&#xFF0C;<code>-l</code> &#x548C; <code>-S</code> &#x53C3;&#x6578;&#x67E5;&#x770B; ELF &#x6587;&#x4EF6;&#x982D;&#xFF08;ELF Header&#xFF09;&#x3001;&#x7A0B;&#x5E8F;&#x982D;&#x90E8;&#x8868;&#xFF08;Program Headers Table&#xFF0C;&#x6BB5;&#x8868;&#xFF09;&#x548C;&#x7BC0;&#x5340;&#x8868;&#xFF08;Section Headers Table&#xFF09;&#x3002;</p>
+<p>&#x6587;&#x4EF6;&#x982D;&#x8AAA;&#x660E;&#x4E86;&#x6587;&#x4EF6;&#x7684;&#x985E;&#x578B;&#xFF0C;&#x5927;&#x5C0F;&#xFF0C;&#x904B;&#x884C;&#x5E73;&#x81FA;&#xFF0C;&#x7BC0;&#x5340;&#x6578;&#x76EE;&#x7B49;&#x3002;</p>
+<p><span id="toc_27212_14734_16"></span></p>
+<h3 id="%E4%B8%89%E7%A8%AE%E4%B8%8D%E5%90%8C%E9%A1%9E%E5%9E%8B-elf-%E6%96%87%E4%BB%B6%E6%AF%94%E8%BC%83">&#x4E09;&#x7A2E;&#x4E0D;&#x540C;&#x985E;&#x578B; ELF &#x6587;&#x4EF6;&#x6BD4;&#x8F03;</h3>
+<p>&#x5148;&#x4F86;&#x901A;&#x904E;&#x6587;&#x4EF6;&#x982D;&#x770B;&#x770B;&#x4E0D;&#x540C;ELF&#x7684;&#x985E;&#x578B;&#x3002;&#x70BA;&#x4E86;&#x8AAA;&#x660E;&#x554F;&#x984C;&#xFF0C;&#x5148;&#x4F86;&#x5E7E;&#x6BB5;&#x4EE3;&#x78BC;&#x5427;&#x3002;</p>
+<pre><code>/* myprintf.c */
+#include &lt;stdio.h&gt;
+
+void myprintf(void)
+{
+    printf(&quot;hello, world!\n&quot;);
+}
+</code></pre><pre><code>/* test.h -- myprintf function declaration */
+
+#ifndef _TEST_H_
+#define _TEST_H_
+
+void myprintf(void);
+
+#endif
+</code></pre><pre><code>/* test.c */
+#include &quot;test.h&quot;
+
+int main()
+{
+    myprintf();
+    return 0;
+}
+</code></pre><p>&#x4E0B;&#x9762;&#x901A;&#x904E;&#x9019;&#x5E7E;&#x6BB5;&#x4EE3;&#x78BC;&#x4F86;&#x6F14;&#x793A;&#x901A;&#x904E; <code>readelf -h</code> &#x53C3;&#x6578;&#x67E5;&#x770B; ELF &#x7684;&#x4E0D;&#x540C;&#x985E;&#x578B;&#x3002;&#x671F;&#x9593;&#x5C07;&#x6F14;&#x793A;&#x5982;&#x4F55;&#x5275;&#x5EFA;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#xFF08;&#x5373;&#x53EF;&#x5171;&#x4EAB;&#x6587;&#x4EF6;&#xFF09;&#x3001;&#x975C;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#xFF0C;&#x4E26;&#x6BD4;&#x8F03;&#x5B83;&#x5011;&#x7684;&#x7570;&#x540C;&#x3002;</p>
+<p>&#x7DE8;&#x8B6F;&#x7522;&#x751F;&#x5169;&#x500B;&#x76EE;&#x6A19;&#x6587;&#x4EF6; <code>myprintf.o</code> &#x548C; <code>test.o</code>&#xFF0C;&#x5B83;&#x5011;&#x90FD;&#x662F;&#x53EF;&#x91CD;&#x5B9A;&#x4F4D;&#x6587;&#x4EF6;&#xFF08;REL&#xFF09;&#xFF1A;</p>
+<pre><code>$ gcc -c myprintf.c test.c
+$ readelf -h test.o | grep Type
+  Type:                              REL (Relocatable file)
+$ readelf -h myprintf.o | grep Type
+  Type:                              REL (Relocatable file)
+</code></pre><p>&#x6839;&#x64DA;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;&#x93C8;&#x63A5;&#x7522;&#x751F;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#xFF0C;&#x9019;&#x88E1;&#x7684;&#x6587;&#x4EF6;&#x985E;&#x578B;&#x662F;&#x53EF;&#x57F7;&#x884C;&#x7684;(EXEC)&#xFF1A;</p>
+<pre><code>$ gcc -o test myprintf.o test.o
+$ readelf -h test | grep Type
+  Type:                              EXEC (Executable file)
+</code></pre><p>&#x7528; <code>ar</code> &#x547D;&#x4EE4;&#x5275;&#x5EFA;&#x4E00;&#x500B;&#x975C;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#xFF0C;&#x975C;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#x4E5F;&#x662F;&#x53EF;&#x91CD;&#x5B9A;&#x4F4D;&#x6587;&#x4EF6;&#xFF08;REL&#xFF09;&#xFF1A;</p>
+<pre><code>$ ar rcsv libmyprintf.a myprintf.o
+$ readelf -h libmyprintf.a | grep Type
+  Type:                              REL (Relocatable file)
+</code></pre><p>&#x53EF;&#x898B;&#xFF0C;&#x975C;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#x548C;&#x53EF;&#x91CD;&#x5B9A;&#x4F4D;&#x6587;&#x4EF6;&#x985E;&#x578B;&#x4E00;&#x6A23;&#xFF0C;&#x5B83;&#x5011;&#x4E4B;&#x9593;&#x552F;&#x4E00;&#x4E0D;&#x540C;&#x662F;&#x524D;&#x8005;&#x53EF;&#x4EE5;&#x662F;&#x591A;&#x500B;&#x53EF;&#x91CD;&#x5B9A;&#x4F4D;&#x6587;&#x4EF6;&#x7684;&#x201C;&#x96C6;&#x5408;&#x201D;&#x3002;</p>
+<p>&#x975C;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#x53EF;&#x76F4;&#x63A5;&#x93C8;&#x63A5;&#xFF08;&#x53EA;&#x9700;&#x5EAB;&#x540D;&#xFF0C;&#x4E0D;&#x8981;&#x524D;&#x9762;&#x7684; <code>lib</code>&#xFF09;&#xFF0C;&#x4E5F;&#x53EF;&#x7528; <code>-l</code> &#x53C3;&#x6578;&#xFF0C;<code>-L</code> &#x6307;&#x5B9A;&#x5EAB;&#x641C;&#x7D22;&#x8DEF;&#x5F91;&#x3002;</p>
+<pre><code>$ gcc -o test test.o -lmyprintf -L./
+</code></pre><p>&#x7DE8;&#x8B6F;&#x7522;&#x751F;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#xFF0C;&#x4E26;&#x652F;&#x6301; <code>major</code> &#x548C; <code>minor</code> &#x7248;&#x672C;&#x865F;&#xFF0C;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#x985E;&#x578B;&#x70BA; <code>DYN</code>&#xFF1A;</p>
+<pre><code>$ gcc -Wall myprintf.o -shared -Wl,-soname,libmyprintf.so.0 -o libmyprintf.so.0.0
+$ ln -sf libmyprintf.so.0.0 libmyprintf.so.0
+$ ln -sf libmyprintf.so.0 libmyprintf.so
+$ readelf -h libmyprintf.so | grep Type
+  Type:                              DYN (Shared object file)
+</code></pre><p>&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#x7DE8;&#x8B6F;&#x6642;&#x548C;&#x975C;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#x985E;&#x4F3C;&#xFF1A;</p>
+<pre><code>$ gcc -o test test.o -lmyprintf -L./
+</code></pre><p>&#x4F46;&#x662F;&#x57F7;&#x884C;&#x6642;&#x9700;&#x8981;&#x6307;&#x5B9A;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#x7684;&#x641C;&#x7D22;&#x8DEF;&#x5F91;&#xFF0C;&#x628A; <code>LD_LIBRARY_PATH</code> &#x8A2D;&#x70BA;&#x7576;&#x524D;&#x76EE;&#x9304;&#xFF0C;&#x6307;&#x5B9A; <code>test</code> &#x904B;&#x884C;&#x6642;&#x7684;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#x641C;&#x7D22;&#x8DEF;&#x5F91;&#xFF1A;</p>
+<pre><code>$ LD_LIBRARY_PATH=./ ./test
+$ gcc -static -o test test.o -lmyprintf -L./
+</code></pre><p>&#x5728;&#x4E0D;&#x6307;&#x5B9A; <code>-static</code> &#x6642;&#x6703;&#x512A;&#x5148;&#x4F7F;&#x7528;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#xFF0C;&#x6307;&#x5B9A;&#x6642;&#x5247;&#x963B;&#x6B62;&#x4F7F;&#x7528;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#xFF0C;&#x9019;&#x6642;&#x6703;&#x628A;&#x6240;&#x6709;&#x975C;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#x6587;&#x4EF6;&#x52A0;&#x5165;&#x5230;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x4E2D;&#xFF0C;&#x4F7F;&#x5F97;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x5F88;&#x5927;&#xFF0C;&#x800C;&#x4E14;&#x52A0;&#x8F09;&#x5230;&#x5167;&#x5B58;&#x4EE5;&#x5F8C;&#x6703;&#x6D6A;&#x8CBB;&#x5167;&#x5B58;&#x7A7A;&#x9593;&#xFF0C;&#x56E0;&#x6B64;&#x4E0D;&#x5EFA;&#x8B70;&#x9019;&#x9EBC;&#x505A;&#x3002;</p>
+<p>&#x7D93;&#x904E;&#x4E0A;&#x9762;&#x7684;&#x6F14;&#x793A;&#x57FA;&#x672C;&#x53EF;&#x4EE5;&#x770B;&#x51FA;&#x5B83;&#x5011;&#x4E4B;&#x9593;&#x7684;&#x4E0D;&#x540C;&#xFF1A;</p>
+<ul>
+<li>&#x53EF;&#x91CD;&#x5B9A;&#x4F4D;&#x6587;&#x4EF6;&#x672C;&#x8EAB;&#x4E0D;&#x53EF;&#x4EE5;&#x904B;&#x884C;&#xFF0C;&#x50C5;&#x50C5;&#x662F;&#x4F5C;&#x70BA;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x3001;&#x975C;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#xFF08;&#x4E5F;&#x662F;&#x53EF;&#x91CD;&#x5B9A;&#x4F4D;&#x6587;&#x4EF6;&#xFF09;&#x3001;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#x7684; &#x201C;&#x7D44;&#x4EF6;&#x201D;&#x3002;</li>
+<li>&#x975C;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#x548C;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#x672C;&#x8EAB;&#x4E5F;&#x4E0D;&#x53EF;&#x4EE5;&#x57F7;&#x884C;&#xFF0C;&#x4F5C;&#x70BA;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x7684;&#x201C;&#x7D44;&#x4EF6;&#x201D;&#xFF0C;&#x5B83;&#x5011;&#x5169;&#x8005;&#x4E5F;&#x4E0D;&#x540C;&#xFF0C;&#x524D;&#x8005;&#x4E5F;&#x662F;&#x53EF;&#x91CD;&#x5B9A;&#x4F4D;&#x6587;&#x4EF6;&#xFF08;&#x53EA;&#x4E0D;&#x904E;&#x53EF;&#x80FD;&#x662F;&#x591A;&#x500B;&#x53EF;&#x91CD;&#x5B9A;&#x4F4D;&#x6587;&#x4EF6;&#x7684;&#x96C6;&#x5408;&#xFF09;&#xFF0C;&#x4E26;&#x4E14;&#x5728;&#x93C8;&#x63A5;&#x6642;&#x52A0;&#x5165;&#x5230;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x4E2D;&#x53BB;&#x3002;</li>
+<li>&#x800C;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#x5728;&#x93C8;&#x63A5;&#x6642;&#xFF0C;&#x5EAB;&#x6587;&#x4EF6;&#x672C;&#x8EAB;&#x4E26;&#x6C92;&#x6709;&#x6DFB;&#x52A0;&#x5230;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x4E2D;&#xFF0C;&#x53EA;&#x662F;&#x5728;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x4E2D;&#x52A0;&#x5165;&#x4E86;&#x8A72;&#x5EAB;&#x7684;&#x540D;&#x5B57;&#x7B49;&#x4FE1;&#x606F;&#xFF0C;&#x4EE5;&#x4FBF;&#x5728;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x904B;&#x884C;&#x904E;&#x7A0B;&#x4E2D;&#x5F15;&#x7528;&#x5EAB;&#x4E2D;&#x7684;&#x51FD;&#x6578;&#x6642;&#x7531;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5668;&#x53BB;&#x67E5;&#x627E;&#x76F8;&#x95DC;&#x51FD;&#x6578;&#x7684;&#x5730;&#x5740;&#xFF0C;&#x4E26;&#x8ABF;&#x7528;&#x5B83;&#x5011;&#x3002;</li>
+</ul>
+<p>&#x5F9E;&#x9019;&#x500B;&#x610F;&#x7FA9;&#x4E0A;&#x8AAA;&#xFF0C;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#x672C;&#x8EAB;&#x4E5F;&#x5177;&#x6709;&#x53EF;&#x91CD;&#x5B9A;&#x4F4D;&#x7684;&#x7279;&#x5FB5;&#xFF0C;&#x542B;&#x6709;&#x53EF;&#x91CD;&#x5B9A;&#x4F4D;&#x7684;&#x4FE1;&#x606F;&#x3002;&#x5C0D;&#x65BC;&#x4EC0;&#x9EBC;&#x662F;&#x91CD;&#x5B9A;&#x4F4D;&#xFF1F;&#x5982;&#x4F55;&#x9032;&#x884C;&#x975C;&#x614B;&#x7B26;&#x865F;&#x548C;&#x52D5;&#x614B;&#x7B26;&#x865F;&#x7684;&#x91CD;&#x5B9A;&#x4F4D;&#xFF0C;&#x6211;&#x5011;&#x5C07;&#x5728;&#x93C8;&#x63A5;&#x90E8;&#x5206;&#x548C;<a href="02-chapter4.html">&#x300A;&#x52D5;&#x614B;&#x7B26;&#x865F;&#x93C8;&#x63A5;&#x7684;&#x7D30;&#x7BC0;&#x300B;</a>&#x4E00;&#x7BC0;&#x4ECB;&#x7D39;&#x3002;</p>
+<p><span id="toc_27212_14734_17"></span></p>
+<h3 id="elf-%E4%B8%BB%E9%AB%94%EF%BC%9A%E7%AF%80%E5%8D%80">ELF &#x4E3B;&#x9AD4;&#xFF1A;&#x7BC0;&#x5340;</h3>
+<p>&#x4E0B;&#x9762;&#x4F86;&#x770B;&#x770B; ELF &#x6587;&#x4EF6;&#x7684;&#x4E3B;&#x9AD4;&#x5167;&#x5BB9;&#xFF1A;&#x7BC0;&#x5340;&#xFF08;Section)&#x3002;</p>
+<p>ELF &#x6587;&#x4EF6;&#x5177;&#x6709;&#x5F88;&#x5927;&#x7684;&#x9748;&#x6D3B;&#x6027;&#xFF0C;&#x5B83;&#x901A;&#x904E;&#x6587;&#x4EF6;&#x982D;&#x7D44;&#x7E54;&#x6574;&#x500B;&#x6587;&#x4EF6;&#x7684;&#x7E3D;&#x9AD4;&#x7D50;&#x69CB;&#xFF0C;&#x901A;&#x904E;&#x7BC0;&#x5340;&#x8868; (Section Headers Table&#xFF09;&#x548C;&#x7A0B;&#x5E8F;&#x982D;&#xFF08;Program Headers Table &#x6216;&#x8005;&#x53EB;&#x6BB5;&#x8868;&#xFF09;&#x4F86;&#x5206;&#x5225;&#x63CF;&#x8FF0;&#x53EF;&#x91CD;&#x5B9A;&#x4F4D;&#x6587;&#x4EF6;&#x548C;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x3002;&#x4F46;&#x4E0D;&#x7BA1;&#x662F;&#x54EA;&#x7A2E;&#x985E;&#x578B;&#xFF0C;&#x5B83;&#x5011;&#x90FD;&#x9700;&#x8981;&#x5B83;&#x5011;&#x7684;&#x4E3B;&#x9AD4;&#xFF0C;&#x5373;&#x5404;&#x7A2E;&#x7BC0;&#x5340;&#x3002;</p>
+<p>&#x5728;&#x53EF;&#x91CD;&#x5B9A;&#x4F4D;&#x6587;&#x4EF6;&#x4E2D;&#xFF0C;&#x7BC0;&#x5340;&#x8868;&#x63CF;&#x8FF0;&#x7684;&#x5C31;&#x662F;&#x5404;&#x7A2E;&#x7BC0;&#x5340;&#x672C;&#x8EAB;&#xFF1B;&#x800C;&#x5728;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x4E2D;&#xFF0C;&#x7A0B;&#x5E8F;&#x982D;&#x63CF;&#x8FF0;&#x7684;&#x662F;&#x7531;&#x5404;&#x500B;&#x7BC0;&#x5340;&#x7D44;&#x6210;&#x7684;&#x6BB5;&#xFF08;Segment&#xFF09;&#xFF0C;&#x4EE5;&#x4FBF;&#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x6642;&#x52D5;&#x614B;&#x88DD;&#x8F09;&#x5668;&#x77E5;&#x9053;&#x5982;&#x4F55;&#x5C0D;&#x5B83;&#x5011;&#x9032;&#x884C;&#x5167;&#x5B58;&#x6620;&#x50CF;&#xFF0C;&#x5F9E;&#x800C;&#x65B9;&#x4FBF;&#x7A0B;&#x5E8F;&#x52A0;&#x8F09;&#x548C;&#x904B;&#x884C;&#x3002;</p>
+<p>&#x4E0B;&#x9762;&#x5148;&#x4F86;&#x770B;&#x770B;&#x4E00;&#x4E9B;&#x5E38;&#x898B;&#x7684;&#x7BC0;&#x5340;&#xFF0C;&#x800C;&#x95DC;&#x65BC;&#x9019;&#x4E9B;&#x7BC0;&#x5340;&#xFF08;Section&#xFF09;&#x5982;&#x4F55;&#x901A;&#x904E;&#x91CD;&#x5B9A;&#x4F4D;&#x69CB;&#x6210;&#x4E0D;&#x540C;&#x7684;&#x6BB5;&#xFF08;Segments&#xFF09;&#xFF0C;&#x4EE5;&#x53CA;&#x6709;&#x54EA;&#x4E9B;&#x5E38;&#x898F;&#x7684;&#x6BB5;&#xFF0C;&#x6211;&#x5011;&#x5C07;&#x5728;&#x93C8;&#x63A5;&#x90E8;&#x5206;&#x9032;&#x4E00;&#x6B65;&#x4ECB;&#x7D39;&#x3002;</p>
+<p>&#x53EF;&#x4EE5;&#x901A;&#x904E; <code>readelf -S</code> &#x67E5;&#x770B; ELF &#x7684;&#x7BC0;&#x5340;&#x3002;&#xFF08;&#x5EFA;&#x8B70;&#x4E00;&#x908A;&#x64CD;&#x4F5C;&#x4E00;&#x908A;&#x770B;&#x6587;&#x6A94;&#xFF0C;&#x4EE5;&#x4FBF;&#x52A0;&#x6DF1;&#x5C0D; ELF &#x6587;&#x4EF6;&#x7D50;&#x69CB;&#x7684;&#x7406;&#x89E3;&#xFF09;&#x5148;&#x4F86;&#x770B;&#x770B;&#x53EF;&#x91CD;&#x5B9A;&#x4F4D;&#x6587;&#x4EF6;&#x7684;&#x7BC0;&#x5340;&#x4FE1;&#x606F;&#xFF0C;&#x901A;&#x904E;&#x7BC0;&#x5340;&#x8868;&#x4F86;&#x67E5;&#x770B;&#xFF1A;</p>
+<p>&#x9ED8;&#x8A8D;&#x7DE8;&#x8B6F;&#x597D; <code>myprintf.c</code>&#xFF0C;&#x5C07;&#x7522;&#x751F;&#x4E00;&#x500B;&#x53EF;&#x91CD;&#x5B9A;&#x4F4D;&#x7684;&#x6587;&#x4EF6; <code>myprintf.o</code>&#xFF0C;&#x9019;&#x88E1;&#x901A;&#x904E; <code>myprintf.o</code> &#x7684;&#x7BC0;&#x5340;&#x8868;&#x67E5;&#x770B;&#x7BC0;&#x5340;&#x4FE1;&#x606F;&#x3002;</p>
+<pre><code>$ gcc -c myprintf.c
+$ readelf -S myprintf.o
+There are 11 section headers, starting at offset 0xc0:
+
+Section Headers:
+  [Nr] Name              Type            Addr     Off    Size   ES Flg Lk Inf Al
+  [ 0]                   NULL            00000000 000000 000000 00      0   0  0
+  [ 1] .text             PROGBITS        00000000 000034 000018 00  AX  0   0  4
+  [ 2] .rel.text         REL             00000000 000334 000010 08      9   1  4
+  [ 3] .data             PROGBITS        00000000 00004c 000000 00  WA  0   0  4
+  [ 4] .bss              NOBITS          00000000 00004c 000000 00  WA  0   0  4
+  [ 5] .rodata           PROGBITS        00000000 00004c 00000e 00   A  0   0  1
+  [ 6] .comment          PROGBITS        00000000 00005a 000012 00      0   0  1
+  [ 7] .note.GNU-stack   PROGBITS        00000000 00006c 000000 00      0   0  1
+  [ 8] .shstrtab         STRTAB          00000000 00006c 000051 00      0   0  1
+  [ 9] .symtab           SYMTAB          00000000 000278 0000a0 10     10   8  4
+  [10] .strtab           STRTAB          00000000 000318 00001a 00      0   0  1
+Key to Flags:
+  W (write), A (alloc), X (execute), M (merge), S (strings)
+  I (info), L (link order), G (group), x (unknown)
+  O (extra OS processing required) o (OS specific), p (processor specific)
+</code></pre><p>&#x7528; <code>objdump -d</code> &#x53EF;&#x770B;&#x53CD;&#x7DE8;&#x8B6F;&#x7D50;&#x679C;&#xFF0C;&#x7528; <code>-j</code> &#x9078;&#x9805;&#x53EF;&#x6307;&#x5B9A;&#x9700;&#x8981;&#x67E5;&#x770B;&#x7684;&#x7BC0;&#x5340;&#xFF1A;</p>
+<pre><code>$ objdump -d -j .text   myprintf.o
+myprintf.o:     file format elf32-i386
+
+Disassembly of section .text:
+
+00000000 &lt;myprintf&gt;:
+   0:   55                      push   %ebp
+   1:   89 e5                   mov    %esp,%ebp
+   3:   83 ec 08                sub    $0x8,%esp
+   6:   83 ec 0c                sub    $0xc,%esp
+   9:   68 00 00 00 00          push   $0x0
+   e:   e8 fc ff ff ff          call   f &lt;myprintf+0xf&gt;
+  13:   83 c4 10                add    $0x10,%esp
+  16:   c9                      leave
+  17:   c3                      ret
+</code></pre><p>&#x7528; <code>-r</code> &#x9078;&#x9805;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x6709;&#x95DC;&#x91CD;&#x5B9A;&#x4F4D;&#x7684;&#x4FE1;&#x606F;&#xFF0C;&#x9019;&#x88E1;&#x6709;&#x5169;&#x90E8;&#x5206;&#x9700;&#x8981;&#x91CD;&#x5B9A;&#x4F4D;&#xFF1A;</p>
+<pre><code>$ readelf -r myprintf.o
+
+Relocation section &apos;.rel.text&apos; at offset 0x334 contains 2 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+0000000a  00000501 R_386_32          00000000   .rodata
+0000000f  00000902 R_386_PC32        00000000   puts
+</code></pre><p><code>.rodata</code> &#x7BC0;&#x5340;&#x5305;&#x542B;&#x53EA;&#x8B80;&#x6578;&#x64DA;&#xFF0C;&#x5373;&#x6211;&#x5011;&#x8981;&#x6253;&#x5370;&#x7684; <code>hello, world!</code></p>
+<pre><code>$ readelf -x .rodata myprintf.o
+
+Hex dump of section &apos;.rodata&apos;:
+  0x00000000 68656c6c 6f2c2077 6f726c64 2100     hello, world!.
+</code></pre><p>&#x6C92;&#x6709;&#x627E;&#x5230; <code>.data</code> &#x7BC0;&#x5340;, &#x5B83;&#x61C9;&#x8A72;&#x5305;&#x542B;&#x4E00;&#x4E9B;&#x521D;&#x59CB;&#x5316;&#x7684;&#x6578;&#x64DA;&#xFF1A;</p>
+<pre><code>$ readelf -x .data myprintf.o
+
+Section &apos;.data&apos; has no data to dump.
+</code></pre><p>&#x4E5F;&#x6C92;&#x6709; <code>.bss</code> &#x7BC0;&#x5340;&#xFF0C;&#x5B83;&#x61C9;&#x8A72;&#x5305;&#x542B;&#x4E00;&#x4E9B;&#x672A;&#x521D;&#x59CB;&#x5316;&#x7684;&#x6578;&#x64DA;&#xFF0C;&#x7A0B;&#x5E8F;&#x9ED8;&#x8A8D;&#x521D;&#x59CB;&#x70BA; 0&#xFF1A;</p>
+<pre><code>$ readelf -x .bss       myprintf.o
+
+Section &apos;.bss&apos; has no data to dump.
+</code></pre><p><code>.comment</code> &#x662F;&#x4E00;&#x4E9B;&#x8A3B;&#x91CB;&#xFF0C;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x662F;&#x662F; <code>Gcc</code> &#x7684;&#x7248;&#x672C;&#x4FE1;&#x606F;</p>
+<pre><code>$ readelf -x .comment myprintf.o
+
+Hex dump of section &apos;.comment&apos;:
+  0x00000000 00474343 3a202847 4e552920 342e312e .GCC: (GNU) 4.1.
+  0x00000010 3200                                2.
+</code></pre><p><code>.note.GNU-stack</code> &#x9019;&#x500B;&#x7BC0;&#x5340;&#x4E5F;&#x6C92;&#x6709;&#x5167;&#x5BB9;&#xFF1A;</p>
+<pre><code>$ readelf -x .note.GNU-stack myprintf.o
+
+Section &apos;.note.GNU-stack&apos; has no data to dump.
+</code></pre><p><code>.shstrtab</code> &#x5305;&#x62EC;&#x6240;&#x6709;&#x7BC0;&#x5340;&#x7684;&#x540D;&#x5B57;&#xFF1A;</p>
+<pre><code>$ readelf -x .shstrtab myprintf.o
+
+Hex dump of section &apos;.shstrtab&apos;:
+  0x00000000 002e7379 6d746162 002e7374 72746162 ..symtab..strtab
+  0x00000010 002e7368 73747274 6162002e 72656c2e ..shstrtab..rel.
+  0x00000020 74657874 002e6461 7461002e 62737300 text..data..bss.
+  0x00000030 2e726f64 61746100 2e636f6d 6d656e74 .rodata..comment
+  0x00000040 002e6e6f 74652e47 4e552d73 7461636b ..note.GNU-stack
+  0x00000050 00                                  .
+</code></pre><p>&#x7B26;&#x865F;&#x8868; <code>.symtab</code> &#x5305;&#x62EC;&#x6240;&#x6709;&#x7528;&#x5230;&#x7684;&#x76F8;&#x95DC;&#x7B26;&#x865F;&#x4FE1;&#x606F;&#xFF0C;&#x5982;&#x51FD;&#x6578;&#x540D;&#x3001;&#x8B8A;&#x91CF;&#x540D;&#xFF0C;&#x53EF;&#x7528; <code>readelf</code> &#x67E5;&#x770B;&#xFF1A;</p>
+<pre><code>$ readelf -symtab myprintf.o
+
+Symbol table &apos;.symtab&apos; contains 10 entries:
+   Num:    Value  Size Type    Bind   Vis      Ndx Name
+     0: 00000000     0 NOTYPE  LOCAL  DEFAULT  UND
+     1: 00000000     0 FILE    LOCAL  DEFAULT  ABS myprintf.c
+     2: 00000000     0 SECTION LOCAL  DEFAULT    1
+     3: 00000000     0 SECTION LOCAL  DEFAULT    3
+     4: 00000000     0 SECTION LOCAL  DEFAULT    4
+     5: 00000000     0 SECTION LOCAL  DEFAULT    5
+     6: 00000000     0 SECTION LOCAL  DEFAULT    7
+     7: 00000000     0 SECTION LOCAL  DEFAULT    6
+     8: 00000000    24 FUNC    GLOBAL DEFAULT    1 myprintf
+     9: 00000000     0 NOTYPE  GLOBAL DEFAULT  UND puts
+</code></pre><p>&#x5B57;&#x7B26;&#x4E32;&#x8868; <code>.strtab</code> &#x5305;&#x542B;&#x7528;&#x5230;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#xFF0C;&#x5305;&#x62EC;&#x6587;&#x4EF6;&#x540D;&#x3001;&#x51FD;&#x6578;&#x540D;&#x3001;&#x8B8A;&#x91CF;&#x540D;&#x7B49;&#xFF1A;</p>
+<pre><code>$ readelf -x .strtab myprintf.o
+
+Hex dump of section &apos;.strtab&apos;:
+  0x00000000 006d7970 72696e74 662e6300 6d797072 .myprintf.c.mypr
+  0x00000010 696e7466 00707574 7300              intf.puts.
+</code></pre><p>&#x5F9E;&#x4E0A;&#x8868;&#x53EF;&#x4EE5;&#x770B;&#x51FA;&#xFF0C;&#x5C0D;&#x65BC;&#x53EF;&#x91CD;&#x5B9A;&#x4F4D;&#x6587;&#x4EF6;&#xFF0C;&#x6703;&#x5305;&#x542B;&#x9019;&#x4E9B;&#x57FA;&#x672C;&#x7BC0;&#x5340; <code>.text</code>, <code>.rel.text</code>, <code>.data</code>, <code>.bss</code>, <code>.rodata</code>, <code>.comment</code>, <code>.note.GNU-stack</code>, <code>.shstrtab</code>, <code>.symtab</code> &#x548C; <code>.strtab</code>&#x3002;</p>
+<p><span id="toc_27212_14734_18"></span></p>
+<h3 id="%E5%BD%99%E7%B7%A8%E8%AA%9E%E8%A8%80%E6%96%87%E4%BB%B6%E4%B8%AD%E7%9A%84%E7%AF%80%E5%8D%80%E8%A1%A8%E8%BF%B0">&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x7BC0;&#x5340;&#x8868;&#x8FF0;</h3>
+<p>&#x70BA;&#x4E86;&#x9032;&#x4E00;&#x6B65;&#x7406;&#x89E3;&#x9019;&#x4E9B;&#x7BC0;&#x5340;&#x548C;&#x6E90;&#x4EE3;&#x78BC;&#x7684;&#x95DC;&#x4FC2;&#xFF0C;&#x9019;&#x88E1;&#x4F86;&#x770B;&#x4E00;&#x770B; <code>myprintf.c</code> &#x7522;&#x751F;&#x7684;&#x5F59;&#x7DE8;&#x4EE3;&#x78BC;&#x3002;</p>
+<pre><code>$ gcc -S myprintf.c
+$ cat myprintf.s
+        .file   &quot;myprintf.c&quot;
+        .section        .rodata
+.LC0:
+        .string &quot;hello, world!&quot;
+        .text
+.globl myprintf
+        .type   myprintf, @function
+myprintf:
+        pushl   %ebp
+        movl    %esp, %ebp
+        subl    $8, %esp
+        subl    $12, %esp
+        pushl   $.LC0
+        call    puts
+        addl    $16, %esp
+        leave
+        ret
+        .size   myprintf, .-myprintf
+        .ident  &quot;GCC: (GNU) 4.1.2&quot;
+        .section        .note.GNU-stack,&quot;&quot;,@progbits
+</code></pre><p>&#x662F;&#x4E0D;&#x662F;&#x53EF;&#x4EE5;&#x5F9E;&#x4E2D;&#x770B;&#x51FA;&#x53EF;&#x91CD;&#x5B9A;&#x4F4D;&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x90A3;&#x4E9B;&#x7BC0;&#x5340;&#x548C;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x4EE3;&#x78BC;&#x4E4B;&#x9593;&#x7684;&#x95DC;&#x4FC2;&#xFF1F;&#x5728;&#x4E0A;&#x9762;&#x7684;&#x53EF;&#x91CD;&#x5B9A;&#x4F4D;&#x6587;&#x4EF6;&#xFF0C;&#x53EF;&#x4EE5;&#x770B;&#x5230;&#x6709;&#x4E00;&#x500B;&#x53EF;&#x91CD;&#x5B9A;&#x4F4D;&#x7684;&#x7BC0;&#x5340;&#xFF0C;&#x5373; <code>.rel.text</code>&#xFF0C;&#x5B83;&#x6A19;&#x8A18;&#x4E86;&#x5169;&#x500B;&#x9700;&#x8981;&#x91CD;&#x5B9A;&#x4F4D;&#x7684;&#x9805;&#xFF0C;<code>.rodata</code> &#x548C; <code>puts</code>&#x3002;&#x9019;&#x500B;&#x7BC0;&#x5340;&#x5C07;&#x544A;&#x8A34;&#x7DE8;&#x8B6F;&#x5668;&#x9019;&#x5169;&#x500B;&#x4FE1;&#x606F;&#x5728;&#x93C8;&#x63A5;&#x6216;&#x8005;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x7684;&#x904E;&#x7A0B;&#x4E2D;&#x9700;&#x8981;&#x91CD;&#x5B9A;&#x4F4D;&#xFF0C; &#x5177;&#x9AD4;&#x5982;&#x4F55;&#x91CD;&#x5B9A;&#x4F4D;&#xFF1F;&#x5C07;&#x6839;&#x64DA;&#x91CD;&#x5B9A;&#x4F4D;&#x9805;&#x7684;&#x985E;&#x578B;&#xFF0C;&#x6BD4;&#x5982;&#x4E0A;&#x9762;&#x7684; <code>R_386_32</code> &#x548C; <code>R_386_PC32</code>&#x3002;</p>
+<p>&#x5230;&#x9019;&#x88E1;&#xFF0C;&#x5C0D;&#x53EF;&#x91CD;&#x5B9A;&#x4F4D;&#x6587;&#x4EF6;&#x61C9;&#x8A72;&#x6709;&#x4E86;&#x4E00;&#x500B;&#x57FA;&#x672C;&#x7684;&#x77AD;&#x89E3;&#xFF0C;&#x4E0B;&#x9762;&#x5C07;&#x4ECB;&#x7D39;&#x4EC0;&#x9EBC;&#x662F;&#x53EF;&#x91CD;&#x5B9A;&#x4F4D;&#xFF0C;&#x53EF;&#x91CD;&#x5B9A;&#x4F4D;&#x6587;&#x4EF6;&#x5230;&#x5E95;&#x662F;&#x5982;&#x4F55;&#x88AB;&#x93C8;&#x63A5;&#x751F;&#x6210;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x548C;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#x7684;&#xFF0C;&#x9019;&#x500B;&#x904E;&#x7A0B;&#x9664;&#x4E86;&#x9032;&#x884C;&#x4E00;&#x4E9B;&#x7B26;&#x865F;&#x7684;&#x91CD;&#x5B9A;&#x4F4D;&#x5916;&#xFF0C;&#x9084;&#x9032;&#x884C;&#x4E86;&#x54EA;&#x4E9B;&#x5DE5;&#x4F5C;&#x5462;&#xFF1F;</p>
+<p><span id="toc_27212_14734_19"></span></p>
+<h2 id="%E9%8F%88%E6%8E%A5">&#x93C8;&#x63A5;</h2>
+<p><span id="toc_27212_14734_20"></span></p>
+<h3 id="%E7%B0%A1%E8%BF%B0">&#x7C21;&#x8FF0;</h3>
+<p>&#x91CD;&#x5B9A;&#x4F4D;&#x662F;&#x5C07;&#x7B26;&#x865F;&#x5F15;&#x7528;&#x8207;&#x7B26;&#x865F;&#x5B9A;&#x7FA9;&#x9032;&#x884C;&#x93C8;&#x63A5;&#x7684;&#x904E;&#x7A0B;&#x3002;&#x56E0;&#x6B64;&#x93C8;&#x63A5;&#x662F;&#x8655;&#x7406;&#x53EF;&#x91CD;&#x5B9A;&#x4F4D;&#x6587;&#x4EF6;&#xFF0C;&#x628A;&#x5B83;&#x5011;&#x7684;&#x5404;&#x7A2E;&#x7B26;&#x865F;&#x5F15;&#x7528;&#x548C;&#x7B26;&#x865F;&#x5B9A;&#x7FA9;&#x8F49;&#x63DB;&#x70BA;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x5408;&#x9069;&#x4FE1;&#x606F;&#xFF08;&#x4E00;&#x822C;&#x662F;&#x865B;&#x64EC;&#x5167;&#x5B58;&#x5730;&#x5740;&#xFF09;&#x7684;&#x904E;&#x7A0B;&#x3002;</p>
+<p>&#x93C8;&#x63A5;&#x53C8;&#x5206;&#x70BA;&#x975C;&#x614B;&#x93C8;&#x63A5;&#x548C;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#xFF0C;&#x524D;&#x8005;&#x662F;&#x7A0B;&#x5E8F;&#x958B;&#x767C;&#x968E;&#x6BB5;&#x7A0B;&#x5E8F;&#x54E1;&#x7528; <code>ld</code>&#xFF08;<code>gcc</code> &#x5BE6;&#x969B;&#x4E0A;&#x5728;&#x5F8C;&#x81FA;&#x8ABF;&#x7528;&#x4E86; <code>ld</code>&#xFF09;&#x975C;&#x614B;&#x93C8;&#x63A5;&#x5668;&#x624B;&#x52D5;&#x93C8;&#x63A5;&#x7684;&#x904E;&#x7A0B;&#xFF0C;&#x800C;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5247;&#x662F;&#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x671F;&#x9593;&#x7CFB;&#x7D71;&#x8ABF;&#x7528;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5668;&#xFF08;<code>ld-linux.so</code>&#xFF09;&#x81EA;&#x52D5;&#x93C8;&#x63A5;&#x7684;&#x904E;&#x7A0B;&#x3002;</p>
+<p>&#x6BD4;&#x5982;&#xFF0C;&#x5982;&#x679C;&#x93C8;&#x63A5;&#x5230;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x662F;&#x975C;&#x614B;&#x93C8;&#x63A5;&#x5EAB; <code>libmyprintf.a</code>&#xFF0C;&#x90A3;&#x9EBC; <code>.rodata</code> &#x7BC0;&#x5340;&#x5728;&#x93C8;&#x63A5;&#x5F8C;&#x9700;&#x8981;&#x88AB;&#x91CD;&#x5B9A;&#x4F4D;&#x5230;&#x4E00;&#x500B;&#x7D55;&#x5C0D;&#x7684;&#x865B;&#x64EC;&#x5167;&#x5B58;&#x5730;&#x5740;&#xFF0C;&#x4EE5;&#x4FBF;&#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x6642;&#x80FD;&#x5920;&#x6B63;&#x78BA;&#x8A2A;&#x554F;&#x8A72;&#x7BC0;&#x5340;&#x4E2D;&#x7684;&#x5B57;&#x7B26;&#x4E32;&#x4FE1;&#x606F;&#x3002;&#x800C;&#x5C0D;&#x65BC; <code>puts</code> &#x51FD;&#x6578;&#xFF0C;&#x56E0;&#x70BA;&#x5B83;&#x662F;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5EAB; <code>libc.so</code> &#x4E2D;&#x5B9A;&#x7FA9;&#x7684;&#x51FD;&#x6578;&#xFF0C;&#x6240;&#x4EE5;&#x6703;&#x5728;&#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x6642;&#x901A;&#x904E;&#x52D5;&#x614B;&#x7B26;&#x865F;&#x93C8;&#x63A5;&#x627E;&#x51FA; <code>puts</code> &#x51FD;&#x6578;&#x5728;&#x5167;&#x5B58;&#x4E2D;&#x7684;&#x5730;&#x5740;&#xFF0C;&#x4EE5;&#x4FBF;&#x7A0B;&#x5E8F;&#x8ABF;&#x7528;&#x8A72;&#x51FD;&#x6578;&#x3002;&#x5728;&#x9019;&#x88E1;&#x4E3B;&#x8981;&#x8A0E;&#x8AD6;&#x975C;&#x614B;&#x93C8;&#x63A5;&#x904E;&#x7A0B;&#xFF0C;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x904E;&#x7A0B;&#x898B;<a href="02-chapter4.html">&#x300A;&#x52D5;&#x614B;&#x7B26;&#x865F;&#x93C8;&#x63A5;&#x7684;&#x7D30;&#x7BC0;&#x300B;</a>&#x3002;</p>
+<p>&#x975C;&#x614B;&#x93C8;&#x63A5;&#x904E;&#x7A0B;&#x4E3B;&#x8981;&#x662F;&#x628A;&#x53EF;&#x91CD;&#x5B9A;&#x4F4D;&#x6587;&#x4EF6;&#x4F9D;&#x6B21;&#x8B80;&#x5165;&#xFF0C;&#x5206;&#x6790;&#x5404;&#x500B;&#x6587;&#x4EF6;&#x7684;&#x6587;&#x4EF6;&#x982D;&#xFF0C;&#x9032;&#x800C;&#x4F9D;&#x6B21;&#x8B80;&#x5165;&#x5404;&#x500B;&#x6587;&#x4EF6;&#x7684;&#x7BC0;&#x5340;&#xFF0C;&#x4E26;&#x8A08;&#x7B97;&#x5404;&#x500B;&#x7BC0;&#x5340;&#x7684;&#x865B;&#x64EC;&#x5167;&#x5B58;&#x4F4D;&#x7F6E;&#xFF0C;&#x5C0D;&#x4E00;&#x4E9B;&#x9700;&#x8981;&#x91CD;&#x5B9A;&#x4F4D;&#x7684;&#x7B26;&#x865F;&#x9032;&#x884C;&#x8655;&#x7406;&#xFF0C;&#x8A2D;&#x5B9A;&#x5B83;&#x5011;&#x7684;&#x865B;&#x64EC;&#x5167;&#x5B58;&#x5730;&#x5740;&#x7B49;&#xFF0C;&#x4E26;&#x6700;&#x7D42;&#x7522;&#x751F;&#x4E00;&#x500B;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x6216;&#x8005;&#x662F;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#x3002;&#x9019;&#x500B;&#x93C8;&#x63A5;&#x904E;&#x7A0B;&#x662F;&#x901A;&#x904E; <code>ld</code> &#x4F86;&#x5B8C;&#x6210;&#x7684;&#xFF0C;<code>ld</code> &#x5728;&#x93C8;&#x63A5;&#x6642;&#x4F7F;&#x7528;&#x4E86;&#x4E00;&#x500B;&#x93C8;&#x63A5;&#x8173;&#x672C;&#xFF08;<code>linker script</code>&#xFF09;&#xFF0C;&#x8A72;&#x93C8;&#x63A5;&#x8173;&#x672C;&#x8655;&#x7406;&#x93C8;&#x63A5;&#x7684;&#x5177;&#x9AD4;&#x7D30;&#x7BC0;&#x3002;</p>
+<p>&#x7531;&#x65BC;&#x975C;&#x614B;&#x7B26;&#x865F;&#x93C8;&#x63A5;&#x904E;&#x7A0B;&#x975E;&#x5E38;&#x8907;&#x96DC;&#xFF0C;&#x7279;&#x5225;&#x662F;&#x8A08;&#x7B97;&#x7B26;&#x865F;&#x5730;&#x5740;&#x7684;&#x904E;&#x7A0B;&#xFF0C;&#x8003;&#x616E;&#x5230;&#x6642;&#x9593;&#x95DC;&#x4FC2;&#xFF0C;&#x76F8;&#x95DC;&#x7D30;&#x7BC0;&#x8ACB;&#x53C3;&#x8003; ELF &#x624B;&#x518A;&#x3002;&#x9019;&#x88E1;&#x4E3B;&#x8981;&#x4ECB;&#x7D39;&#x53EF;&#x91CD;&#x5B9A;&#x4F4D;&#x6587;&#x4EF6;&#x4E2D;&#x7684;&#x7BC0;&#x5340;&#xFF08;&#x7BC0;&#x5340;&#x8868;&#x63CF;&#x8FF0;&#x7684;&#xFF09;&#x548C;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x4E2D;&#x6BB5;&#xFF08;&#x7A0B;&#x5E8F;&#x982D;&#x63CF;&#x8FF0;&#x7684;&#xFF09;&#x7684;&#x5C0D;&#x61C9;&#x95DC;&#x4FC2;&#x4EE5;&#x53CA; <code>gcc</code> &#x7DE8;&#x8B6F;&#x6642;&#x63A1;&#x7528;&#x7684;&#x4E00;&#x4E9B;&#x9ED8;&#x8A8D;&#x93C8;&#x63A5;&#x9078;&#x9805;&#x3002;</p>
+<p><span id="toc_27212_14734_21"></span></p>
+<h3 id="%E5%8F%AF%E5%9F%B7%E8%A1%8C%E6%96%87%E4%BB%B6%E7%9A%84%E6%AE%B5%EF%BC%9A%E7%AF%80%E5%8D%80%E9%87%8D%E6%8E%92">&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x7684;&#x6BB5;&#xFF1A;&#x7BC0;&#x5340;&#x91CD;&#x6392;</h3>
+<p>&#x4E0B;&#x9762;&#x5148;&#x4F86;&#x770B;&#x770B;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x7684;&#x7BC0;&#x5340;&#x4FE1;&#x606F;&#xFF0C;&#x901A;&#x904E;&#x7A0B;&#x5E8F;&#x982D;&#xFF08;&#x6BB5;&#x8868;&#xFF09;&#x4F86;&#x67E5;&#x770B;&#xFF0C;&#x70BA;&#x4E86;&#x6BD4;&#x8F03;&#xFF0C;&#x5148;&#x628A; <code>test.o</code> &#x7684;&#x7BC0;&#x5340;&#x8868;&#x4E5F;&#x5217;&#x51FA;&#xFF1A;</p>
+<pre><code>$ readelf -S test.o
+There are 10 section headers, starting at offset 0xb4:
+
+Section Headers:
+  [Nr] Name              Type            Addr     Off    Size   ES Flg Lk Inf Al
+  [ 0]                   NULL            00000000 000000 000000 00      0   0  0
+  [ 1] .text             PROGBITS        00000000 000034 000024 00  AX  0   0  4
+  [ 2] .rel.text         REL             00000000 0002ec 000008 08      8   1  4
+  [ 3] .data             PROGBITS        00000000 000058 000000 00  WA  0   0  4
+  [ 4] .bss              NOBITS          00000000 000058 000000 00  WA  0   0  4
+  [ 5] .comment          PROGBITS        00000000 000058 000012 00      0   0  1
+  [ 6] .note.GNU-stack   PROGBITS        00000000 00006a 000000 00      0   0  1
+  [ 7] .shstrtab         STRTAB          00000000 00006a 000049 00      0   0  1
+  [ 8] .symtab           SYMTAB          00000000 000244 000090 10      9   7  4
+  [ 9] .strtab           STRTAB          00000000 0002d4 000016 00      0   0  1
+Key to Flags:
+  W (write), A (alloc), X (execute), M (merge), S (strings)
+  I (info), L (link order), G (group), x (unknown)
+  O (extra OS processing required) o (OS specific), p (processor specific)
+$ gcc -o test test.o myprintf.o
+$ readelf -l test
+
+Elf file type is EXEC (Executable file)
+Entry point 0x80482b0
+There are 7 program headers, starting at offset 52
+
+Program Headers:
+  Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
+  PHDR           0x000034 0x08048034 0x08048034 0x000e0 0x000e0 R E 0x4
+  INTERP         0x000114 0x08048114 0x08048114 0x00013 0x00013 R   0x1
+      [Requesting program interpreter: /lib/ld-linux.so.2]
+  LOAD           0x000000 0x08048000 0x08048000 0x0047c 0x0047c R E 0x1000
+  LOAD           0x00047c 0x0804947c 0x0804947c 0x00104 0x00108 RW  0x1000
+  DYNAMIC        0x000490 0x08049490 0x08049490 0x000c8 0x000c8 RW  0x4
+  NOTE           0x000128 0x08048128 0x08048128 0x00020 0x00020 R   0x4
+  GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x4
+
+ Section to Segment mapping:
+  Segment Sections...
+   00
+   01     .interp
+   02     .interp .note.ABI-tag .hash .dynsym .dynstr .gnu.version .gnu.version_r
+          .rel.dyn .rel.plt .init .plt .text .fini .rodata .eh_frame
+   03     .ctors .dtors .jcr .dynamic .got .got.plt .data .bss
+   04     .dynamic
+   05     .note.ABI-tag
+   06
+</code></pre><p>&#x53EF;&#x767C;&#x73FE;&#xFF0C;<code>test</code> &#x548C; <code>test.o</code>&#xFF0C;<code>myprintf.o</code> &#x76F8;&#x6BD4;&#xFF0C;&#x591A;&#x4E86;&#x5F88;&#x591A;&#x7BC0;&#x5340;&#xFF0C;&#x5982; <code>.interp</code> &#x548C; <code>.init</code> &#x7B49;&#x3002;&#x53E6;&#x5916;&#xFF0C;&#x4E0A;&#x8868;&#x4E5F;&#x7D66;&#x51FA;&#x4E86;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x7684;&#x5982;&#x4E0B;&#x5E7E;&#x500B;&#x6BB5;&#xFF08;Segment&#xFF09;&#xFF1A;</p>
+<ul>
+<li><code>PHDR</code>: &#x7D66;&#x51FA;&#x4E86;&#x7A0B;&#x5E8F;&#x8868;&#x81EA;&#x8EAB;&#x7684;&#x5927;&#x5C0F;&#x548C;&#x4F4D;&#x7F6E;&#xFF0C;&#x4E0D;&#x80FD;&#x51FA;&#x73FE;&#x4E00;&#x6B21;&#x4EE5;&#x4E0A;&#x3002;</li>
+<li><code>INTERP</code>: &#x56E0;&#x70BA;&#x7A0B;&#x5E8F;&#x4E2D;&#x8ABF;&#x7528;&#x4E86; <code>puts</code>&#xFF08;&#x5728;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#x4E2D;&#x5B9A;&#x7FA9;&#xFF09;&#xFF0C;&#x4F7F;&#x7528;&#x4E86;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#xFF0C;&#x56E0;&#x6B64;&#x9700;&#x8981;&#x52D5;&#x614B;&#x88DD;&#x8F09;&#x5668;&#xFF0F;&#x93C8;&#x63A5;&#x5668;&#xFF08;<code>ld-linux.so</code>&#xFF09;</li>
+<li><code>LOAD</code>: &#x5305;&#x62EC;&#x7A0B;&#x5E8F;&#x7684;&#x6307;&#x4EE4;&#xFF0C;<code>.text</code> &#x7B49;&#x7BC0;&#x5340;&#x90FD;&#x6620;&#x5C04;&#x5728;&#x8A72;&#x6BB5;&#xFF0C;&#x53EA;&#x8B80;&#xFF08;R&#xFF09;</li>
+<li><code>LOAD</code>: &#x5305;&#x62EC;&#x7A0B;&#x5E8F;&#x7684;&#x6578;&#x64DA;&#xFF0C;<code>.data</code>,<code>.bss</code> &#x7B49;&#x7BC0;&#x5340;&#x90FD;&#x6620;&#x5C04;&#x5728;&#x8A72;&#x6BB5;&#xFF0C;&#x53EF;&#x8B80;&#x5BEB;&#xFF08;RW&#xFF09;</li>
+<li><code>DYNAMIC</code>: &#x52D5;&#x614B;&#x93C8;&#x63A5;&#x76F8;&#x95DC;&#x7684;&#x4FE1;&#x606F;&#xFF0C;&#x6BD4;&#x5982;&#x5305;&#x542B;&#x6709;&#x5F15;&#x7528;&#x7684;&#x52D5;&#x614B;&#x93C8;&#x63A5;&#x5EAB;&#x540D;&#x5B57;&#x7B49;&#x4FE1;&#x606F;</li>
+<li><code>NOTE</code>: &#x7D66;&#x51FA;&#x4E00;&#x4E9B;&#x9644;&#x52A0;&#x4FE1;&#x606F;&#x7684;&#x4F4D;&#x7F6E;&#x548C;&#x5927;&#x5C0F;</li>
+<li><code>GNU_STACK</code>: &#x9019;&#x88E1;&#x70BA;&#x7A7A;&#xFF0C;&#x61C9;&#x8A72;&#x662F;&#x548C;GNU&#x76F8;&#x95DC;&#x7684;&#x4E00;&#x4E9B;&#x4FE1;&#x606F;</li>
+</ul>
+<p>&#x9019;&#x88E1;&#x7684;&#x6BB5;&#x53EF;&#x80FD;&#x5305;&#x62EC;&#x4E4B;&#x524D;&#x7684;&#x4E00;&#x500B;&#x6216;&#x8005;&#x591A;&#x500B;&#x7BC0;&#x5340;&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#x7D93;&#x904E;&#x93C8;&#x63A5;&#x4E4B;&#x5F8C;&#x539F;&#x4F86;&#x7684;&#x7BC0;&#x5340;&#x88AB;&#x91CD;&#x6392;&#x4E86;&#xFF0C;&#x4E26;&#x6620;&#x5C04;&#x5230;&#x4E86;&#x4E0D;&#x540C;&#x7684;&#x6BB5;&#xFF0C;&#x9019;&#x4E9B;&#x6BB5;&#x5C07;&#x544A;&#x8A34;&#x7CFB;&#x7D71;&#x61C9;&#x8A72;&#x5982;&#x4F55;&#x628A;&#x5B83;&#x52A0;&#x8F09;&#x5230;&#x5167;&#x5B58;&#x4E2D;&#x3002;</p>
+<p><span id="toc_27212_14734_22"></span></p>
+<h3 id="%E9%8F%88%E6%8E%A5%E8%83%8C%E5%BE%8C%E7%9A%84%E6%95%85%E4%BA%8B">&#x93C8;&#x63A5;&#x80CC;&#x5F8C;&#x7684;&#x6545;&#x4E8B;</h3>
+<p>&#x5F9E;&#x4E0A;&#x8868;&#x4E2D;&#xFF0C;&#x901A;&#x904E;&#x6BD4;&#x8F03;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6; <code>test</code> &#x4E2D;&#x64C1;&#x6709;&#x7684;&#x7BC0;&#x5340;&#x548C;&#x53EF;&#x91CD;&#x5B9A;&#x4F4D;&#x6587;&#x4EF6;&#xFF08;<code>test.o</code> &#x548C; <code>myprintf.o</code>&#xFF09;&#x4E2D;&#x64C1;&#x6709;&#x7684;&#x7BC0;&#x5340;&#x5F8C;&#x767C;&#x73FE;&#xFF0C;&#x93C8;&#x63A5;&#x4E4B;&#x5F8C;&#x591A;&#x4E86;&#x4E00;&#x4E9B;&#x4E4B;&#x524D;&#x6C92;&#x6709;&#x7684;&#x7BC0;&#x5340;&#xFF0C;&#x9019;&#x4E9B;&#x65B0;&#x7684;&#x7BC0;&#x5340;&#x4F86;&#x81EA;&#x54EA;&#x88E1;&#xFF1F;&#x5B83;&#x5011;&#x7684;&#x4F5C;&#x7528;&#x662F;&#x4EC0;&#x9EBC;&#x5462;&#xFF1F;&#x5148;&#x4F86;&#x901A;&#x904E; <code>gcc -v</code> &#x770B;&#x770B;&#x5B83;&#x7684;&#x5F8C;&#x81FA;&#x93C8;&#x63A5;&#x904E;&#x7A0B;&#x3002;</p>
+<p>&#x628A;&#x53EF;&#x91CD;&#x5B9A;&#x4F4D;&#x6587;&#x4EF6;&#x93C8;&#x63A5;&#x6210;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#xFF1A;</p>
+<pre><code>$ gcc -v -o test test.o myprintf.o
+Reading specs from /usr/lib/gcc/i486-slackware-linux/4.1.2/specs
+Target: i486-slackware-linux
+Configured with: ../gcc-4.1.2/configure --prefix=/usr --enable-shared
+--enable-languages=ada,c,c++,fortran,java,objc --enable-threads=posix
+--enable-__cxa_atexit --disable-checking --with-gnu-ld --verbose
+--with-arch=i486 --target=i486-slackware-linux --host=i486-slackware-linux
+Thread model: posix
+gcc version 4.1.2
+ /usr/libexec/gcc/i486-slackware-linux/4.1.2/collect2 --eh-frame-hdr -m
+elf_i386 -dynamic-linker /lib/ld-linux.so.2 -o test
+/usr/lib/gcc/i486-slackware-linux/4.1.2/../../../crt1.o
+/usr/lib/gcc/i486-slackware-linux/4.1.2/../../../crti.o
+/usr/lib/gcc/i486-slackware-linux/4.1.2/crtbegin.o
+-L/usr/lib/gcc/i486-slackware-linux/4.1.2
+-L/usr/lib/gcc/i486-slackware-linux/4.1.2
+-L/usr/lib/gcc/i486-slackware-linux/4.1.2/../../../../i486-slackware-linux/lib
+-L/usr/lib/gcc/i486-slackware-linux/4.1.2/../../.. test.o myprintf.o -lgcc
+--as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed
+/usr/lib/gcc/i486-slackware-linux/4.1.2/crtend.o
+/usr/lib/gcc/i486-slackware-linux/4.1.2/../../../crtn.o
+</code></pre><p>&#x5F9E;&#x4E0A;&#x8FF0;&#x6F14;&#x793A;&#x770B;&#x51FA;&#xFF0C;<code>gcc</code> &#x5728;&#x93C8;&#x63A5;&#x4E86;&#x6211;&#x5011;&#x81EA;&#x5DF1;&#x7684;&#x76EE;&#x6A19;&#x6587;&#x4EF6; <code>test.o</code> &#x548C; <code>myprintf.o</code> &#x4E4B;&#x5916;&#xFF0C;&#x9084;&#x93C8;&#x63A5;&#x4E86; <code>crt1.o</code>&#xFF0C;<code>crtbegin.o</code> &#x7B49;&#x984D;&#x5916;&#x7684;&#x76EE;&#x6A19;&#x6587;&#x4EF6;&#xFF0C;&#x96E3;&#x9053;&#x90A3;&#x4E9B;&#x65B0;&#x7684;&#x7BC0;&#x5340;&#x5C31;&#x4F86;&#x81EA;&#x9019;&#x4E9B;&#x6587;&#x4EF6;&#xFF1F;</p>
+<p><span id="toc_27212_14734_23"></span></p>
+<h3 id="%E7%94%A8-ld-%E5%AE%8C%E6%88%90%E9%8F%88%E6%8E%A5%E9%81%8E%E7%A8%8B">&#x7528; ld &#x5B8C;&#x6210;&#x93C8;&#x63A5;&#x904E;&#x7A0B;</h3>
+<p>&#x53E6;&#x5916; <code>gcc</code> &#x5728;&#x9032;&#x884C;&#x4E86;&#x76F8;&#x95DC;&#x914D;&#x7F6E;&#xFF08;<code>./configure</code>&#xFF09;&#x5F8C;&#xFF0C;&#x8ABF;&#x7528;&#x4E86; <code>collect2</code>&#xFF0C;&#x537B;&#x4E26;&#x6C92;&#x6709;&#x8ABF;&#x7528; <code>ld</code>&#xFF0C;&#x901A;&#x904E;&#x67E5;&#x627E; <code>gcc</code> &#x6587;&#x6A94;&#x4E2D;&#x548C; <code>collect2</code> &#x76F8;&#x95DC;&#x7684;&#x90E8;&#x5206;&#x767C;&#x73FE; <code>collect2</code> &#x5728;&#x5F8C;&#x81FA;&#x5BE6;&#x969B;&#x4E0A;&#x9084;&#x662F;&#x53BB;&#x5C0B;&#x627E; <code>ld</code> &#x547D;&#x4EE4;&#x7684;&#x3002;&#x70BA;&#x4E86;&#x7406;&#x89E3; <code>gcc</code> &#x9ED8;&#x8A8D;&#x93C8;&#x63A5;&#x7684;&#x5F8C;&#x81FA;&#x7D30;&#x7BC0;&#xFF0C;&#x9019;&#x88E1;&#x76F4;&#x63A5;&#x628A; <code>collect2</code> &#x66FF;&#x63DB;&#x6210; <code>ld</code>&#xFF0C;&#x4E26;&#x628A;&#x4E00;&#x4E9B;&#x8DEF;&#x5F91;&#x63DB;&#x6210;&#x7D55;&#x5C0D;&#x8DEF;&#x5F91;&#x6216;&#x8005;&#x7C21;&#x5316;&#xFF0C;&#x5F97;&#x5230;&#x5982;&#x4E0B;&#x7684; <code>ld</code> &#x547D;&#x4EE4;&#x4EE5;&#x53CA;&#x57F7;&#x884C;&#x7684;&#x6548;&#x679C;&#x3002;</p>
+<pre><code>$ ld --eh-frame-hdr \
+-m elf_i386 \
+-dynamic-linker /lib/ld-linux.so.2 \
+-o test \
+/usr/lib/crt1.o /usr/lib/crti.o /usr/lib/gcc/i486-slackware-linux/4.1.2/crtbegin.o \
+test.o myprintf.o \
+-L/usr/lib/gcc/i486-slackware-linux/4.1.2 -L/usr/i486-slackware-linux/lib -L/usr/lib/ \
+-lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed \
+/usr/lib/gcc/i486-slackware-linux/4.1.2/crtend.o /usr/lib/crtn.o
+$ ./test
+hello, world!
+</code></pre><p>&#x4E0D;&#x51FA;&#x6240;&#x6599;&#xFF0C;&#x5B83;&#x5B8C;&#x7F8E;&#x5730;&#x904B;&#x884C;&#x4E86;&#x3002;&#x4E0B;&#x9762;&#x901A;&#x904E; <code>ld</code> &#x7684;&#x624B;&#x518A;&#xFF08;<code>man ld</code>&#xFF09;&#x4F86;&#x5206;&#x6790;&#x4E00;&#x4E0B;&#x9019;&#x5E7E;&#x500B;&#x53C3;&#x6578;&#xFF1A;</p>
+<ul>
+<li><p><code>--eh-frame-hdr</code></p>
+<p>  &#x8981;&#x6C42;&#x5275;&#x5EFA;&#x4E00;&#x500B; <code>.eh_frame_hdr</code> &#x7BC0;&#x5340;(&#x8C8C;&#x4F3C;&#x76EE;&#x6A19;&#x6587;&#x4EF6;test&#x4E2D;&#x4E26;&#x6C92;&#x6709;&#x9019;&#x500B;&#x7BC0;&#x5340;&#xFF0C;&#x6240;&#x4EE5;&#x4E0D;&#x95DC;&#x5FC3;&#x5B83;)&#x3002;</p>
+</li>
+<li><p><code>-m elf_i386</code></p>
+<p>  &#x9019;&#x88E1;&#x6307;&#x5B9A;&#x4E0D;&#x540C;&#x5E73;&#x81FA;&#x4E0A;&#x7684;&#x93C8;&#x63A5;&#x8173;&#x672C;&#xFF0C;&#x53EF;&#x4EE5;&#x901A;&#x904E; <code>--verbose</code> &#x547D;&#x4EE4;&#x67E5;&#x770B;&#x8173;&#x672C;&#x7684;&#x5177;&#x9AD4;&#x5167;&#x5BB9;&#xFF0C;&#x5982; <code>ld -m elf_i386 --verbose</code>&#xFF0C;&#x5B83;&#x5BE6;&#x969B;&#x4E0A;&#x88AB;&#x5B58;&#x653E;&#x5728;&#x4E00;&#x500B;&#x6587;&#x4EF6;&#x4E2D;&#xFF08;<code>/usr/lib/ldscripts</code> &#x76EE;&#x9304;&#x4E0B;&#xFF09;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x53BB;&#x4FEE;&#x6539;&#x9019;&#x500B;&#x8173;&#x672C;&#xFF0C;&#x5177;&#x9AD4;&#x5982;&#x4F55;&#x505A;&#xFF1F;&#x8ACB;&#x53C3;&#x8003; <code>ld</code> &#x7684;&#x624B;&#x518A;&#x3002;&#x5728;&#x5F8C;&#x9762;&#x6211;&#x5011;&#x5C07;&#x7C21;&#x8981;&#x63D0;&#x5230;&#x93C8;&#x63A5;&#x8173;&#x672C;&#x4E2D;&#x662F;&#x5982;&#x4F55;&#x9810;&#x5B9A;&#x7FA9;&#x8B8A;&#x91CF;&#x7684;&#xFF0C;&#x4EE5;&#x53CA;&#x9019;&#x4E9B;&#x9810;&#x5B9A;&#x7FA9;&#x8B8A;&#x91CF;&#x5982;&#x4F55;&#x5728;&#x6211;&#x5011;&#x7684;&#x7A0B;&#x5E8F;&#x4E2D;&#x4F7F;&#x7528;&#x3002;&#x9700;&#x8981;&#x63D0;&#x5230;&#x7684;&#x662F;&#xFF0C;&#x5982;&#x679C;&#x4E0D;&#x662F;&#x4EA4;&#x53C9;&#x7DE8;&#x8B6F;&#xFF0C;&#x90A3;&#x9EBC;&#x7121;&#x9808;&#x6307;&#x5B9A;&#x8A72;&#x9078;&#x9805;&#x3002;</p>
+</li>
+<li><p>-dynamic-linker /lib/ld-linux.so.2</p>
+<p>  &#x6307;&#x5B9A;&#x52D5;&#x614B;&#x88DD;&#x8F09;&#x5668;/&#x93C8;&#x63A5;&#x5668;&#xFF0C;&#x5373;&#x7A0B;&#x5E8F;&#x4E2D;&#x7684; <code>INTERP</code> &#x6BB5;&#x4E2D;&#x7684;&#x5167;&#x5BB9;&#x3002;&#x52D5;&#x614B;&#x88DD;&#x8F09;&#x5668;/&#x93C8;&#x63A5;&#x5668;&#x8CA0;&#x8CAC;&#x93C8;&#x63A5;&#x6709;&#x53EF;&#x5171;&#x4EAB;&#x5EAB;&#x7684;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x7684;&#x88DD;&#x8F09;&#x548C;&#x52D5;&#x614B;&#x7B26;&#x865F;&#x93C8;&#x63A5;&#x3002;</p>
+</li>
+<li><p>-o test</p>
+<p>  &#x6307;&#x5B9A;&#x8F38;&#x51FA;&#x6587;&#x4EF6;&#xFF0C;&#x5373;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x540D;&#x7684;&#x540D;&#x5B57;</p>
+</li>
+<li><p>/usr/lib/crt1.o /usr/lib/crti.o /usr/lib/gcc/i486-slackware-linux/4.1.2/crtbegin.o</p>
+<p>  &#x93C8;&#x63A5;&#x5230; <code>test</code> &#x6587;&#x4EF6;&#x958B;&#x982D;&#x7684;&#x4E00;&#x4E9B;&#x5167;&#x5BB9;&#xFF0C;&#x9019;&#x88E1;&#x5BE6;&#x969B;&#x4E0A;&#x5C31;&#x5305;&#x542B;&#x4E86; <code>.init</code> &#x7B49;&#x7BC0;&#x5340;&#x3002;<code>.init</code> &#x7BC0;&#x5340;&#x5305;&#x542B;&#x4E00;&#x4E9B;&#x53EF;&#x57F7;&#x884C;&#x4EE3;&#x78BC;&#xFF0C;&#x5728; <code>main</code> &#x51FD;&#x6578;&#x4E4B;&#x524D;&#x88AB;&#x8ABF;&#x7528;&#xFF0C;&#x4EE5;&#x4FBF;&#x9032;&#x884C;&#x4E00;&#x4E9B;&#x521D;&#x59CB;&#x5316;&#x64CD;&#x4F5C;&#xFF0C;&#x5728; C++ &#x4E2D;&#x5B8C;&#x6210;&#x69CB;&#x9020;&#x51FD;&#x6578;&#x529F;&#x80FD;&#x3002;</p>
+</li>
+<li><p>test.o myprintf.o</p>
+<p>  &#x93C8;&#x63A5;&#x6211;&#x5011;&#x81EA;&#x5DF1;&#x7684;&#x53EF;&#x91CD;&#x5B9A;&#x4F4D;&#x6587;&#x4EF6;</p>
+</li>
+<li><p><code>-L/usr/lib/gcc/i486-slackware-linux/4.1.2 -L/usr/i486-slackware-linux/lib -L/usr/lib/ \
+-lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed</code></p>
+<p>  &#x93C8;&#x63A5; <code>libgcc</code> &#x5EAB;&#x548C; <code>libc</code> &#x5EAB;&#xFF0C;&#x5F8C;&#x8005;&#x5B9A;&#x7FA9;&#x6709;&#x6211;&#x5011;&#x9700;&#x8981;&#x7684; <code>puts</code> &#x51FD;&#x6578;</p>
+</li>
+<li><p>/usr/lib/gcc/i486-slackware-linux/4.1.2/crtend.o /usr/lib/crtn.o</p>
+<p>  &#x93C8;&#x63A5;&#x5230; <code>test</code> &#x6587;&#x4EF6;&#x672B;&#x5C3E;&#x7684;&#x4E00;&#x4E9B;&#x5167;&#x5BB9;&#xFF0C;&#x9019;&#x88E1;&#x5BE6;&#x969B;&#x4E0A;&#x5305;&#x542B;&#x4E86; <code>.fini</code> &#x7B49;&#x7BC0;&#x5340;&#x3002;<code>.fini</code> &#x7BC0;&#x5340;&#x5305;&#x542B;&#x4E86;&#x4E00;&#x4E9B;&#x53EF;&#x57F7;&#x884C;&#x4EE3;&#x78BC;&#xFF0C;&#x5728;&#x7A0B;&#x5E8F;&#x9000;&#x51FA;&#x6642;&#x88AB;&#x57F7;&#x884C;&#xFF0C;&#x4F5C;&#x4E00;&#x4E9B;&#x6E05;&#x7406;&#x5DE5;&#x4F5C;&#xFF0C;&#x5728; C++ &#x4E2D;&#x5B8C;&#x6210;&#x6790;&#x69CB;&#x9020;&#x51FD;&#x6578;&#x529F;&#x80FD;&#x3002;&#x6211;&#x5011;&#x5F80;&#x5F80;&#x53EF;&#x4EE5;&#x901A;&#x904E; <code>atexit</code> &#x4F86;&#x8A3B;&#x518A;&#x90A3;&#x4E9B;&#x9700;&#x8981;&#x5728;&#x7A0B;&#x5E8F;&#x9000;&#x51FA;&#x6642;&#x624D;&#x57F7;&#x884C;&#x7684;&#x51FD;&#x6578;&#x3002;</p>
+</li>
+</ul>
+<p><span id="toc_27212_14734_24"></span></p>
+<h3 id="c-%E6%A7%8B%E9%80%A0%E8%88%87%E6%9E%90%E6%A7%8B%EF%BC%9Acrtbegin-o%E5%92%8Ccrtend-o">C++&#x69CB;&#x9020;&#x8207;&#x6790;&#x69CB;&#xFF1A;crtbegin.o&#x548C;crtend.o</h3>
+<p>&#x5C0D;&#x65BC; <code>crtbegin.o</code> &#x548C; <code>crtend.o</code> &#x9019;&#x5169;&#x500B;&#x6587;&#x4EF6;&#xFF0C;&#x8C8C;&#x4F3C;&#x5B8C;&#x5168;&#x662F;&#x7528;&#x4F86;&#x652F;&#x6301; C++ &#x7684;&#x69CB;&#x9020;&#x548C;&#x6790;&#x69CB;&#x5DE5;&#x4F5C;&#x7684;&#xFF0C;&#x6240;&#x4EE5;&#x53EF;&#x4EE5;&#x4E0D;&#x93C8;&#x63A5;&#x5230;&#x6211;&#x5011;&#x7684;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x4E2D;&#xFF0C;&#x93C8;&#x63A5;&#x6642;&#x628A;&#x5B83;&#x5011;&#x53BB;&#x6389;&#x770B;&#x770B;&#xFF0C;</p>
+<pre><code>$ ld -m elf_i386 -dynamic-linker /lib/ld-linux.so.2 -o test \
+  /usr/lib/crt1.o /usr/lib/crti.o test.o myprintf.o \
+  -L/usr/lib -lc /usr/lib/crtn.o    #&#x5F8C;&#x9762;&#x767C;&#x73FE;&#x4E0D;&#x7528;&#x93C8;&#x63A5;libgcc&#xFF0C;&#x4E5F;&#x4E0D;&#x7528;--eh-frame-hdr&#x53C3;&#x6578;
+$ readelf -l test
+
+Elf file type is EXEC (Executable file)
+Entry point 0x80482b0
+There are 7 program headers, starting at offset 52
+
+Program Headers:
+  Type           Offset   VirtAddr   PhysAddr   FileSiz MemSiz  Flg Align
+  PHDR           0x000034 0x08048034 0x08048034 0x000e0 0x000e0 R E 0x4
+  INTERP         0x000114 0x08048114 0x08048114 0x00013 0x00013 R   0x1
+      [Requesting program interpreter: /lib/ld-linux.so.2]
+  LOAD           0x000000 0x08048000 0x08048000 0x003ea 0x003ea R E 0x1000
+  LOAD           0x0003ec 0x080493ec 0x080493ec 0x000e8 0x000e8 RW  0x1000
+  DYNAMIC        0x0003ec 0x080493ec 0x080493ec 0x000c8 0x000c8 RW  0x4
+  NOTE           0x000128 0x08048128 0x08048128 0x00020 0x00020 R   0x4
+  GNU_STACK      0x000000 0x00000000 0x00000000 0x00000 0x00000 RW  0x4
+
+ Section to Segment mapping:
+  Segment Sections...
+   00
+   01     .interp
+   02     .interp .note.ABI-tag .hash .dynsym .dynstr .gnu.version .gnu.version_r
+          .rel.dyn .rel.plt .init .plt .text .fini .rodata
+   03     .dynamic .got .got.plt .data
+   04     .dynamic
+   05     .note.ABI-tag
+   06
+$ ./test
+hello, world!
+</code></pre><p>&#x5B8C;&#x5168;&#x53EF;&#x4EE5;&#x5DE5;&#x4F5C;&#xFF0C;&#x800C;&#x4E14;&#x767C;&#x73FE; <code>.ctors</code>&#xFF08;&#x4FDD;&#x5B58;&#x8457;&#x7A0B;&#x5E8F;&#x4E2D;&#x5168;&#x5C40;&#x69CB;&#x9020;&#x51FD;&#x6578;&#x7684;&#x6307;&#x91DD;&#x6578;&#x7D44;&#xFF09;, <code>.dtors</code>&#xFF08;&#x4FDD;&#x5B58;&#x8457;&#x7A0B;&#x5E8F;&#x4E2D;&#x5168;&#x5C40;&#x6790;&#x69CB;&#x51FD;&#x6578;&#x7684;&#x6307;&#x91DD;&#x6578;&#x7D44;&#xFF09;,<code>.jcr</code>&#xFF08;&#x672A;&#x77E5;&#xFF09;,<code>.eh_frame</code> &#x7BC0;&#x5340;&#x90FD;&#x6C92;&#x6709;&#x4E86;&#xFF0C;&#x6240;&#x4EE5; <code>crtbegin.o</code> &#x548C; <code>crtend.o</code> &#x61C9;&#x8A72;&#x5305;&#x542B;&#x4E86;&#x9019;&#x4E9B;&#x7BC0;&#x5340;&#x3002;</p>
+<p><span id="toc_27212_14734_25"></span></p>
+<h3 id="%E5%88%9D%E5%A7%8B%E5%8C%96%E8%88%87%E9%80%80%E5%87%BA%E6%B8%85%E7%90%86%EF%BC%9Acrti-o-%E5%92%8C-crtn-o">&#x521D;&#x59CB;&#x5316;&#x8207;&#x9000;&#x51FA;&#x6E05;&#x7406;&#xFF1A;crti.o &#x548C; crtn.o</h3>
+<p>&#x800C;&#x5C0D;&#x65BC;&#x53E6;&#x5916;&#x5169;&#x500B;&#x6587;&#x4EF6; <code>crti.o</code> &#x548C; <code>crtn.o</code>&#xFF0C;&#x901A;&#x904E; <code>readelf -S</code> &#x67E5;&#x770B;&#x5F8C;&#x767C;&#x73FE;&#x5B83;&#x5011;&#x90FD;&#x6709; <code>.init</code> &#x548C; <code>.fini</code> &#x7BC0;&#x5340;&#xFF0C;&#x5982;&#x679C;&#x6211;&#x5011;&#x4E0D;&#x9700;&#x8981;&#x8B93;&#x7A0B;&#x5E8F;&#x9032;&#x884C;&#x4E00;&#x4E9B;&#x521D;&#x59CB;&#x5316;&#x548C;&#x6E05;&#x7406;&#x5DE5;&#x4F5C;&#x5462;&#xFF1F;&#x662F;&#x4E0D;&#x662F;&#x5C31;&#x53EF;&#x4EE5;&#x4E0D;&#x93C8;&#x63A5;&#x9019;&#x500B;&#x5169;&#x500B;&#x6587;&#x4EF6;&#xFF1F;&#x8A66;&#x8A66;&#x770B;&#x3002;</p>
+<pre><code>$ ld  -m elf_i386 -dynamic-linker /lib/ld-linux.so.2 -o test \
+      /usr/lib/crt1.o test.o myprintf.o -L/usr/lib/ -lc
+/usr/lib/libc_nonshared.a(elf-init.oS): In function `__libc_csu_init&apos;:
+(.text+0x25): undefined reference to `_init&apos;
+</code></pre><p>&#x8C8C;&#x4F3C;&#x4E0D;&#x884C;&#xFF0C;&#x7ADF;&#x7136;&#x6709;&#x4EBA;&#x8ABF;&#x7528;&#x4E86; <code>__libc_csu_init</code> &#x51FD;&#x6578;&#xFF0C;&#x800C;&#x9019;&#x500B;&#x51FD;&#x6578;&#x5F15;&#x7528;&#x4E86; <code>_init</code>&#x3002;&#x9019;&#x5169;&#x500B;&#x7B26;&#x865F;&#x90FD;&#x5728;&#x54EA;&#x88E1;&#x5462;&#xFF1F;</p>
+<pre><code>$ readelf -s /usr/lib/crt1.o | grep __libc_csu_init
+    18: 00000000     0 NOTYPE  GLOBAL DEFAULT  UND __libc_csu_init
+$ readelf -s /usr/lib/crti.o | grep _init
+    17: 00000000     0 FUNC    GLOBAL DEFAULT    5 _init
+</code></pre><p>&#x7ADF;&#x7136;&#x662F; <code>crt1.o</code> &#x8ABF;&#x7528;&#x4E86; <code>__libc_csu_init</code> &#x51FD;&#x6578;&#xFF0C;&#x800C;&#x8A72;&#x51FD;&#x6578;&#x537B;&#x5F15;&#x7528;&#x4E86;&#x6211;&#x5011;&#x6C92;&#x6709;&#x93C8;&#x63A5;&#x7684; <code>crti.o</code> &#x6587;&#x4EF6;&#x4E2D;&#x5B9A;&#x7FA9;&#x7684; <code>_init</code> &#x7B26;&#x865F;&#x3002;&#x9019;&#x6A23;&#x7684;&#x8A71;&#x4E0D;&#x93C8;&#x63A5; <code>crti.o</code> &#x548C; <code>crtn.o</code> &#x6587;&#x4EF6;&#x5C31;&#x4E0D;&#x6210;&#x4E86;&#x7F85;&#xFF1F;&#x4E0D;&#x5C0D;&#x5427;&#xFF0C;&#x8981;&#x4E0D;&#x4E7E;&#x8106;&#x4E0D;&#x7528; <code>crt1.o</code> &#x7B97;&#x4E86;&#xFF0C;&#x770B;&#x770B; <code>gcc</code> &#x984D;&#x5916;&#x93C8;&#x63A5;&#x9032;&#x53BB;&#x7684;&#x6700;&#x5F8C;&#x4E00;&#x500B;&#x6587;&#x4EF6; <code>crt1.o</code> &#x5230;&#x5E95;&#x5E79;&#x4E86;&#x500B;&#x5565;&#x5B50;&#xFF1F;</p>
+<pre><code>$ ld  -m elf_i386 -dynamic-linker /lib/ld-linux.so.2 -o \
+      test test.o myprintf.o -L/usr/lib/ -lc
+ld: warning: cannot find entry symbol _start; defaulting to 00000000080481a4
+</code></pre><p>&#x9019;&#x6A23;&#x537B;&#x8AAA;&#x6C92;&#x6709;&#x627E;&#x5230;&#x5165;&#x53E3;&#x7B26;&#x865F; <code>_start</code>&#xFF0C;&#x96E3;&#x9053; <code>crt1.o</code> &#x4E2D;&#x5B9A;&#x7FA9;&#x4E86;&#x9019;&#x500B;&#x7B26;&#x865F;&#xFF1F;&#x4E0D;&#x904E;&#x5B83;&#x7D66;&#x9ED8;&#x8A8D;&#x8A2D;&#x7F6E;&#x4E86;&#x4E00;&#x500B;&#x5730;&#x5740;&#xFF0C;&#x53EA;&#x662F;&#x500B;&#x8B66;&#x544A;&#xFF0C;&#x8AAA;&#x660E; <code>test</code> &#x5DF2;&#x7D93;&#x751F;&#x6210;&#xFF0C;&#x4E0D;&#x7BA1;&#x600E;&#x6A23;&#x5148;&#x904B;&#x884C;&#x770B;&#x770B;&#x518D;&#x8AAA;&#x3002;</p>
+<pre><code>$ ./test
+hello, world!
+Segmentation fault
+</code></pre><p>&#x8C8C;&#x4F3C;&#x7A0B;&#x5E8F;&#x904B;&#x884C;&#x5B8C;&#x4E86;&#xFF0C;&#x4E0D;&#x904E;&#x7D50;&#x675F;&#x6642;&#x5192;&#x51FA;&#x500B;&#x6BB5;&#x932F;&#x8AA4;&#xFF1F;&#x53EF;&#x80FD;&#x662F;&#x7A0B;&#x5E8F;&#x7D50;&#x675F;&#x6642;&#x6709;&#x554F;&#x984C;&#xFF0C;&#x7528; <code>gdb</code> &#x8ABF;&#x8A66;&#x770B;&#x770B;&#xFF1A;</p>
+<pre><code>$ gcc -g -c test.c myprintf.c #&#x7522;&#x751F;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;, &#x975E;&#x4EA4;&#x53C9;&#x7DE8;&#x8B6F;&#xFF0C;&#x4E0D;&#x6307;&#x5B9A;-m&#x4E5F;&#x53EF;&#x93C8;&#x63A5;&#xFF0C;&#x6240;&#x4EE5;&#x4E0B;&#x9762;&#x53EF;&#x53BB;&#x6389;-m
+$ ld -dynamic-linker /lib/ld-linux.so.2 -o test \
+     test.o myprintf.o -L/usr/lib -lc
+ld: warning: cannot find entry symbol _start; defaulting to 00000000080481d8
+$ ./test
+hello, world!
+Segmentation fault
+$ gdb ./test
+...
+(gdb) l
+1       #include &quot;test.h&quot;
+2
+3       int main()
+4       {
+5               myprintf();
+6               return 0;
+7       }
+(gdb) break 7      #&#x5728;&#x7A0B;&#x5E8F;&#x7684;&#x672B;&#x5C3E;&#x8A2D;&#x7F6E;&#x4E00;&#x500B;&#x65B7;&#x9EDE;
+Breakpoint 1 at 0x80481bf: file test.c, line 7.
+(gdb) r            #&#x7A0B;&#x5E8F;&#x90FD;&#x5FEB;&#x7D50;&#x675F;&#x4E86;&#x90FD;&#x6C92;&#x554F;&#x984C;&#xFF0C;&#x600E;&#x9EBC;&#x6703;&#x5230;&#x6700;&#x5F8C;&#x51FA;&#x500B;&#x554F;&#x984C;&#x5462;&#xFF1F;
+Starting program: /mnt/hda8/Temp/c/program/test
+hello, world!
+
+Breakpoint 1, main () at test.c:7
+7       }
+(gdb) n        #&#x55AE;&#x6B65;&#x57F7;&#x884C;&#x770B;&#x770B;&#xFF0C;&#x600E;&#x9EBC;&#x4E0B;&#x9762;&#x4E00;&#x689D;&#x6307;&#x4EE4;&#x662F;0x00000001&#xFF0C;&#x80AF;&#x5B9A;&#x662F;&#x7A0B;&#x5E8F;&#x9000;&#x51FA;&#x4EE5;&#x5F8C;&#x51FA;&#x4E86;&#x554F;&#x984C;
+0x00000001 in ?? ()
+(gdb) n        #&#x8A92;&#xFF0C;&#x7576;&#x7136;&#x627E;&#x4E0D;&#x5230;&#x908A;&#x4E86;&#xFF0C;&#x90FD;&#x8DD1;&#x5230;0x00000001&#x4E86;
+Cannot find bounds of current function
+(gdb) c
+Continuing.
+
+Program received signal SIGSEGV, Segmentation fault.
+0x00000001 in ?? ()
+</code></pre><p>&#x539F;&#x4F86;&#x662F;&#x9019;&#x9EBC;&#x56DE;&#x4E8B;&#xFF0C;&#x4F30;&#x8A08;&#x662F; <code>return 0</code> &#x8FD4;&#x56DE;&#x4E4B;&#x5F8C;&#x51FA;&#x554F;&#x984C;&#x4E86;&#xFF0C;&#x770B;&#x770B;&#x5B83;&#x7684;&#x5F59;&#x7DE8;&#x53BB;&#x3002;</p>
+<pre><code>$ gcc -S test.c #&#x7522;&#x751F;&#x5F59;&#x7DE8;&#x4EE3;&#x78BC;
+$ cat test.s
+...
+        call    myprintf
+        movl    $0, %eax
+        addl    $4, %esp
+        popl    %ecx
+        popl    %ebp
+        leal    -4(%ecx), %esp
+        ret
+...
+</code></pre><p>&#x5F8C;&#x9762;&#x5C31;&#x9019;&#x9EBC;&#x5E7E;&#x689D;&#x6307;&#x4EE4;&#xFF0C;&#x96E3;&#x4E0D;&#x6210; <code>ret</code> &#x8FD4;&#x56DE;&#x6709;&#x554F;&#x984C;&#xFF0C;&#x4E0D;&#x8B93;&#x5B83; <code>ret</code> &#x8FD4;&#x56DE;&#xFF0C;&#x628A; <code>return</code> &#x6539;&#x6210; <code>_exit</code> &#x76F4;&#x63A5;&#x9032;&#x5165;&#x5167;&#x6838;&#x9000;&#x51FA;&#x3002;</p>
+<pre><code>$ vim test.c
+$ cat test.c    #&#x5C31;&#x628A;return&#x8A9E;&#x53E5;&#x4FEE;&#x6539;&#x6210;_exit&#x4E86;&#x3002;
+#include &quot;test.h&quot;
+#include &lt;unistd.h&gt; /* _exit */
+
+int main()
+{
+    myprintf();
+    _exit(0);
+}
+$ gcc -g -c test.c myprintf.c
+$ ld -dynamic-linker /lib/ld-linux.so.2 -o test test.o myprintf.o -L/usr/lib -lc
+ld: warning: cannot find entry symbol _start; defaulting to 00000000080481d8
+$ ./test    #&#x7ADF;&#x7136;&#x597D;&#x4E86;&#xFF0C;&#x518D;&#x770B;&#x770B;&#x5F59;&#x7DE8;&#x6709;&#x4EC0;&#x9EBC;&#x4E0D;&#x540C;
+hello, world!
+$ gcc -S test.c
+$ cat test.s    #&#x8C8C;&#x4F3C;&#x5C31;&#x628A;ret&#x6307;&#x4EE4;&#x66FF;&#x63DB;&#x6210;&#x4E86;_exit&#x51FD;&#x6578;&#x8ABF;&#x7528;&#xFF0C;&#x76F4;&#x63A5;&#x9032;&#x5165;&#x5167;&#x6838;&#xFF0C;&#x8B93;&#x5167;&#x6838;&#x8655;&#x7406;&#x4E86;&#xFF0C;&#x90A3;&#x70BA;&#x4EC0;&#x9EBC;ret&#x6709;&#x554F;&#x984C;&#x5462;&#xFF1F;
+...
+        call    myprintf
+        subl    $12, %esp
+        pushl   $0
+        call    _exit
+...
+$ gdb ./test    #&#x628A;&#x4EE3;&#x78BC;&#x6539;&#x56DE;&#x53BB;&#xFF08;&#x6539;&#x6210;return 0;&#xFF09;&#xFF0C;&#x518D;&#x8ABF;&#x8A66;&#x770B;&#x770B;&#x8ABF;&#x7528;main&#x51FD;&#x6578;&#x8FD4;&#x56DE;&#x6642;&#x7684;&#x4E0B;&#x4E00;&#x689D;&#x6307;&#x4EE4;&#x5730;&#x5740;eip
+...
+(gdb) l
+warning: Source file is more recent than executable.
+1       #include &quot;test.h&quot;
+2
+3       int main()
+4       {
+5               myprintf();
+6               return 0;
+7       }
+(gdb) break 5
+Breakpoint 1 at 0x80481b5: file test.c, line 5.
+(gdb) break 7
+Breakpoint 2 at 0x80481bc: file test.c, line 7.
+(gdb) r
+Starting program: /mnt/hda8/Temp/c/program/test
+
+Breakpoint 1, main () at test.c:5
+5               myprintf();
+(gdb) x/8x $esp
+0xbf929510:     0xbf92953c      0x080481a4      0x00000000      0xb7eea84f
+0xbf929520:     0xbf92953c      0xbf929534      0x00000000      0x00000001
+</code></pre><p>&#x767C;&#x73FE; <code>0x00000001</code> &#x525B;&#x597D;&#x662F;&#x4E4B;&#x524D;&#x8ABF;&#x8A66;&#x6642;&#x770B;&#x5230;&#x7684;&#x7A0B;&#x5E8F;&#x8FD4;&#x56DE;&#x5F8C;&#x7684;&#x4F4D;&#x7F6E;&#xFF0C;&#x5373; <code>eip</code>&#xFF0C;&#x8AAA;&#x660E;&#x7A0B;&#x5E8F;&#x5728;&#x521D;&#x59CB;&#x5316;&#x6642;&#xFF0C;&#x9019;&#x500B; <code>eip</code> &#x5C31;&#x662F;&#x932F;&#x8AA4;&#x7684;&#x3002;&#x70BA;&#x4EC0;&#x9EBC;&#x5462;&#xFF1F;&#x56E0;&#x70BA;&#x6839;&#x672C;&#x6C92;&#x6709;&#x93C8;&#x63A5;&#x9032;&#x521D;&#x59CB;&#x5316;&#x7684;&#x4EE3;&#x78BC;&#xFF0C;&#x800C;&#x662F;&#x5728;&#x7DE8;&#x8B6F;&#x5668;&#x81EA;&#x5DF1;&#x7D66;&#x6211;&#x5011;&#xFF0C;&#x521D;&#x59CB;&#x5316;&#x4E86;&#x7A0B;&#x5E8F;&#x5165;&#x53E3;&#x5373; <code>00000000080481d8&#xFF0C;&#x4E5F;&#x5C31;&#x662F;&#x8AAA;&#xFF0C;&#x6C92;&#x6709;&#x4EBA;&#x8ABF;&#x7528;</code>main<code>&#xFF0C;</code>main<code>&#x4E0D;&#x77E5;&#x9053;&#x8FD4;&#x56DE;&#x54EA;&#x88E1;&#x53BB;&#xFF0C;&#x6240;&#x4EE5;&#xFF0C;&#x6211;&#x5011;&#x76F4;&#x63A5;&#x8B93;</code>main<code>&#x7D50;&#x675F;&#x6642;&#x9032;&#x5165;&#x5167;&#x6838;&#x8ABF;&#x7528;</code>_exit` &#x800C;&#x9000;&#x51FA;&#x5247;&#x4E0D;&#x6703;&#x6709;&#x554F;&#x984C;&#x3002;</p>
+<p>&#x901A;&#x904E;&#x4E0A;&#x9762;&#x7684;&#x6F14;&#x793A;&#x548C;&#x89E3;&#x91CB;&#x767C;&#x73FE;&#x53EA;&#x8981;&#x628A;return&#x8A9E;&#x53E5;&#x4FEE;&#x6539;&#x70BA;_exit&#x8A9E;&#x53E5;&#xFF0C;&#x7A0B;&#x5E8F;&#x5373;&#x4F7F;&#x4E0D;&#x93C8;&#x63A5;&#x4EFB;&#x4F55;&#x984D;&#x5916;&#x7684;&#x76EE;&#x6A19;&#x4EE3;&#x78BC;&#x90FD;&#x53EF;&#x4EE5;&#x6B63;&#x5E38;&#x904B;&#x884C;&#xFF08;&#x539F;&#x56E0;&#x662F;&#x4E0D;&#x93C8;&#x63A5;&#x90A3;&#x4E9B;&#x984D;&#x5916;&#x7684;&#x6587;&#x4EF6;&#x6642;&#x76F8;&#x7576;&#x65BC;&#x6C92;&#x6709;&#x9032;&#x884C;&#x521D;&#x59CB;&#x5316;&#x64CD;&#x4F5C;&#xFF0C;&#x5982;&#x679C;&#x5728;&#x7A0B;&#x5E8F;&#x7684;&#x6700;&#x5F8C;&#x57F7;&#x884C;ret&#x5F59;&#x7DE8;&#x6307;&#x4EE4;&#xFF0C;&#x7A0B;&#x5E8F;&#x5C07;&#x7121;&#x6CD5;&#x7372;&#x5F97;&#x6B63;&#x78BA;&#x7684;eip&#xFF0C;&#x5F9E;&#x800C;&#x7121;&#x6CD5;&#x9032;&#x884C;&#x5F8C;&#x7E8C;&#x7684;&#x52D5;&#x4F5C;&#xFF09;&#x3002;&#x4F46;&#x662F;&#x70BA;&#x4EC0;&#x9EBC;&#x6703;&#x6709;&#x201C;&#x627E;&#x4E0D;&#x5230;_start&#x7B26;&#x865F;&#x201D;&#x7684;&#x8B66;&#x544A;&#x5462;&#xFF1F;&#x901A;&#x904E;<code>readelf -s</code>&#x67E5;&#x770B;crt1.o&#x767C;&#x73FE;&#x88E1;&#x982D;&#x6709;&#x9019;&#x500B;&#x7B26;&#x865F;&#xFF0C;&#x4E26;&#x4E14;crt1.o&#x5F15;&#x7528;&#x4E86;main&#x9019;&#x500B;&#x7B26;&#x865F;&#xFF0C;&#x662F;&#x4E0D;&#x662F;&#x610F;&#x5473;&#x8457;&#x6703;&#x5F9E;<code>_start</code>&#x9032;&#x5165;main&#x5462;&#xFF1F;&#x662F;&#x4E0D;&#x662F;&#x7A0B;&#x5E8F;&#x5165;&#x53E3;&#x662F;<code>_start</code>&#xFF0C;&#x800C;&#x4E26;&#x975E;main&#x5462;&#xFF1F;</p>
+<p><span id="toc_27212_14734_26"></span></p>
+<h3 id="c-%E8%AA%9E%E8%A8%80%E7%A8%8B%E5%BA%8F%E7%9C%9F%E6%AD%A3%E7%9A%84%E5%85%A5%E5%8F%A3">C &#x8A9E;&#x8A00;&#x7A0B;&#x5E8F;&#x771F;&#x6B63;&#x7684;&#x5165;&#x53E3;</h3>
+<p>&#x5148;&#x4F86;&#x770B;&#x770B;&#x525B;&#x624D;&#x63D0;&#x5230;&#x7684;&#x93C8;&#x63A5;&#x5668;&#x7684;&#x9ED8;&#x8A8D;&#x93C8;&#x63A5;&#x8173;&#x672C;&#xFF08;<code>ld -m elf_386 --verbose</code>&#xFF09;&#xFF0C;&#x5B83;&#x544A;&#x8A34;&#x6211;&#x5011;&#x7A0B;&#x5E8F;&#x7684;&#x5165;&#x53E3;&#xFF08;entry&#xFF09;&#x662F; <code>_start</code>&#xFF0C;&#x800C;&#x4E00;&#x500B;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x5FC5;&#x9808;&#x6709;&#x4E00;&#x500B;&#x5165;&#x53E3;&#x5730;&#x5740;&#x624D;&#x80FD;&#x904B;&#x884C;&#xFF0C;&#x6240;&#x4EE5;&#x9019;&#x5C31;&#x662F;&#x8AAA;&#x660E;&#x4E86;&#x70BA;&#x4EC0;&#x9EBC; <code>ld</code> &#x4E00;&#x5B9A;&#x8981;&#x63D0;&#x793A;&#x6211;&#x5011; &#x201C;_start&#x627E;&#x4E0D;&#x5230;&#x201D;&#xFF0C;&#x627E;&#x4E0D;&#x5230;&#x4EE5;&#x5F8C;&#x5C31;&#x7D66;&#x9ED8;&#x8A8D;&#x8A2D;&#x7F6E;&#x4E86;&#x4E00;&#x500B;&#x5730;&#x5740;&#x3002;</p>
+<pre><code>$ ld --verbose  | grep ^ENTRY    #&#x975E;&#x4EA4;&#x53C9;&#x7DE8;&#x8B6F;&#xFF0C;&#x53EF;&#x4E0D;&#x7528;-m&#x53C3;&#x6578;&#xFF1B;ld&#x9ED8;&#x8A8D;&#x627E;_start&#x5165;&#x53E3;&#xFF0C;&#x4E26;&#x4E0D;&#x662F;main&#x54E6;&#xFF01;
+ENTRY(_start)
+</code></pre><p>&#x539F;&#x4F86;&#x662F;&#x9019;&#x6A23;&#xFF0C;&#x7A0B;&#x5E8F;&#x7684;&#x5165;&#x53E3;&#xFF08;entry&#xFF09;&#x7ADF;&#x7136;&#x4E0D;&#x662F; <code>main</code> &#x51FD;&#x6578;&#xFF0C;&#x800C;&#x662F; <code>_start</code>&#x3002;&#x90A3;&#x4E7E;&#x8106;&#x628A;&#x5F59;&#x7DE8;&#x88E1;&#x982D;&#x7684; <code>main</code> &#x7D66;&#x6539;&#x6389;&#x7B97;&#x4E86;&#xFF0C;&#x770B;&#x884C;&#x4E0D;&#x884C;&#xFF1F;</p>
+<p>&#x5148;&#x751F;&#x6210;&#x5F59;&#x7DE8; <code>test.s</code>&#xFF1A;</p>
+<pre><code>$ cat test.c
+#include &quot;test.h&quot;
+#include &lt;unistd.h&gt;     /* _exit */
+
+int main()
+{
+    myprintf();
+    _exit(0);
+}
+$ gcc -S test.c
+</code></pre><p>&#x7136;&#x5F8C;&#x628A;&#x5F59;&#x7DE8;&#x4E2D;&#x7684; <code>main</code> &#x6539;&#x70BA; <code>_start</code>&#xFF0C;&#x5373;&#x6539;&#x7A0B;&#x5E8F;&#x5165;&#x53E3;&#x70BA; <code>_start</code>&#xFF1A;</p>
+<pre><code>$ sed -i -e &quot;s#main#_start#g&quot; test.s
+$ gcc -c test.s myprintf.c
+</code></pre><p>&#x91CD;&#x65B0;&#x93C8;&#x63A5;&#xFF0C;&#x767C;&#x73FE;&#x679C;&#x7136;&#x6C92;&#x554F;&#x984C;&#x4E86;&#xFF1A;</p>
+<pre><code>$ ld -dynamic-linker /lib/ld-linux.so.2 -o test test.o myprintf.o -L/usr/lib/ -lc
+$ ./test
+hello, world!
+</code></pre><p><code>_start</code> &#x7ADF;&#x7136;&#x662F;&#x771F;&#x6B63;&#x7684;&#x7A0B;&#x5E8F;&#x5165;&#x53E3;&#xFF0C;&#x90A3;&#x5728;&#x6709; <code>main</code> &#x7684;&#x60C5;&#x6CC1;&#x4E0B;&#x5462;&#xFF1F;&#x70BA;&#x4EC0;&#x9EBC;&#x5728; <code>_start</code> &#x4E4B;&#x5F8C;&#x80FD;&#x5920;&#x627E;&#x5230; <code>main</code> &#x5462;&#xFF1F;&#x9019;&#x500B;&#x770B;&#x770B; alert7 &#x5927;&#x53D4;&#x7684;<a href="http://www.xfocus.net/articles/200109/269.html" target="_blank">Before main &#x5206;&#x6790;</a>&#x5427;&#xFF0C;&#x9019;&#x88E1;&#x4E0D;&#x518D;&#x6DF1;&#x5165;&#x4ECB;&#x7D39;&#x3002;</p>
+<p>&#x7E3D;&#x4E4B;&#x5462;&#xFF0C;&#x901A;&#x904E;&#x4FEE;&#x6539;&#x7A0B;&#x5E8F;&#x7684; <code>return</code> &#x8A9E;&#x53E5;&#x70BA; <code>_exit(0)</code> &#x548C;&#x4FEE;&#x6539;&#x7A0B;&#x5E8F;&#x7684;&#x5165;&#x53E3;&#x70BA; <code>_start</code>&#xFF0C;&#x6211;&#x5011;&#x7684;&#x4EE3;&#x78BC;&#x4E0D;&#x93C8;&#x63A5; <code>gcc</code> &#x9ED8;&#x8A8D;&#x93C8;&#x63A5;&#x7684;&#x90A3;&#x4E9B;&#x984D;&#x5916;&#x7684;&#x6587;&#x4EF6;&#x540C;&#x6A23;&#x53EF;&#x4EE5;&#x5DE5;&#x4F5C;&#x5F97;&#x5F88;&#x597D;&#x3002;&#x4E26;&#x4E14;&#x6253;&#x7834;&#x4E86;&#x4E00;&#x500B;&#x5B78;&#x7FD2; C &#x8A9E;&#x8A00;&#x4EE5;&#x4F86;&#x7684;&#x5E38;&#x8B58;&#xFF1A;<code>main</code> &#x51FD;&#x6578;&#x4F5C;&#x70BA;&#x7A0B;&#x5E8F;&#x7684;&#x4E3B;&#x51FD;&#x6578;&#xFF0C;&#x662F;&#x7A0B;&#x5E8F;&#x7684;&#x5165;&#x53E3;&#xFF0C;&#x5BE6;&#x969B;&#x4E0A;&#x5247;&#x4E0D;&#x7136;&#x3002;</p>
+<p><span id="toc_27212_14734_27"></span></p>
+<h3 id="%E9%8F%88%E6%8E%A5%E8%85%B3%E6%9C%AC%E5%88%9D%E6%AC%A1%E6%8E%A5%E8%A7%B8">&#x93C8;&#x63A5;&#x8173;&#x672C;&#x521D;&#x6B21;&#x63A5;&#x89F8;</h3>
+<p>&#x518D;&#x88DC;&#x5145;&#x4E00;&#x9EDE;&#x5167;&#x5BB9;&#xFF0C;&#x5728; <code>ld</code> &#x7684;&#x93C8;&#x63A5;&#x8173;&#x672C;&#x4E2D;&#xFF0C;&#x6709;&#x4E00;&#x500B;&#x7279;&#x5225;&#x7684;&#x95DC;&#x9375;&#x5B57; <code>PROVIDE</code>&#xFF0C;&#x7531;&#x9019;&#x500B;&#x95DC;&#x9375;&#x5B57;&#x5B9A;&#x7FA9;&#x7684;&#x7B26;&#x865F;&#x662F; <code>ld</code> &#x7684;&#x9810;&#x5B9A;&#x7FA9;&#x5B57;&#x7B26;&#xFF0C;&#x6211;&#x5011;&#x53EF;&#x4EE5;&#x5728; C &#x8A9E;&#x8A00;&#x51FD;&#x6578;&#x4E2D;&#x64F4;&#x5C55;&#x5B83;&#x5011;&#x5F8C;&#x76F4;&#x63A5;&#x4F7F;&#x7528;&#x3002;&#x9019;&#x4E9B;&#x7279;&#x5225;&#x7684;&#x7B26;&#x865F;&#x53EF;&#x4EE5;&#x901A;&#x904E;&#x4E0B;&#x9762;&#x7684;&#x65B9;&#x6CD5;&#x7372;&#x53D6;&#xFF0C;</p>
+<pre><code>$ ld --verbose | grep PROVIDE | grep -v HIDDEN
+  PROVIDE (__executable_start = 0x08048000); . = 0x08048000 + SIZEOF_HEADERS;
+  PROVIDE (__etext = .);
+  PROVIDE (_etext = .);
+  PROVIDE (etext = .);
+  _edata = .; PROVIDE (edata = .);
+  _end = .; PROVIDE (end = .);
+</code></pre><p>&#x9019;&#x88E1;&#x9762;&#x6709;&#x5E7E;&#x500B;&#x6211;&#x5011;&#x6BD4;&#x8F03;&#x95DC;&#x5FC3;&#x7684;&#xFF0C;&#x7B2C;&#x4E00;&#x500B;&#x662F;&#x7A0B;&#x5E8F;&#x7684;&#x5165;&#x53E3;&#x5730;&#x5740; <code>__executable_start</code>&#xFF0C;&#x53E6;&#x5916;&#x4E09;&#x500B;&#x662F; <code>etext</code>&#xFF0C;<code>edata</code>&#xFF0C;<code>end</code>&#xFF0C;&#x5206;&#x5225;&#x5C0D;&#x61C9;&#x7A0B;&#x5E8F;&#x7684;&#x4EE3;&#x78BC;&#x6BB5;&#xFF08;text&#xFF09;&#x3001;&#x521D;&#x59CB;&#x5316;&#x6578;&#x64DA;&#xFF08;data&#xFF09;&#x548C;&#x672A;&#x521D;&#x59CB;&#x5316;&#x7684;&#x6578;&#x64DA;&#xFF08;bss&#xFF09;&#xFF08;&#x53EF;&#x53C3;&#x8003;<code>man etext</code>&#xFF09;&#xFF0C;&#x5982;&#x4F55;&#x5F15;&#x7528;&#x9019;&#x4E9B;&#x8B8A;&#x91CF;&#x5462;&#xFF1F;&#x770B;&#x770B;&#x9019;&#x500B;&#x4F8B;&#x5B50;&#x3002;</p>
+<pre><code>/* predefinevalue.c */
+#include &lt;stdio.h&gt;
+
+extern int __executable_start, etext, edata, end;
+
+int main(void)
+{
+    printf (&quot;program entry: 0x%x \n&quot;, &amp;__executable_start);
+    printf (&quot;etext address(text segment): 0x%x \n&quot;, &amp;etext);
+    printf (&quot;edata address(initilized data): 0x%x \n&quot;, &amp;edata);
+    printf (&quot;end address(uninitilized data): 0x%x \n&quot;, &amp;end);
+
+    return 0;
+}
+</code></pre><p>&#x5230;&#x9019;&#x88E1;&#xFF0C;&#x7A0B;&#x5E8F;&#x93C8;&#x63A5;&#x904E;&#x7A0B;&#x7684;&#x4E00;&#x4E9B;&#x7D30;&#x7BC0;&#x90FD;&#x4ECB;&#x7D39;&#x5F97;&#x5DEE;&#x4E0D;&#x591A;&#x4E86;&#x3002;&#x5728;<a href="02-chapter4.html">&#x300A;&#x52D5;&#x614B;&#x7B26;&#x865F;&#x93C8;&#x63A5;&#x7684;&#x7D30;&#x7BC0;&#x300B;</a>&#x4E2D;&#x5C07;&#x4E3B;&#x8981;&#x4ECB;&#x7D39; ELF &#x6587;&#x4EF6;&#x7684;&#x52D5;&#x614B;&#x7B26;&#x865F;&#x93C8;&#x63A5;&#x904E;&#x7A0B;&#x3002;</p>
+<p><span id="toc_27212_14734_28"></span></p>
+<h2 id="%E5%8F%83%E8%80%83%E8%B3%87%E6%96%99">&#x53C3;&#x8003;&#x8CC7;&#x6599;</h2>
+<ul>
+<li><a href="http://www.ibm.com/developerworks/cn/linux/l-assembly/index.html" target="_blank">Linux &#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x958B;&#x767C;&#x6307;&#x5357;</a></li>
+<li><a href="http://www.ibm.com/developerworks/cn/linux/hardware/ppc/assembly/index.html" target="_blank">PowerPC &#x5F59;&#x7DE8;</a></li>
+<li><a href="http://www.ibm.com/developerworks/cn/linux/l-powasm1.html" target="_blank">&#x7528;&#x65BC; Power &#x9AD4;&#x7CFB;&#x7D50;&#x69CB;&#x7684;&#x5F59;&#x7DE8;&#x8A9E;&#x8A00;</a></li>
+<li><a href="http://www.ibm.com/developerworks/cn/linux/sdk/assemble/inline/index.html" target="_blank">Linux &#x4E2D; x86 &#x7684;&#x5167;&#x806F;&#x5F59;&#x7DE8;</a></li>
+<li>Linux Assembly HOWTO</li>
+<li>Linux Assembly Language Programming</li>
+<li>Guide to Assembly Language Programming in Linux</li>
+<li><a href="http://www.luv.asn.au/overheads/compile.html" target="_blank">An beginners guide to compiling programs under Linux</a></li>
+<li><a href="http://gcc.gnu.org/onlinedocs/gcc-4.2.2/gcc/" target="_blank">gcc manual</a></li>
+<li><a href="http://efrw01.frascati.enea.it/Software/Unix/IstrFTU/cern-cnl-2001-003-25-link.html" target="_blank">A Quick Tour of Compiling, Linking, Loading, and Handling Libraries on Unix</a></li>
+<li><a href="http://www.ibm.com/developerworks/cn/aix/library/au-unixtools.html" target="_blank">Unix &#x76EE;&#x6A19;&#x6587;&#x4EF6;&#x521D;&#x63A2;</a></li>
+<li><a href="http://www.xfocus.net/articles/200109/269.html" target="_blank">Before main()&#x5206;&#x6790;</a></li>
+<li><a href="http://www.linuxforums.org/forum/linux-kernel/51790-process-viewing-its-own-proc-pid-map-information.html" target="_blank">A Process Viewing Its Own /proc/<PID>/map Information</PID></a></li>
+<li>UNIX &#x74B0;&#x5883;&#x9AD8;&#x7D1A;&#x7DE8;&#x7A0B;</li>
+<li>Linux Kernel Primer</li>
+<li><a href="http://www.linuxforums.org/misc/understanding_elf_using_readelf_and_objdump.html" target="_blank">Understanding ELF using readelf and objdump</a></li>
+<li><a href="http://netwinder.osuosl.org/users/p/patb/public_html/elf_relocs.html" target="_blank">Study of ELF loading and relocs</a></li>
+<li>ELF file format and ABI<ul>
+<li><a href="http://www.x86.org/ftp/manuals/tools/elf.pdf" target="_blank">[1]</a></li>
+<li><a href="http://www.muppetlabs.com/~breadbox/software/ELF.txt" target="_blank">[2]</a></li>
+</ul>
+</li>
+<li>TN05.ELF.Format.Summary.pdf</li>
+<li><a href="http://www.xfocus.net/articles/200105/174.html" target="_blank">ELF&#x6587;&#x4EF6;&#x683C;&#x5F0F;(&#x4E2D;&#x6587;)</a></li>
+<li>&#x95DC;&#x65BC; Gcc &#x65B9;&#x9762;&#x7684;&#x8AD6;&#x6587;&#xFF0C;&#x8ACB;&#x67E5;&#x770B;&#x6B77;&#x5E74;&#x7684;&#x6703;&#x8B70;&#x8AD6;&#x6587;&#x96C6;<ul>
+<li><a href="http://www.gccsummit.org/2005/2005-GCC-Summit-Proceedings.pdf" target="_blank">2005</a></li>
+<li><a href="http://www.gccsummit.org/2006/2006-GCC-Summit-Proceedings.pdf" target="_blank">2006</a></li>
+</ul>
+</li>
+<li><a href="http://www.faqs.org/docs/Linux-HOWTO/GCC-HOWTO.html" target="_blank">The Linux GCC HOW TO</a></li>
+<li><a href="http://linux.jinr.ru/usoft/WWW/www_debian.org/Documentation/elf/elf.html" target="_blank">ELF: From The Programmer&apos;s Perspective</a></li>
+<li><a href="http://www.xxlinux.com/linux/article/development/soft/20070424/8267.html" target="_blank">C/C++ &#x7A0B;&#x5E8F;&#x7DE8;&#x8B6F;&#x6B65;&#x9A5F;&#x8A73;&#x89E3;</a></li>
+<li><a href="http://c-faq-chn.sourceforge.net/ccfaq/index.html" target="_blank">C &#x8A9E;&#x8A00;&#x5E38;&#x898B;&#x554F;&#x984C;&#x96C6;</a></li>
+<li><a href="http://elfhack.whitecell.org/mydocs/use_bfd.txt" target="_blank">&#x4F7F;&#x7528; BFD &#x64CD;&#x4F5C; ELF</a></li>
+<li><a href="http://sourceware.org/binutils/docs/bfd/index.html" target="_blank">bfd document</a></li>
+<li><a href="http://blog.chinaunix.net/u/19881/showart_215242.html" target="_blank">UNIX/LINUX &#x5E73;&#x81FA;&#x53EF;&#x57F7;&#x884C;&#x6587;&#x4EF6;&#x683C;&#x5F0F;&#x5206;&#x6790;</a></li>
+<li><a href="http://www.tinylab.org/linux-assembly-language-quick-start/" target="_blank">Linux &#x5F59;&#x7DE8;&#x8A9E;&#x8A00;&#x5FEB;&#x901F;&#x4E0A;&#x624B;&#xFF1A;4&#x5927;&#x67B6;&#x69CB;&#x4E00;&#x584A;&#x5B78;</a></li>
+<li>GNU binutils &#x5C0F;&#x7D50;</li>
+</ul>
+
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../../zh/chapters/02-chapter1.html" class="navigation navigation-prev " aria-label="Previous page: 把 Vim 打造成源代碼編輯器"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="../../zh/chapters/02-chapter3.html" class="navigation navigation-next " aria-label="Next page: 程序執行的一剎那"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+<script src="../../gitbook/app.js"></script>
+
+    
+    <script src="../../gitbook/plugins/gitbook-plugin-disqus/plugin.js"></script>
+    
+
+    
+    <script src="../../gitbook/plugins/gitbook-plugin-google_code_prettify/google-code-prettify.js"></script>
+    
+
+    
+    <script src="../../gitbook/plugins/gitbook-plugin-google_code_prettify/plugin.js"></script>
+    
+
+    
+    <script src="../../gitbook/plugins/gitbook-plugin-collapsible-menu/plugin.js"></script>
+    
+
+    
+    <script src="../../gitbook/plugins/gitbook-plugin-maxiang/maxiang.js"></script>
+    
+
+    
+    <script src="../../gitbook/plugins/gitbook-plugin-livereload/plugin.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {"fontSettings":{"theme":null,"family":"sans","size":2},"disqus":{"shortName":"tinylab"}};
+    gitbook.start(config);
+});
+</script>
+
+        <!-- body:end -->
+    </body>
+    <!-- End of book C 语言编程透视 -->
+</html>
